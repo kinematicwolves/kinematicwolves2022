@@ -5,11 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveRobotOpenLoop;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -45,16 +43,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Driver controls
-    if (m_driverController.getAButtonPressed()) {
-
-    }
-
-
-    // Manipulator controls
-    if (m_manipulatorController.getAButtonPressed()) {
-
-    }
+    // Driver controls, dc = driver controller, mc = manipulator controller
+    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value);
+    JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
+    
   }
 
   /**

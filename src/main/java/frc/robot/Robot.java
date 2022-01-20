@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.sql.Time;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerator.IdKey;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -60,7 +62,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -71,8 +73,12 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    
+    //time GetTime;
+    //time = currentTime 
+    
     // Drives for 1 second 
-    /*if (.get() < 1.0) 
+   /* if (this.get(m_robotContainer) < 1.0) 
     {DifferentialDrive.arcadeDriveIK(0.5, 0.0, true); 
     } */
 
@@ -80,6 +86,10 @@ public class Robot extends TimedRobot {
 
 
 
+  }
+
+  private double get(RobotContainer m_robotContainer2) {
+    return 0;
   }
 
   @Override

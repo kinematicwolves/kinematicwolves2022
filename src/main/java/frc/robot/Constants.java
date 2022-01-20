@@ -33,6 +33,6 @@ public final class Constants {
     public static final double SLEW_RATE_LIMIT_ACCEL = 0.5;
 
     //motor speeds
-    public static final double AUTON_SPEED = 0.4;
+    public static final double AUTON_SPEED = 0.3;
 
 }

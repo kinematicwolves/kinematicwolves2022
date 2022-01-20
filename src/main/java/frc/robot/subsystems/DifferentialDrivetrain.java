@@ -98,7 +98,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     //hack hack hack fix this
     double xSpeed = logAdjustment (driverController.getRightX());
     //double zRotation_rate = -1 * driverController.getLeftX();
-    double zRotation_rate = logAdjustment(-1 * driverController.getLeftY()); //for POV Drive
+    double zRotation_rate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
 
     accelerationFilter.calculate(xSpeed);
     rotationFilter.calculate(zRotation_rate);

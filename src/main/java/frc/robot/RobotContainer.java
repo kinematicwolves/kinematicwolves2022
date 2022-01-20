@@ -59,7 +59,7 @@ public class RobotContainer {
    */
    public Command getAutonomousCommand() {
      // An ExampleCommand will run in autonomous
-     Command Backup = new Backup_Shoot_Auton(m_drivetrainSubsystem, null, null, null);
+     Command Backup = new Backup_Shoot_Auton(m_drivetrainSubsystem);
      return Backup;
    }
 }

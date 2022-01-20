@@ -6,7 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.Backup_Shoot_Auton;
+import frc.robot.commands.Backwords_Auton;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -54,8 +57,9 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   // An ExampleCommand will run in autonomous
-  //   return m_autoCommand;
-  // }
+   public Command getAutonomousCommand() {
+     // An ExampleCommand will run in autonomous
+     Command Backup = new Backup_Shoot_Auton(m_drivetrainSubsystem, null, null, null);
+     return Backup;
+   }
 }

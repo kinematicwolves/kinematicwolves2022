@@ -82,12 +82,23 @@ public class DifferentialDrivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
+  private double logAdjustment (double x) {
+    if(Math.abs(x)>0.7)
+    return x;
+    double x1=x*100/127;
+    return x1;
+  }
   public void moveWithJoysticks(XboxController driverController) {
 
     // Get axis values for speed and rotational speed
-    double xSpeed = driverController.getLeftY();
-    double zRotation_rate = -1 * driverController.getLeftX();
+    /*double xSpeed = driverController.getLeftY();
+    //double zRotation_rate = -1 * driverController.getLeftX();
+    double zRotation_rate = -1 * driverController.getRightX(); //for POV Drive
+*/
+    //hack hack hack fix this
+    double xSpeed = logAdjustment (driverController.getRightX());
+    //double zRotation_rate = -1 * driverController.getLeftX();
+    double zRotation_rate = logAdjustment(-1 * driverController.getLeftY()); //for POV Drive
 
     accelerationFilter.calculate(xSpeed);
     rotationFilter.calculate(zRotation_rate);
@@ -97,5 +108,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
     SmartDashboard.putNumber("X speed commanded by driver", driverController.getLeftY());
     SmartDashboard.putNumber("zRotation Rate Commanded by driver", driverController.getLeftX());
+  }
+  public void move_backward(double speed){
+
+    // Simple call to arcade drive to move along a straight line at a constant speed
+    drive.arcadeDrive(speed, -0);
+
   }
 }

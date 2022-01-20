@@ -4,7 +4,11 @@
 
 package frc.robot;
 
+import java.sql.Time;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -66,7 +70,17 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    // Drives for 1 second 
+    /*if (.get() < 1.0) 
+    {DifferentialDrive.arcadeDriveIK(0.5, 0.0, true); 
+    } */
+
+
+
+
+
+  }
 
   @Override
   public void teleopInit() {

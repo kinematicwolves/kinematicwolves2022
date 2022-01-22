@@ -109,8 +109,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // Drive Robot with commanded linear velocity and yaw rate commands
     drive.arcadeDrive(xSpeed, zRotation_rate);
 
-    SmartDashboard.putNumber("X speed commanded by driver", driverController.getLeftY());
-    SmartDashboard.putNumber("zRotation Rate Commanded by driver", driverController.getLeftX());
+    SmartDashboard.putNumber("X speed commanded by driver", xSpeed);
   }
   public void move_backward(double speed){
 

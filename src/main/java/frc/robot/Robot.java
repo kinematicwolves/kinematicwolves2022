@@ -78,9 +78,9 @@ public class Robot extends TimedRobot {
     //time = currentTime 
     
     // Drives for 1 second 
-   /* if (this.get(m_robotContainer) < 1.0) 
+    if (this.get(m_robotContainer) < 1.0) 
     {DifferentialDrive.arcadeDriveIK(0.5, 0.0, true); 
-    } */
+    } 
 
 
 

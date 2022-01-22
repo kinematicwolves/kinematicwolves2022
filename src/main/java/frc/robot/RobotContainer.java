@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Backup_Shoot_Auton;
 import frc.robot.commands.Backwords_Auton;
 import frc.robot.commands.DriveRobotOpenLoop;
+import frc.robot.commands.RunIntakeMotor;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -49,6 +50,11 @@ public class RobotContainer {
     // Driver controls, dc = driver controller, mc = manipulator controller
     JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value);
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
+    JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
+
+
+    mc_xButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
+    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT));
     
   }
 

@@ -35,4 +35,7 @@ public final class Constants {
     //motor speeds
     public static final double AUTON_SPEED = 0.3;
 
+    // Intake Motor
+    public static final int INTAKE_MOTOR = 1000;
+    public static final double DEFAULT_INTAKE_OUTPUT = 0.3;
 }

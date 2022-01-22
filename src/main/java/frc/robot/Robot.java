@@ -73,24 +73,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    
-    //time GetTime;
-    //time = currentTime 
-    
-    // Drives for 1 second 
-    if (this.get(m_robotContainer) < 1.0) 
-    {DifferentialDrive.arcadeDriveIK(0.5, 0.0, true); 
-    } 
-
-
-
-
 
   }
 
-  private double get(RobotContainer m_robotContainer2) {
-    return 0;
-  }
 
   @Override
   public void teleopInit() {

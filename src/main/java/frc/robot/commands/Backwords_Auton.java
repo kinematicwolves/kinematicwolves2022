@@ -25,7 +25,7 @@ public class Backwords_Auton extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.move_backward(-1 * Constants.AUTON_SPEED);
+    drivetrain.move_backward(1 * Constants.AUTON_SPEED);
     timer += 20;
   }
 
@@ -37,6 +37,6 @@ public class Backwords_Auton extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer > 500;
+    return timer > 2000;
   }
 }

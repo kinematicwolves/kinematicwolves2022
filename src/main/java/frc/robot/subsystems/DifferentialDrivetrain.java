@@ -114,7 +114,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   public void move_backward(double speed){
 
     // Simple call to arcade drive to move along a straight line at a constant speed
-    drive.arcadeDrive(speed, -0);
+    drive.arcadeDrive(0, -1 * speed);
 
   }
 }

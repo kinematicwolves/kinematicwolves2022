@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DifferentialDrivetrain extends SubsystemBase {
+  // Initial 13:42
+  // Low Gear 14:60
+  // High Gear 24:50
   public SlewRateLimiter rotationFilter = new SlewRateLimiter(Constants.SLEW_RATE_LIMIT_ROTATE);
   public SlewRateLimiter accelerationFilter = new SlewRateLimiter(Constants.SLEW_RATE_LIMIT_ACCEL);
 

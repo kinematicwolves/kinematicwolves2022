@@ -42,4 +42,10 @@ public final class Constants {
     // Pnuematic 
     public static final int INTAKE_SOLENOID_FWD = 0;
     public static final int INTAKE_SOLENOID_RVS = 1; 
+
+    // Robot characterization
+    public static final double TRACK_WIDTH_INCHES = 18;
+    public static final double WHEEL_RADIUS_INCHES = 6;
+
+
 }

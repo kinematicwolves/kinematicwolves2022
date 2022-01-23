@@ -9,8 +9,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -29,29 +34,43 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private final WPI_TalonFX m_leftRear = new WPI_TalonFX(Constants.LEFT_REAR_DRIVE_MOTOR);
   private final WPI_TalonFX m_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_DRIVE_MOTOR);
   private final WPI_TalonFX m_rightRear = new WPI_TalonFX(Constants.RIGHT_REAR_DRIVE_MOTOR);
+  private final int encoderCountsPerRev = 2048;
 
   private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftFront, m_leftRear);
   private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightFront, m_rightRear);
 
+  private final ADIS16448_IMU imu = new ADIS16448_IMU();
+  
   private final DifferentialDrive drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
-  public static final double kMaxSpeed = 3.0; // meters per second
-  public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
-
-  private static final double kTrackWidth = 0.381 * 2; // meters
-  private static final double kWheelRadius = 0.0508; // meters
-  private static final int kEncoderResolution = 4096;
-
-  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27.0)); // Distance
-                                                                                                                // between
-                                                                                                                // two
-                                                                                                                // sets
-                                                                                                                // of
-                                                                                                                // wheels
-                                                                                                                // (inches)
-
+  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
+    Units.inchesToMeters(Constants.TRACK_WIDTH_INCHES)
+    );
+  
+  DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(
+  getGyroHeading(), new Pose2d(0, 0, new Rotation2d()));
+    
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
+  }
+
+  public Rotation2d getGyroHeading(){
+    return Rotation2d.fromDegrees(-1 * imu.getAngle());
+  }
+
+  public double getWheelSpeedMetersPerSecond(WPI_TalonFX motorController){
+    double rawSpeed = motorController.getSelectedSensorVelocity(); // raw sensor units per 100ms
+    double wheelSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
+    // NOTE: NEED TO USE THE ACTIVE GEAR RATIO HERE or the speeds won't be right
+    // (Rev/min)(2pi rad/rev) (radius)
+    return wheelSpeedRPM * (2 * Math.PI)  * Units.inchesToMeters(Constants.WHEEL_RADIUS_INCHES) / 60;
+
+  }
+
+  public DifferentialDriveWheelSpeeds getDifferentialDriveWheelSpeeds(){
+    double leftWheelSpeed = getWheelSpeedMetersPerSecond(m_leftFront);
+    double rightWheelSpeed = getWheelSpeedMetersPerSecond(m_rightFront);
+    return new DifferentialDriveWheelSpeeds(leftWheelSpeed, rightWheelSpeed);
   }
 
   private void configureDriveMotorFeedback() {
@@ -60,11 +79,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_leftFront.configSelectedFeedbackSensor(
         TalonFXFeedbackDevice.IntegratedSensor, Constants.DRIVETRAIN_MOTOR_PID_LOOP,
         Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-    m_leftFront.config_kF(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_leftFront.config_kP(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_leftFront.config_kI(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_leftFront.config_kD(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-
+    
     m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero,
         Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
 
@@ -72,11 +87,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_rightFront.configSelectedFeedbackSensor(
         TalonFXFeedbackDevice.IntegratedSensor, Constants.DRIVETRAIN_MOTOR_PID_LOOP,
         Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-    m_rightFront.config_kF(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_rightFront.config_kP(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_rightFront.config_kI(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_rightFront.config_kD(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-
+    
     m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero,
         Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
   }
@@ -84,7 +95,14 @@ public class DifferentialDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    var wheelSpeeds = getDifferentialDriveWheelSpeeds();
+    SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
+    SmartDashboard.putNumber("Left wheel speed (m/s)", wheelSpeeds.leftMetersPerSecond);
+    SmartDashboard.putNumber("Right wheel speed (m/s)", wheelSpeeds.rightMetersPerSecond);
+
   }
+
+
   private double logAdjustment (double x) {
     if(Math.abs(x)>0.7)
     return x;

@@ -86,21 +86,20 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   private double logAdjustment (double x) {
-    if(Math.abs(x)>0.7)
-    return x;
-    double x1=x*100/127;
-    return x1;
+    /** This is the same thing as if ((Math.abs(x) > 0.7)){
+      return x;
+    }
+    else{
+      return Math.log10(x);
+    }
+    */
+    return (Math.abs(x) > 0.7) ? x : Math.log10((x));
   }
+
+
   public void moveWithJoysticks(XboxController driverController) {
 
-    // Get axis values for speed and rotational speed
-    /*double xSpeed = driverController.getLeftY();
-    //double zRotation_rate = -1 * driverController.getLeftX();
-    double zRotation_rate = -1 * driverController.getRightX(); //for POV Drive
-*/
-    //hack hack hack fix this
     double xSpeed = logAdjustment (driverController.getRightX());
-    //double zRotation_rate = -1 * driverController.getLeftX();
     double zRotationRate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
 
     accelerationFilter.calculate(xSpeed);

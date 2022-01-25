@@ -101,17 +101,17 @@ public class DifferentialDrivetrain extends SubsystemBase {
     //hack hack hack fix this
     double xSpeed = logAdjustment (driverController.getRightX());
     //double zRotation_rate = -1 * driverController.getLeftX();
-    double zRotation_rate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
+    double zRotationRate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
 
     accelerationFilter.calculate(xSpeed);
-    rotationFilter.calculate(zRotation_rate);
+    rotationFilter.calculate(zRotationRate);
 
     // Drive Robot with commanded linear velocity and yaw rate commands
-    drive.arcadeDrive(xSpeed, zRotation_rate);
+    drive.arcadeDrive(xSpeed, zRotationRate);
 
     SmartDashboard.putNumber("X speed commanded by driver", xSpeed);
   }
-  public void move_backward(double speed){
+  public void moveBackward(double speed){
 
     // Simple call to arcade drive to move along a straight line at a constant speed
     drive.arcadeDrive(0, -1 * speed);

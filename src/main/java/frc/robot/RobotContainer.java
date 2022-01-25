@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.Backup_Shoot_Auton;
-import frc.robot.commands.Backwords_Auton;
+import frc.robot.commands.BackupShootAuton;
+import frc.robot.commands.BackwordsAuton;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunIntakeMotor;
@@ -69,7 +69,7 @@ public class RobotContainer {
    */
    public Command getAutonomousCommand() {
      // An ExampleCommand will run in autonomous
-     Command Backup = new Backup_Shoot_Auton(m_drivetrainSubsystem);
+     Command Backup = new BackupShootAuton(m_drivetrainSubsystem);
      return Backup;
    }
 }

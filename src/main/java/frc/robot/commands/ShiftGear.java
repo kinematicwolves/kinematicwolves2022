@@ -4,29 +4,30 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.PneumaticSubsystem;
 
-public class DeployIntake extends CommandBase {
+public class ShiftGear extends CommandBase {
   private final PneumaticSubsystem m_pneumaticSubsystem;
-  private final IntakeSubsystem m_intake;
-  /** Creates a new DeployIntake. */
-  public DeployIntake(PneumaticSubsystem pneumaticSubsystem, IntakeSubsystem intakeSubsystem) {
+  private final DifferentialDrivetrain m_drivetrain; 
+  /** Creates a new ShiftGear. */
+  public ShiftGear(PneumaticSubsystem pneumaticSubsystem, DifferentialDrivetrain drivetrain) {
     m_pneumaticSubsystem = pneumaticSubsystem;
-    m_intake = intakeSubsystem;
-    addRequirements(m_pneumaticSubsystem, m_intake);
+    m_drivetrain = drivetrain;
+    addRequirements(m_pneumaticSubsystem, m_drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_intake.isIntakeDeployed()){
-      m_intake.setIntakeUndeployed(m_pneumaticSubsystem);
+    if (m_drivetrain.isInHighGear()){
+      m_drivetrain.shiftToLowGear(m_pneumaticSubsystem);
     }
     else{
-      m_intake.setIntakeDeployed(m_pneumaticSubsystem);
+      m_drivetrain.shiftToHighGear(m_pneumaticSubsystem);
     }
   }
 

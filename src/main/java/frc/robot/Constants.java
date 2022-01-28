@@ -49,4 +49,9 @@ public final class Constants {
     public static final int DRVTRN_SOL_FWD_CHN = 0;
     public static final int DRVTRN_SOL_RVS_CHN = 1;
 
+    //Shooter Motor can id's
+    public static final int SHOOTER_MOTOR1 = 100;
+    public static final int SHOOTER_MOTOR2 = 200;
+
+    
 }

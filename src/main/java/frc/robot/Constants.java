@@ -42,4 +42,11 @@ public final class Constants {
     // Pnuematic 
     public static final int INTAKE_SOLENOID_FWD = 0;
     public static final int INTAKE_SOLENOID_RVS = 1; 
+
+    public static final int PNEUMATIC_CONTROL_MODULE = 9;
+
+   // Solenoid Mappings
+    public static final int DRVTRN_SOL_FWD_CHN = 0;
+    public static final int DRVTRN_SOL_RVS_CHN = 1;
+
 }

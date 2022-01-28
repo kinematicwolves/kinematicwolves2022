@@ -11,12 +11,16 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+
 
 public class DifferentialDrivetrain extends SubsystemBase {
   // Initial 13:42
@@ -29,6 +33,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private final WPI_TalonFX m_leftRear = new WPI_TalonFX(Constants.LEFT_REAR_DRIVE_MOTOR);
   private final WPI_TalonFX m_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_DRIVE_MOTOR);
   private final WPI_TalonFX m_rightRear = new WPI_TalonFX(Constants.RIGHT_REAR_DRIVE_MOTOR);
+
 
   private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftFront, m_leftRear);
   private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightFront, m_rightRear);
@@ -115,5 +120,28 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // Simple call to arcade drive to move along a straight line at a constant speed
     drive.arcadeDrive(0, -1 * speed);
 
+  }
+
+  // Drivetrain Variables
+  public boolean isHighGear = false; // Initialize to low gear
+
+
+  public void shiftToHighGear(PneumaticSubsystem pneumaticSubsystem) {
+    pneumaticSubsystem.setDrivetrainSolenoidFoward();
+    // Set solenoid switch to forward
+    isHighGear = true;
+    
+	}
+
+  public void shiftToLowGear(PneumaticSubsystem pneumaticSubsystem) {
+    pneumaticSubsystem.setDrivetrainSolenoidReverse();
+    // Set solenoid switch to reverse
+    isHighGear = false;
+    
+	}
+
+  public boolean isInHighGear(){
+    return isHighGear; 
+    
   }
 }

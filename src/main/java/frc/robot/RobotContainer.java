@@ -13,6 +13,7 @@ import frc.robot.commands.BackwordsAuton;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunIntakeMotor;
+import frc.robot.commands.ShiftGear;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
@@ -54,12 +55,12 @@ public class RobotContainer {
     JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value);
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
-
+    JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
 
     mc_xButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
     mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT));
     dc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
-    
+    dc_yButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
   }
 
   /**

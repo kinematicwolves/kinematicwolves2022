@@ -53,5 +53,8 @@ public final class Constants {
     public static final int SHOOTER_MOTOR1 = 100;
     public static final int SHOOTER_MOTOR2 = 200;
 
+    //Conveyor Motor can id's
+    public static final int HORIZONTALCONVEYORMOTOR = 500;
+    public static final int VERTICALCONVEYORMOTOR = 600;
     
 }

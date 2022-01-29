@@ -53,6 +53,15 @@ public final class Constants {
     public static final int SHOOTER_MOTOR1 = 100;
     public static final int SHOOTER_MOTOR2 = 200;
 
+    // Shooter motor PID constants for velocity control
+    public static final double SHOOTER_Kf = 0;
+    public static final double SHOOTER_Kp = 0;
+    public static final double SHOOTER_Ki = 0;
+    public static final double SHOOTER_Kd = 0;
+    public static final int SHOOTER_PID_SLOT = 0;
+    public static final int kTimeoutMs = 30;
+    
+
     //Conveyor Motor can id's
     public static final int HORIZONTALCONVEYORMOTOR = 500;
     public static final int VERTICALCONVEYORMOTOR = 600;

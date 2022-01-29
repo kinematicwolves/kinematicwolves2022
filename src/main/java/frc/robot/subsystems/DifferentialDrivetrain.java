@@ -39,6 +39,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftFront, m_leftRear);
   private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightFront, m_rightRear);
 
+  private String currentGear = "high"; // Default starting gear
+  private double INITIAL_GEAR_RATIO = 13/42;
+  private double LOW_GEAR_RATIO = 14/60;
+  private double HIGH_GEAR_RATIO = 24/50;
+
   private final ADIS16448_IMU imu = new ADIS16448_IMU();
   
   private final DifferentialDrive drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
@@ -54,16 +59,31 @@ public class DifferentialDrivetrain extends SubsystemBase {
   public DifferentialDrivetrain() {
   }
 
+  public double getCurrentGearRatio(){
+    return currentGear == "high" ? HIGH_GEAR_RATIO : LOW_GEAR_RATIO;
+  }
+
+  public void setLowGear(){
+    currentGear = "low";
+  }
+
+  public void setHighGear(){
+    currentGear = "high";
+  }
+
+  public boolean isHighGear(){
+    return currentGear == "high";
+  }
+
   public Rotation2d getGyroHeading(){
     return Rotation2d.fromDegrees(-1 * imu.getAngle());
   }
 
   public double getWheelSpeedMetersPerSecond(WPI_TalonFX motorController){
     double rawSpeed = motorController.getSelectedSensorVelocity(); // raw sensor units per 100ms
-    double wheelSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
-    // NOTE: NEED TO USE THE ACTIVE GEAR RATIO HERE or the speeds won't be right
+    double wheelSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60 * getCurrentGearRatio() * INITIAL_GEAR_RATIO; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
     // (Rev/min)(2pi rad/rev) (radius)
-    return wheelSpeedRPM * (2 * Math.PI)  * Units.inchesToMeters(Constants.WHEEL_RADIUS_INCHES) / 60;
+    return wheelSpeedRPM * (2 * Math.PI) * Units.inchesToMeters(Constants.WHEEL_RADIUS_INCHES) / 60;
 
   }
 
@@ -96,9 +116,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     var wheelSpeeds = getDifferentialDriveWheelSpeeds();
+    var chassisSpeed = kinematics.toChassisSpeeds(wheelSpeeds);
     SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
-    SmartDashboard.putNumber("Left wheel speed (m/s)", wheelSpeeds.leftMetersPerSecond);
-    SmartDashboard.putNumber("Right wheel speed (m/s)", wheelSpeeds.rightMetersPerSecond);
+    SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
+    SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
+
 
   }
 

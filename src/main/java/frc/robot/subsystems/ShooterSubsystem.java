@@ -66,7 +66,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterMotorSpeed(double speedRPM){
-    double speed = speedRPM / (encoderCountsPerRev * 1000 * 60);
+    double speed = speedRPM * encoderCountsPerRev /  (1000 * 60);
     // Set in units per 100 ms
     m_shooterMotor1.set(TalonFXControlMode.Velocity, speed);
   }

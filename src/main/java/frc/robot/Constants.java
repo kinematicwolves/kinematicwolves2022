@@ -46,8 +46,8 @@ public final class Constants {
     public static final int PNEUMATIC_CONTROL_MODULE = 9;
 
    // Solenoid Mappings
-    public static final int DRVTRN_SOL_FWD_CHN = 0;
-    public static final int DRVTRN_SOL_RVS_CHN = 1;
+    public static final int DRVTRN_SOL_FWD_CHN = 2;
+    public static final int DRVTRN_SOL_RVS_CHN = 3;
 
     //Shooter Motor can id's
     public static final int SHOOTER_MOTOR1 = 100;

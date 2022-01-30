@@ -50,14 +50,13 @@ public final class Constants {
     public static final int DRVTRN_SOL_RVS_CHN = 1;
 
     //Shooter Motor can id's
-    public static final int SHOOTER_MOTOR1 = 100;
-    public static final int SHOOTER_MOTOR2 = 200;
+    public static final int SHOOTER_MOTOR1 = 10;
 
     // Shooter motor PID constants for velocity control
-    public static final double SHOOTER_Kf = 0;
-    public static final double SHOOTER_Kp = 0;
+    public static final double SHOOTER_Kf = 0.051;
+    public static final double SHOOTER_Kp = 0.05;
     public static final double SHOOTER_Ki = 0;
-    public static final double SHOOTER_Kd = 0;
+    public static final double SHOOTER_Kd = 0.5;
     public static final int SHOOTER_PID_SLOT = 0;
     public static final int kTimeoutMs = 30;
     

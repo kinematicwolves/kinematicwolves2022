@@ -14,6 +14,7 @@ import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunConveyorOpenLoop;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.RunShooterOpenLoop;
+import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
@@ -68,7 +69,7 @@ public class RobotContainer {
     mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT));
     dc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     dc_yButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
-    mc_rButton.whileHeld(new RunShooterOpenLoop(m_shooterSubsystem, 0.5));
+    mc_rButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 5000)); //Intake unit is RPM
     mc_lButton.whileHeld(new RunConveyorOpenLoop(m_conveyorSubsystem, 0.5));
   }
 

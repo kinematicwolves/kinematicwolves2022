@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,14 +25,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void configureMotorFeedback(WPI_TalonFX motor){
     m_shooterMotor1.configFactoryDefault();
-		
+		m_shooterMotor1.setNeutralMode(NeutralMode.Brake);
+    m_shooterMotor1.setInverted(TalonFXInvertType.Clockwise);
 		/* Config neutral deadband to be the smallest possible */
 		m_shooterMotor1.configNeutralDeadband(0.001);
 
 		/* Config sensor used for Primary PID [Velocity] */
     m_shooterMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                            Constants.SHOOTER_PID_SLOT, 
-											Constants.kTimeoutMs);
+                                            Constants.SHOOTER_PID_SLOT, Constants.kTimeoutMs);
 											
 
 		/* Config the peak and nominal outputs */
@@ -65,9 +67,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMotor1.set(inputCommand);
   }
 
+  public double convertToNativeSpeedCountsPer100ms(double speedRPM){
+    return speedRPM * encoderCountsPerRev /  (1000 * 60) * 100;
+  }
+
   public void setShooterMotorSpeed(double speedRPM){
-    double speed = speedRPM * encoderCountsPerRev /  (1000 * 60);
     // Set in units per 100 ms
-    m_shooterMotor1.set(TalonFXControlMode.Velocity, speed);
+    m_shooterMotor1.set(TalonFXControlMode.Velocity, convertToNativeSpeedCountsPer100ms(speedRPM));
   }
 }

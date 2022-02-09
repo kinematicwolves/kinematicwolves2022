@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -15,6 +16,8 @@ public class PneumaticSubsystem extends SubsystemBase {
   private final DoubleSolenoid intakeSolenoid = pcm.makeDoubleSolenoid(Constants.INTAKE_SOLENOID_FWD, Constants.INTAKE_SOLENOID_RVS);
   private final DoubleSolenoid drivetrainSolenoid = pcm.makeDoubleSolenoid(Constants.DRVTRN_SOL_FWD_CHN, Constants.DRVTRN_SOL_RVS_CHN);
   /** Creates a new PneumaticSubsystem. */
+
+
 
   public PneumaticSubsystem() {}
 

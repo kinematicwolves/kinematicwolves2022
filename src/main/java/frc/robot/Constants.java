@@ -36,8 +36,8 @@ public final class Constants {
     public static final double AUTON_SPEED = 0.3;
 
     // Intake Motor
-    public static final int INTAKE_MOTOR = 1000;
-    public static final double DEFAULT_INTAKE_OUTPUT = 0.3;
+    public static final int INTAKE_MOTOR = 20;
+    public static final double DEFAULT_INTAKE_OUTPUT = 0.7;
 
     // Pnuematic 
     public static final int INTAKE_SOLENOID_FWD = 0;
@@ -50,7 +50,7 @@ public final class Constants {
     public static final int DRVTRN_SOL_RVS_CHN = 3;
 
     //Shooter Motor can id's
-    public static final int SHOOTER_MOTOR1 = 10;
+    public static final int SHOOTER_MOTOR1 = 15;
 
     // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;
@@ -62,7 +62,7 @@ public final class Constants {
     
 
     //Conveyor Motor can id's
-    public static final int HORIZONTALCONVEYORMOTOR = 500;
-    public static final int VERTICALCONVEYORMOTOR = 600;
+    public static final int HORIZONTALCONVEYORMOTOR = 16;
+    public static final int VERTICALCONVEYORMOTOR = 17;
     
 }

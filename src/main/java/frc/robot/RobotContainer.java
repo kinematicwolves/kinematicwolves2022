@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -69,8 +70,10 @@ public class RobotContainer {
     mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT));
     dc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     dc_yButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
-    mc_rButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 5000)); //Intake unit is RPM
+    mc_rButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 5000)); //Intake unit is RPM, max is 6300 RPM
     mc_lButton.whileHeld(new RunConveyorOpenLoop(m_conveyorSubsystem, 0.5));
+    mc_rButton.whileHeld(new RunConveyorOpenLoop(m_conveyorSubsystem, -1 * 0.5));
+    
   }
 
   /**

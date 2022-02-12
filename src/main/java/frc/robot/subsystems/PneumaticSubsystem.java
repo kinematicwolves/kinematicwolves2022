@@ -27,18 +27,18 @@ public class PneumaticSubsystem extends SubsystemBase {
   }
 
   public void setIntakeDeployed(){
-    intakeSolenoid.set(Value.kForward);
-  }
-
-  public void setIntakeUndeployed(){
     intakeSolenoid.set(Value.kReverse);
   }
 
+  public void setIntakeUndeployed(){
+    intakeSolenoid.set(Value.kForward);
+  }
+
   public void setDrivetrainSolenoidFoward(){
-    drivetrainSolenoid.set(Value.kForward);
+    drivetrainSolenoid.set(Value.kReverse);
   }
 
   public void setDrivetrainSolenoidReverse(){
-    drivetrainSolenoid.set(Value.kReverse);
+    drivetrainSolenoid.set(Value.kForward);
   }
 }

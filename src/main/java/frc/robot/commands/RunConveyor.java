@@ -7,13 +7,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorSubsystem;
 
-public class RunConveyorOpenLoop extends CommandBase {
+public class RunConveyor extends CommandBase {
 
   private final ConveyorSubsystem m_conveyor; 
   double m_commandedOutputFraction;
 
   /** Creates a new RunConveyorOpenLoop. */
-  public RunConveyorOpenLoop(ConveyorSubsystem conveyor, double commandedOutputFraction) {
+  public RunConveyor(ConveyorSubsystem conveyor, double commandedOutputFraction) {
     this.m_conveyor = conveyor;
     this.m_commandedOutputFraction = commandedOutputFraction; 
     // Use addRequirements() here to declare subsystem dependencies.

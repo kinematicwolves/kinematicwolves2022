@@ -5,18 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BackupShootAuton;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
-import frc.robot.commands.RunConveyorOpenLoop;
+import frc.robot.commands.RunConveyor;
 import frc.robot.commands.RunIntakeMotor;
-import frc.robot.commands.RunShooterOpenLoop;
-import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
+import frc.robot.commands.ShootWithLTrigger;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -50,6 +48,7 @@ public class RobotContainer {
 
   private void setDefaultCommands(){
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
+    m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_conveyorSubsystem, m_manipulatorController)); //Left Trigger runs conveyor and shooter
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -59,21 +58,21 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Driver controls, dc = driver controller, mc = manipulator controller
-    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value);
-    JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
+    JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
-    JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
     JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
 
-    mc_xButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
-    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT));
-    dc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
-    dc_yButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
-    mc_rButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 5000)); //Intake unit is RPM, max is 6300 RPM
-    mc_lButton.whileHeld(new RunConveyorOpenLoop(m_conveyorSubsystem, 0.5));
-    mc_rButton.whileHeld(new RunConveyorOpenLoop(m_conveyorSubsystem, -1 * 0.5));
-    
+
+    //Driver Controller
+    dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
+  
+    //Munipulator Controller 
+    mc_rButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
+    mc_rButton.whileHeld(new RunConveyor(m_conveyorSubsystem, -1 *  0.9)); //reversed
+    mc_lButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
+    mc_lButton.whileHeld(new RunConveyor(m_conveyorSubsystem, 0.9));
+    mc_aButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
   }
 
   /**

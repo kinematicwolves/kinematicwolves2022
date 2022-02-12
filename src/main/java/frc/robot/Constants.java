@@ -37,7 +37,7 @@ public final class Constants {
 
     // Intake Motor
     public static final int INTAKE_MOTOR = 20;
-    public static final double DEFAULT_INTAKE_OUTPUT = 0.7;
+    public static final double DEFAULT_INTAKE_OUTPUT = 0.9;
 
     // Pnuematic 
     public static final int INTAKE_SOLENOID_FWD = 0;

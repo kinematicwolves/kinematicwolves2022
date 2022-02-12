@@ -5,16 +5,20 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BackupShootAuton;
+import frc.robot.commands.Climber1;
+import frc.robot.commands.Climber2;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunConveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootWithLTrigger;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -34,6 +38,7 @@ public class RobotContainer {
   private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
@@ -59,6 +64,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Driver controls, dc = driver controller, mc = manipulator controller
     JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
+    JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
+    JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
+    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value);
+    JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
     JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
     JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
@@ -66,6 +75,10 @@ public class RobotContainer {
 
     //Driver Controller
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
+    dc_bButton.whenHeld(new Climber1(m_climberSubsystem, Constants.DEFAULT_CLIMBER_OUTPUT));
+    dc_yButton.whenHeld(new Climber1(m_climberSubsystem, -1 * Constants.DEFAULT_CLIMBER_OUTPUT));
+    dc_xButton.whenHeld(new Climber2(m_climberSubsystem, Constants.DEFAULT_CLIMBER_OUTPUT));
+    dc_rButton.whenHeld(new Climber2(m_climberSubsystem, -1 * Constants.DEFAULT_CLIMBER_OUTPUT));
   
     //Munipulator Controller 
     mc_rButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed

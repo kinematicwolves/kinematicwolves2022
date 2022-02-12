@@ -60,7 +60,10 @@ public final class Constants {
     public static final int SHOOTER_PID_SLOT = 0;
     public static final int kTimeoutMs = 30;
     
-
+    //Climber Motors
+    public static final int CLIMBER_MOTOR1 = 1000;
+    public static final int CLIMBER_MOTOR2 = 1000;
+    public static final double DEFAULT_CLIMBER_OUTPUT = 0.5; 
     //Conveyor Motor can id's
     public static final int HORIZONTALCONVEYORMOTOR = 16;
     public static final int VERTICALCONVEYORMOTOR = 17;

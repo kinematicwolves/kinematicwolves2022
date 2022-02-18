@@ -75,10 +75,6 @@ public class RobotContainer {
 
     //Driver Controller
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
-    dc_bButton.whenHeld(new Climber1(m_climberSubsystem, Constants.DEFAULT_CLIMBER_OUTPUT));
-    dc_yButton.whenHeld(new Climber1(m_climberSubsystem, -1 * Constants.DEFAULT_CLIMBER_OUTPUT));
-    dc_xButton.whenHeld(new Climber2(m_climberSubsystem, Constants.DEFAULT_CLIMBER_OUTPUT));
-    dc_rButton.whenHeld(new Climber2(m_climberSubsystem, -1 * Constants.DEFAULT_CLIMBER_OUTPUT));
   
     //Munipulator Controller 
     mc_rButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed

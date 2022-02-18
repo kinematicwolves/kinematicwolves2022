@@ -58,12 +58,32 @@ public final class Constants {
     public static final double SHOOTER_Ki = 0;
     public static final double SHOOTER_Kd = 0.5;
     public static final int SHOOTER_PID_SLOT = 0;
-    public static final int kTimeoutMs = 30;
+    public static final int kTimeoutMs = 30; // Used for all PID loops
     
     //Climber Motors
     public static final int CLIMBER_MOTOR1 = 1000;
     public static final int CLIMBER_MOTOR2 = 1000;
     public static final double DEFAULT_CLIMBER_OUTPUT = 0.5; 
+    
+    // Linear actuator
+    public static final int LINEAR_ACTUATOR_1 = 0; // Unverified
+
+    // Climber PID constants for position control
+    public static final double CLIMBER1_Kf = 0.051;
+    public static final double CLIMBER1_Kp = 0.05;
+    public static final double CLIMBER1_Ki = 0;
+    public static final double CLIMBER1_Kd = 0.5;
+    public static final int CLIMBER1_PID_SLOT = 0;
+
+    public static final double CLIMBER2_Kf = 0.051;
+    public static final double CLIMBER2_Kp = 0.05;
+    public static final double CLIMBER2_Ki = 0;
+    public static final double CLIMBER2_Kd = 0.5;
+    public static final int CLIMBER2_PID_SLOT = 0;
+
+    public static final int CLIMBER_BRAKE_FWD_CHN = 4;
+    public static final int CLIMBER_BRAKE_RVS_CHN = 4;
+
     //Conveyor Motor can id's
     public static final int HORIZONTALCONVEYORMOTOR = 16;
     public static final int VERTICALCONVEYORMOTOR = 17;

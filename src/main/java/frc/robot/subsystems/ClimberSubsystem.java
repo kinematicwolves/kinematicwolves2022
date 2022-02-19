@@ -148,4 +148,7 @@ public class ClimberSubsystem extends SubsystemBase {
     pneumaticSubsystem.releaseClimberBrake();
   }
 
+  public void setClimberMotor1Output(double commandedOutput){
+    m_climberMotor1.set(commandedOutput);
+  }
 }

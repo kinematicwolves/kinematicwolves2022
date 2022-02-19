@@ -29,8 +29,8 @@ public final class Constants {
 
     // Drivetrain rate limiters
     // Slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 0.5;
-    public static final double SLEW_RATE_LIMIT_ACCEL = 0.5;
+    public static final double SLEW_RATE_LIMIT_ROTATE = 1.1;
+    public static final double SLEW_RATE_LIMIT_ACCEL = 0.9;
 
     //motor speeds
     public static final double AUTON_SPEED = 0.3;
@@ -61,7 +61,7 @@ public final class Constants {
     public static final int kTimeoutMs = 30; // Used for all PID loops
     
     //Climber Motors
-    public static final int CLIMBER_MOTOR1 = 1000;
+    public static final int CLIMBER_MOTOR1 = 24;
     public static final int CLIMBER_MOTOR2 = 1000;
     public static final double DEFAULT_CLIMBER_OUTPUT = 0.5; 
     

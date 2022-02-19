@@ -10,10 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BackupShootAuton;
-import frc.robot.commands.Climber1;
-import frc.robot.commands.Climber2;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
+import frc.robot.commands.RunClimber1OpenLoop;
 import frc.robot.commands.RunConveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.ShiftGear;
@@ -75,6 +74,8 @@ public class RobotContainer {
 
     //Driver Controller
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
+    dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
+    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
   
     //Munipulator Controller 
     mc_rButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
@@ -94,4 +95,8 @@ public class RobotContainer {
      Command Backup = new BackupShootAuton(m_drivetrainSubsystem);
      return Backup;
    }
+
+  //  public Command getDisabledCommand(){
+  //    return // Command to reset robot to initial state
+  //  }
 }

@@ -5,13 +5,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final  WPI_VictorSPX m_intakeMotor = new WPI_VictorSPX(Constants.INTAKE_MOTOR);
+  private final  WPI_TalonSRX m_intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR);
   private boolean intakeIsDeployed = false; 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {}

@@ -4,14 +4,14 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ConveyorSubsystem extends SubsystemBase {
-  private final WPI_TalonFX m_horizontalConveyorMotor = new WPI_TalonFX(Constants.HORIZONTALCONVEYORMOTOR);
-  private final WPI_TalonFX m_verticalConveyorMotor = new WPI_TalonFX(Constants.VERTICALCONVEYORMOTOR);
+  private final WPI_TalonSRX m_horizontalConveyorMotor = new WPI_TalonSRX(Constants.HORIZONTALCONVEYORMOTOR);
+  private final WPI_TalonSRX m_verticalConveyorMotor = new WPI_TalonSRX(Constants.VERTICALCONVEYORMOTOR);
   /** Creates a new ConveyorSubsystem. */
   public ConveyorSubsystem() {}
 

@@ -11,8 +11,6 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -91,29 +89,21 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   private double logAdjustment (double x) {
-    /** This is the same thing as if ((Math.abs(x) > 0.7)){
-      return x;
-    }
-    else{
-      return Math.log10(x);
-    }
-    */
-    return (Math.abs(x) > 0.7) ? x : Math.log10((x));
+    return (Math.abs(x) > 0.7) ? x : (x * 100 /127);
   }
 
 
   public void moveWithJoysticks(XboxController driverController) {
 
     double xSpeed = logAdjustment (driverController.getRightX());
+    
     double zRotationRate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
 
-    accelerationFilter.calculate(xSpeed);
-    rotationFilter.calculate(zRotationRate);
-
     // Drive Robot with commanded linear velocity and yaw rate commands
-    drive.arcadeDrive(xSpeed, zRotationRate);
+    drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));
 
-    SmartDashboard.putNumber("X speed commanded by driver", xSpeed);
+    SmartDashboard.putNumber("X speed commanded by driver", accelerationFilter.calculate(xSpeed));
+    SmartDashboard.putNumber("Rotation command", rotationFilter.calculate(zRotationRate));
   }
   public void moveBackward(double speed){
 

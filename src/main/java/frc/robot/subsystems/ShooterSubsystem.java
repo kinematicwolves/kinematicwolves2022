@@ -51,7 +51,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getMotorSpeedRPM(WPI_TalonFX motorController){
     double rawSpeed = motorController.getSelectedSensorVelocity(); // raw sensor units per 100ms
-    double motorSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
+    double motorSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60 / 100; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
     return motorSpeedRPM;
   }
 

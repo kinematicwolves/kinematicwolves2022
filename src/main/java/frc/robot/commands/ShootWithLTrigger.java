@@ -34,17 +34,21 @@ private final XboxController m_manipulatorController;
   @Override
   public void execute() {
     var triggerAxis = m_manipulatorController.getLeftTriggerAxis();
-    if ((triggerAxis > 0.005)) { //Set at a higher axis to give the shooter enough time to power up
+    if (triggerAxis > 0.5)
+    m_shooterSubsystem.setShooterMotorSpeed(4500); //RPM
+    else
+    m_shooterSubsystem.setShooterMotorSpeed(0); //RPM
+    /*if ((triggerAxis > 0.005) & (triggerAxis < 0.5)) { //Set at a higher axis to give the shooter enough time to power up
       m_shooterSubsystem.setShooterMotorSpeed(4500); //RPM
       
     }
     else if (triggerAxis >= 0.9){
-      m_vConveyorSubsystem.runConveyorMotor(0.7);
+      m_vConveyorSubsystem.runConveyorMotor(0.9);
     }
     else {
       m_vConveyorSubsystem.runConveyorMotor(0);
       m_shooterSubsystem.setShooterMotorSpeed(0);
-    }
+    }*/
   }
 
   // Called once the command ends or is interrupted.

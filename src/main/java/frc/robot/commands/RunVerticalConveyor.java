@@ -4,27 +4,28 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.VConveyorSubsystem;
 
-public class RunClimber1OpenLoop extends CommandBase {
 
-  private final ClimberSubsystem climber2;
+public class RunVerticalConveyor extends CommandBase {
+ 
+  private final VConveyorSubsystem verticalconveyor;
   double commandedOutputFraction;
 
-  /** Creates a new Climber2. */
-  public RunClimber1OpenLoop(ClimberSubsystem climberSubsystem, double commandedFraction) {
-    this.climber2 = climberSubsystem;
+  /** Creates a new RunIntakeMotor. */
+  public RunVerticalConveyor(VConveyorSubsystem vConveyorSubsystem, double commandedFraction) {
+    this.verticalconveyor = vConveyorSubsystem; 
     this.commandedOutputFraction = commandedFraction;
-    addRequirements(climber2);
+    addRequirements(verticalconveyor);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber2.setClimberMotor1Output(commandedOutputFraction);
+    verticalconveyor.runConveyorMotor(commandedOutputFraction);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +35,7 @@ public class RunClimber1OpenLoop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber2.setClimberMotor1Output(0);
+    verticalconveyor.runConveyorMotor(0);
   }
 
   // Returns true when the command should end.

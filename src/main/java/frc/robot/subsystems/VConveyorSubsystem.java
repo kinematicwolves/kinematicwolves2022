@@ -9,19 +9,17 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ConveyorSubsystem extends SubsystemBase {
-  private final WPI_TalonSRX m_horizontalConveyorMotor = new WPI_TalonSRX(Constants.HORIZONTALCONVEYORMOTOR);
+public class VConveyorSubsystem extends SubsystemBase {
   private final WPI_TalonSRX m_verticalConveyorMotor = new WPI_TalonSRX(Constants.VERTICALCONVEYORMOTOR);
   /** Creates a new ConveyorSubsystem. */
-  public ConveyorSubsystem() {}
+  public VConveyorSubsystem() {}
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
 
-  public void runConveyorMotor(double inputCommand){
-    m_horizontalConveyorMotor.set(inputCommand);
-    m_verticalConveyorMotor.set(inputCommand);
+  public void runConveyorMotor(double requestedOutputFraction){
+    m_verticalConveyorMotor.set(requestedOutputFraction);
   }
 }

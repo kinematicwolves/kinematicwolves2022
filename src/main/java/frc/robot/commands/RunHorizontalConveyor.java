@@ -5,24 +5,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.HConveyorSubsystem;
 
-public class RunConveyor extends CommandBase {
 
-  private final ConveyorSubsystem m_conveyor; 
-  double m_commandedOutputFraction;
+public class RunHorizontalConveyor extends CommandBase {
+ 
+  private final HConveyorSubsystem horizontalconveyor;
+  double commandedOutputFraction;
 
-  /** Creates a new RunConveyorOpenLoop. */
-  public RunConveyor(ConveyorSubsystem conveyor, double commandedOutputFraction) {
-    this.m_conveyor = conveyor;
-    this.m_commandedOutputFraction = commandedOutputFraction; 
+  /** Creates a new RunIntakeMotor. */
+  public RunHorizontalConveyor(HConveyorSubsystem hConveyorSubsystem, double commandedFraction) {
+    this.horizontalconveyor = hConveyorSubsystem; 
+    this.commandedOutputFraction = commandedFraction;
+    addRequirements(horizontalconveyor);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_conveyor.runConveyorMotor(m_commandedOutputFraction);
+    horizontalconveyor.runConveyorMotor(commandedOutputFraction);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +35,7 @@ public class RunConveyor extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_conveyor.runConveyorMotor(0);
+    horizontalconveyor.runConveyorMotor(0);
   }
 
   // Returns true when the command should end.

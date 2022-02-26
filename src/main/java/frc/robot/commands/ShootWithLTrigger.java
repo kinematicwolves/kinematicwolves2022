@@ -6,22 +6,22 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VConveyorSubsystem;
 
 public class ShootWithLTrigger extends CommandBase {
 
 private final ShooterSubsystem m_shooterSubsystem;
-private final ConveyorSubsystem m_conveyorSubsystem;
+private final VConveyorSubsystem m_vConveyorSubsystem;
 private final XboxController m_manipulatorController;
 
   /** Creates a new ShootWithTrigger. */
-  public ShootWithLTrigger(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, XboxController manipulatorController) {
+  public ShootWithLTrigger(ShooterSubsystem shooterSubsystem, VConveyorSubsystem vConveyorSubsystem, XboxController manipulatorController) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooterSubsystem = shooterSubsystem;
     addRequirements(m_shooterSubsystem);
-    m_conveyorSubsystem = conveyorSubsystem;
-    addRequirements(m_conveyorSubsystem);
+    m_vConveyorSubsystem = vConveyorSubsystem;
+    addRequirements(m_vConveyorSubsystem);
     m_manipulatorController = manipulatorController;
   }
 
@@ -34,15 +34,15 @@ private final XboxController m_manipulatorController;
   @Override
   public void execute() {
     var triggerAxis = m_manipulatorController.getLeftTriggerAxis();
-    if ((triggerAxis > 0.005) & (triggerAxis < 0.5)) { //Set at a higher axis to give the shooter enough time to power up
-      m_shooterSubsystem.setShooterMotorSpeed(5000); //RPM
+    if ((triggerAxis > 0.005)) { //Set at a higher axis to give the shooter enough time to power up
+      m_shooterSubsystem.setShooterMotorSpeed(4500); //RPM
       
     }
-    else if (triggerAxis >= 0.5){
-      m_conveyorSubsystem.runConveyorMotor(-0.5);
+    else if (triggerAxis >= 0.9){
+      m_vConveyorSubsystem.runConveyorMotor(0.7);
     }
     else {
-      m_conveyorSubsystem.runConveyorMotor(0);
+      m_vConveyorSubsystem.runConveyorMotor(0);
       m_shooterSubsystem.setShooterMotorSpeed(0);
     }
   }

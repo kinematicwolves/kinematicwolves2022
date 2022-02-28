@@ -54,7 +54,7 @@ public class RobotContainer {
 
   private void setDefaultCommands(){
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
-    //m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_conveyorSubsystem, m_manipulatorController)); //Left Trigger runs conveyor and shooter
+    m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_manipulatorController)); //Left Trigger runs conveyor and shooter
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -71,6 +71,7 @@ public class RobotContainer {
     JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
     JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
+    JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value);
 
 
     //Driver Controller
@@ -83,8 +84,8 @@ public class RobotContainer {
     mc_xButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
     mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1* Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed
     mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
-    mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
-    mc_rButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_yButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
+    mc_lButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
   }
 
   /**

@@ -29,8 +29,8 @@ public final class Constants {
 
     // Drivetrain rate limiters
     // Slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 1.1;
-    public static final double SLEW_RATE_LIMIT_ACCEL = 0.9;
+    public static final double SLEW_RATE_LIMIT_ROTATE = 2.1;
+    public static final double SLEW_RATE_LIMIT_ACCEL = 1.9;
 
     //motor speeds
     public static final double AUTON_SPEED = 0.3;
@@ -49,12 +49,7 @@ public final class Constants {
     public static final int DRVTRN_SOL_FWD_CHN = 0;
     public static final int DRVTRN_SOL_RVS_CHN = 1;
 
-    //Shooter Motor can id's
-
-
-
-
-    
+    //Shooter Motor can id's   
     public static final int SHOOTER_MOTOR1 = 15;    
 
     // Shooter motor PID constants for velocity control

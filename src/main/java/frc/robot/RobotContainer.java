@@ -5,25 +5,25 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BackupShootAuton;
-import frc.robot.commands.Climber1;
-import frc.robot.commands.Climber2;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
-import frc.robot.commands.RunConveyor;
+import frc.robot.commands.RunClimber1OpenLoop;
+import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunIntakeMotor;
+import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootWithLTrigger;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
+import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VConveyorSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,8 +37,9 @@ public class RobotContainer {
   private final DifferentialDrivetrain m_drivetrainSubsystem = new DifferentialDrivetrain();
   private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
+  private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
 
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
@@ -53,7 +54,7 @@ public class RobotContainer {
 
   private void setDefaultCommands(){
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
-    m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_conveyorSubsystem, m_manipulatorController)); //Left Trigger runs conveyor and shooter
+    m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_manipulatorController)); //Left Trigger runs conveyor and shooter
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -66,26 +67,25 @@ public class RobotContainer {
     JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
-    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value);
-    JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
     JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
     JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
+    JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
+    JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value);
 
 
     //Driver Controller
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
-    dc_bButton.whenHeld(new Climber1(m_climberSubsystem, Constants.DEFAULT_CLIMBER_OUTPUT));
-    dc_yButton.whenHeld(new Climber1(m_climberSubsystem, -1 * Constants.DEFAULT_CLIMBER_OUTPUT));
-    dc_xButton.whenHeld(new Climber2(m_climberSubsystem, Constants.DEFAULT_CLIMBER_OUTPUT));
-    dc_rButton.whenHeld(new Climber2(m_climberSubsystem, -1 * Constants.DEFAULT_CLIMBER_OUTPUT));
+    dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
+    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
   
     //Munipulator Controller 
-    mc_rButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
-    mc_rButton.whileHeld(new RunConveyor(m_conveyorSubsystem, -1 *  0.9)); //reversed
-    mc_lButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
-    mc_lButton.whileHeld(new RunConveyor(m_conveyorSubsystem, 0.9));
-    mc_aButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_xButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));
+    mc_xButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
+    mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1* Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed
+    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
+    mc_yButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
+    mc_lButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
   }
 
   /**
@@ -98,4 +98,8 @@ public class RobotContainer {
      Command Backup = new BackupShootAuton(m_drivetrainSubsystem);
      return Backup;
    }
+
+  //  public Command getDisabledCommand(){
+  //    return // Command to reset robot to initial state
+  //  }
 }

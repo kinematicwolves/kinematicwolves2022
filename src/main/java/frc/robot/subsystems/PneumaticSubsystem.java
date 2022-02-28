@@ -4,17 +4,19 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PneumaticSubsystem extends SubsystemBase {
-  private final PneumaticsControlModule pcm = new PneumaticsControlModule();
-  private final DoubleSolenoid intakeSolenoid = pcm.makeDoubleSolenoid(Constants.INTAKE_SOLENOID_FWD, Constants.INTAKE_SOLENOID_RVS);
-  private final DoubleSolenoid drivetrainSolenoid = pcm.makeDoubleSolenoid(Constants.DRVTRN_SOL_FWD_CHN, Constants.DRVTRN_SOL_RVS_CHN);
+  //private final PneumaticsControlModule pcm = new PneumaticsControlModule();
+  private final PneumaticHub pHub = new PneumaticHub(9);
+  private final DoubleSolenoid intakeSolenoid = pHub.makeDoubleSolenoid(Constants.INTAKE_SOLENOID_FWD, Constants.INTAKE_SOLENOID_RVS);
+  private final DoubleSolenoid drivetrainSolenoid = pHub.makeDoubleSolenoid(Constants.DRVTRN_SOL_FWD_CHN, Constants.DRVTRN_SOL_RVS_CHN);
+  private final DoubleSolenoid climberBrakeSolenoid = pHub.makeDoubleSolenoid(Constants.CLIMBER_BRAKE_FWD_CHN, Constants.CLIMBER_BRAKE_RVS_CHN);
   /** Creates a new PneumaticSubsystem. */
 
 
@@ -40,5 +42,13 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public void setDrivetrainSolenoidReverse(){
     drivetrainSolenoid.set(Value.kForward);
+  }
+
+  public void setClimberBrake(){
+    climberBrakeSolenoid.set(Value.kForward);
+  }
+
+  public void releaseClimberBrake(){
+    climberBrakeSolenoid.set(Value.kReverse);
   }
 }

@@ -29,28 +29,28 @@ public final class Constants {
 
     // Drivetrain rate limiters
     // Slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 0.5;
-    public static final double SLEW_RATE_LIMIT_ACCEL = 0.5;
+    public static final double SLEW_RATE_LIMIT_ROTATE = 2.1;
+    public static final double SLEW_RATE_LIMIT_ACCEL = 1.9;
 
     //motor speeds
     public static final double AUTON_SPEED = 0.3;
 
     // Intake Motor
-    public static final int INTAKE_MOTOR = 20;
+    public static final int INTAKE_MOTOR = 17;
     public static final double DEFAULT_INTAKE_OUTPUT = 0.9;
 
     // Pnuematic 
-    public static final int INTAKE_SOLENOID_FWD = 0;
-    public static final int INTAKE_SOLENOID_RVS = 1; 
+    public static final int INTAKE_SOLENOID_FWD = 2;
+    public static final int INTAKE_SOLENOID_RVS = 3; 
 
     public static final int PNEUMATIC_CONTROL_MODULE = 9;
 
    // Solenoid Mappings
-    public static final int DRVTRN_SOL_FWD_CHN = 2;
-    public static final int DRVTRN_SOL_RVS_CHN = 3;
+    public static final int DRVTRN_SOL_FWD_CHN = 0;
+    public static final int DRVTRN_SOL_RVS_CHN = 1;
 
-    //Shooter Motor can id's
-    public static final int SHOOTER_MOTOR1 = 15;
+    //Shooter Motor can id's   
+    public static final int SHOOTER_MOTOR1 = 15;    
 
     // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;
@@ -58,14 +58,36 @@ public final class Constants {
     public static final double SHOOTER_Ki = 0;
     public static final double SHOOTER_Kd = 0.5;
     public static final int SHOOTER_PID_SLOT = 0;
-    public static final int kTimeoutMs = 30;
+    public static final int kTimeoutMs = 30; // Used for all PID loops
     
     //Climber Motors
-    public static final int CLIMBER_MOTOR1 = 1000;
+    public static final int CLIMBER_MOTOR1 = 24;
     public static final int CLIMBER_MOTOR2 = 1000;
     public static final double DEFAULT_CLIMBER_OUTPUT = 0.5; 
+    
+    // Linear actuator
+    public static final int LINEAR_ACTUATOR_1 = 0; // Unverified
+
+    // Climber PID constants for position control
+    public static final double CLIMBER1_Kf = 0.051;
+    public static final double CLIMBER1_Kp = 0.05;
+    public static final double CLIMBER1_Ki = 0;
+    public static final double CLIMBER1_Kd = 0.5;
+    public static final int CLIMBER1_PID_SLOT = 0;
+
+    public static final double CLIMBER2_Kf = 0.051;
+    public static final double CLIMBER2_Kp = 0.05;
+    public static final double CLIMBER2_Ki = 0;
+    public static final double CLIMBER2_Kd = 0.5;
+    public static final int CLIMBER2_PID_SLOT = 0;
+
+    public static final int CLIMBER_BRAKE_FWD_CHN = 4;
+    public static final int CLIMBER_BRAKE_RVS_CHN = 4;
+
     //Conveyor Motor can id's
-    public static final int HORIZONTALCONVEYORMOTOR = 16;
-    public static final int VERTICALCONVEYORMOTOR = 17;
+    public static final int HORIZONTALCONVEYORMOTOR = 20;
+    public static final int VERTICALCONVEYORMOTOR = 7;
+    public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 0.9;
+    public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 0.9;
     
 }

@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,6 +25,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private boolean climber1BrakeOn = false;
   private double maxServoExtention = 0.1; // meters
   private double distanceFromPivotPointMeters = 0.1; // Distance the servo is mounted from rotation point
+  private DigitalInput limitSwitch = new DigitalInput(Constants.CLIMBER_LIMIT_SWITCH); // Should be true at beginning
+  private boolean climberExtended = false;
 
   /* 
     These are a constant offset to gravity. Set such that it retains a position of zero. This
@@ -97,12 +100,26 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber 1 counts", currentPositionClimber1);
     SmartDashboard.putNumber("Climber 1 position (meters)", convertCountsToPosition(currentPositionClimber1));
     SmartDashboard.putNumber("Climber 1 error", m_climberMotor1.getClosedLoopError());
+    SmartDashboard.putNumber("Motor current", m_climberMotor1.getStatorCurrent());
+    SmartDashboard.putBoolean("Climber limit switch", getLimitSwitch());
 
-    double currentPositionClimber2 = m_climberMotor1.getSelectedSensorPosition();
-    SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
-    SmartDashboard.putNumber("Climber 2 position (meters)", convertCountsToPosition(currentPositionClimber2));
-    SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
+    // double currentPositionClimber2 = m_climberMotor1.getSelectedSensorPosition();
+    // SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
+    // SmartDashboard.putNumber("Climber 2 position (meters)", convertCountsToPosition(currentPositionClimber2));
+    // SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
 
+  }
+
+  public boolean getLimitSwitch(){
+    return limitSwitch.get();
+  }
+
+  public void setExtendedFlag(boolean isDeployed){
+    climberExtended = isDeployed;
+  }
+
+  public double getPosition(){
+    return convertCountsToPosition(m_climberMotor1.getSelectedSensorPosition());
   }
 
   public double convertCountsToPosition(double positionCounts){

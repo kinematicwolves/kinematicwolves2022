@@ -64,6 +64,9 @@ public final class Constants {
     public static final int CLIMBER_MOTOR1 = 24;
     public static final int CLIMBER_MOTOR2 = 1000;
     public static final double DEFAULT_CLIMBER_OUTPUT = 0.5; 
+
+    // Climber limit switch
+    public static final int CLIMBER_LIMIT_SWITCH = 9;
     
     // Linear actuator
     public static final int LINEAR_ACTUATOR_1 = 0; // Unverified

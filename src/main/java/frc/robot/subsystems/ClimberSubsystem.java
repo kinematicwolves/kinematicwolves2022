@@ -26,7 +26,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private double maxServoExtention = 0.1; // meters
   private double distanceFromPivotPointMeters = 0.1; // Distance the servo is mounted from rotation point
   private DigitalInput limitSwitch = new DigitalInput(Constants.CLIMBER_LIMIT_SWITCH); // Should be true at beginning
-  private boolean climberExtended = false;
 
   /* 
     These are a constant offset to gravity. Set such that it retains a position of zero. This
@@ -114,11 +113,7 @@ public class ClimberSubsystem extends SubsystemBase {
     return limitSwitch.get();
   }
 
-  public void setExtendedFlag(boolean isDeployed){
-    climberExtended = isDeployed;
-  }
-
-  public double getPosition(){
+  public double getPositionMeters(){
     return convertCountsToPosition(m_climberMotor1.getSelectedSensorPosition());
   }
 
@@ -168,4 +163,44 @@ public class ClimberSubsystem extends SubsystemBase {
   public void setClimberMotor1Output(double commandedOutput){
     m_climberMotor1.set(commandedOutput);
   }
+
+  public String getClimberState(){
+    /*
+    Adjust upperClimbWindowBound and lowerClimbWindowBound to be a range where the climber should stop 
+    during climbing. Instead of tuning a complicated control loop, we will call this
+    function to give us the current state of the climber, and use it to decide when 
+    to stop it when it has reached its peak height for climb.
+    */
+    double upperClimbWindowBound = 1.0;
+    double lowerClimbWindowBound = 0.95;
+    double lowerThreshold = 0.1; // below this, if the limit switch is on, robot will be "at init position"
+    double upperThreshold = 1.5; // Above this, if the limit switch is on, robot will be "at end position"
+
+    /*
+    Adjust the constants in the first two if/else if clauses so that
+    there is a small point below which we know that the limit switch must 
+    be in the init position, or above which it must be extended.
+    */
+    if (getLimitSwitch() & (getPositionMeters() < lowerThreshold)){
+      // Limit switch is active and position is not big, we must be at start spot
+      return "init position";
+    }
+    else if ((getLimitSwitch() & getPositionMeters() > upperThreshold)){
+      // Limit switch is active and position is big, we must be at end spot
+      return "end position";
+    }
+    else if ((getPositionMeters() < upperClimbWindowBound) & (getPositionMeters() > lowerClimbWindowBound)){
+      return "ready to climb position";
+    }
+    else if (getPositionMeters() < lowerClimbWindowBound){
+      return "Going up";
+    }
+    else if (getPositionMeters() > upperClimbWindowBound){
+      return "Going down";
+    }
+    else {
+      return "in between positions";
+    }
+  }
+
 }

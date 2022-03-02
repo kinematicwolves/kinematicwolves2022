@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BackupShootAuton;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
+import frc.robot.commands.EndGameClimb;
 import frc.robot.commands.RunClimber1OpenLoop;
 import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.RunVerticalConveyor;
+import frc.robot.commands.SetClimberToPosition;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootWithLTrigger;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -67,6 +69,7 @@ public class RobotContainer {
     JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
+
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
     JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
     JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
@@ -76,8 +79,8 @@ public class RobotContainer {
 
     //Driver Controller
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
-    dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
-    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
+    dc_bButton.whileHeld(new SetClimberToPosition(m_climberSubsystem, "ready to climb position", 0.2));
+    dc_yButton.whileHeld(new EndGameClimb(m_climberSubsystem));
   
     //Munipulator Controller 
     mc_xButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));

@@ -31,7 +31,7 @@ private final XboxController m_manipulatorController;
   public void execute() {
     var triggerAxis = m_manipulatorController.getLeftTriggerAxis();
     if ((triggerAxis > 0.005)) { //Set at a higher axis to give the shooter enough time to power up
-      m_shooterSubsystem.setShooterMotorSpeed(5500); //RPM
+      m_shooterSubsystem.setShooterMotorSpeed(5360); //RPM
     }
 
     else {

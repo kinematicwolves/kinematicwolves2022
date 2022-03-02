@@ -29,15 +29,15 @@ public final class Constants {
 
     // Drivetrain rate limiters
     // Slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 2.1;
-    public static final double SLEW_RATE_LIMIT_ACCEL = 1.9;
+    public static final double SLEW_RATE_LIMIT_ROTATE = 3;
+    public static final double SLEW_RATE_LIMIT_ACCEL = 3.9;
 
     //motor speeds
-    public static final double AUTON_SPEED = 0.3;
+    public static final double AUTON_SPEED = 0.41;
 
     // Intake Motor
     public static final int INTAKE_MOTOR = 17;
-    public static final double DEFAULT_INTAKE_OUTPUT = 0.9;
+    public static final double DEFAULT_INTAKE_OUTPUT = -0.9;
 
     // Pnuematic 
     public static final int INTAKE_SOLENOID_FWD = 2;

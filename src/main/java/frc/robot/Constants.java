@@ -37,7 +37,7 @@ public final class Constants {
 
     // Intake Motor
     public static final int INTAKE_MOTOR = 17;
-    public static final double DEFAULT_INTAKE_OUTPUT = -0.9;
+    public static final double DEFAULT_INTAKE_OUTPUT = -1;
 
     // Pnuematic 
     public static final int INTAKE_SOLENOID_FWD = 2;
@@ -87,7 +87,14 @@ public final class Constants {
     //Conveyor Motor can id's
     public static final int HORIZONTALCONVEYORMOTOR = 20;
     public static final int VERTICALCONVEYORMOTOR = 7;
-    public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 0.9;
+    public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
     public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 0.9;
+
+      // Vision Values
+      public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 1.0; //change
+      public static final float LIMELIGHT_HEIGHT = (float) 1.0; //change         
+      public static final float TARGET_HEIGHT = (float) 1.0; //change            
+      public static final double RotationRate = 1.0; //change
+  
     
 }

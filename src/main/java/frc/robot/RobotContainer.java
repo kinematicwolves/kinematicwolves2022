@@ -6,11 +6,13 @@ package frc.robot;
 
 import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 
+import org.ejml.ops.ConvertMatrixData;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.BackupShootAuton;
+//import frc.robot.commands.BackupShootAuton;
 import frc.robot.commands.BackwordsAuton;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
@@ -86,27 +88,30 @@ public class RobotContainer {
     dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
   
     //Munipulator Controller 
-    mc_rButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));
+    mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed
     mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
-    mc_xButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1* Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed
-    mc_rButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
-    mc_yButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
-    mc_lButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1* Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));
+    mc_yButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
+    mc_bButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed 
+    mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
+    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
   }
 
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
    public Command getAutonomousCommand() {
-     // An ExampleCommand will run in autonomous
+    // An ExampleCommand will run in autonomous
      Command Backup = new BackwordsAuton(m_drivetrainSubsystem);
      return Backup;
 
+
    }
 
-  //  public Command getDisabledCommand(){
-  //    return // Command to reset robot to initial state
-  //  }
+
+    /*public Command getDisabledCommand() // Command to reset robot to initial state
+    }*/
 }

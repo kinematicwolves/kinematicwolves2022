@@ -29,7 +29,7 @@ public final class Constants {
 
     // Drivetrain rate limiters
     // Slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 3;
+    public static final double SLEW_RATE_LIMIT_ROTATE = 2.7;
     public static final double SLEW_RATE_LIMIT_ACCEL = 3.9;
 
     //motor speeds
@@ -63,7 +63,7 @@ public final class Constants {
     //Climber Motors
     public static final int CLIMBER_MOTOR1 = 24;
     public static final int CLIMBER_MOTOR2 = 1000;
-    public static final double DEFAULT_CLIMBER_OUTPUT = 0.5; 
+    public static final double DEFAULT_CLIMBER_OUTPUT = 0.7; 
     
     // Linear actuator
     public static final int LINEAR_ACTUATOR_1 = 0; // Unverified

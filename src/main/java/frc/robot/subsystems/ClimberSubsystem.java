@@ -18,7 +18,7 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_climberMotor1 = new WPI_TalonFX(Constants.CLIMBER_MOTOR1);
-  private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
+  //private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
   public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
   private boolean climber1BrakeOn = false;
@@ -63,31 +63,32 @@ public class ClimberSubsystem extends SubsystemBase {
   }
   
   public void configureMotor2Feedback(){
-    m_climberMotor2.configFactoryDefault();
-		m_climberMotor2.setNeutralMode(NeutralMode.Brake);
-    m_climberMotor2.setInverted(TalonFXInvertType.Clockwise);
-		/* Config neutral deadband to be the smallest possible */
-		m_climberMotor2.configNeutralDeadband(0.001);
+    /*
+    //m_climberMotor2.configFactoryDefault();
+		//m_climberMotor2.setNeutralMode(NeutralMode.Brake);
+    //m_climberMotor2.setInverted(TalonFXInvertType.Clockwise);
+		/* Config neutral deadband to be the smallest possible
+		//m_climberMotor2.configNeutralDeadband(0.001);
 
-		/* Config sensor used for Primary PID [Velocity] */
-    m_climberMotor2.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
+		// Config sensor used for Primary PID [Velocity]
+    //m_climberMotor2.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
                                             Constants.SHOOTER_PID_SLOT, Constants.kTimeoutMs);
 											
 
-		/* Config the peak and nominal outputs */
+		// Config the peak and nominal outputs
 		m_climberMotor2.configNominalOutputForward(0, Constants.kTimeoutMs);
 		m_climberMotor2.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		m_climberMotor2.configPeakOutputForward(1, Constants.kTimeoutMs);
 		m_climberMotor2.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
-		/* Config the position closed loop gains in slot0 */
+		// Config the position closed loop gains in slot0
 		m_climberMotor2.config_kF(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Kf, Constants.kTimeoutMs);
 		m_climberMotor2.config_kP(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Kp, Constants.kTimeoutMs);
 		m_climberMotor2.config_kI(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Ki, Constants.kTimeoutMs);
 		m_climberMotor2.config_kD(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Kd, Constants.kTimeoutMs);
 
     m_climberMotor2.set(ControlMode.Position, 0, DemandType.ArbitraryFeedForward, climber2Feedforward);
-
+    */
   }
 
   @Override
@@ -101,7 +102,7 @@ public class ClimberSubsystem extends SubsystemBase {
     double currentPositionClimber2 = m_climberMotor1.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
     SmartDashboard.putNumber("Climber 2 position (meters)", convertCountsToPosition(currentPositionClimber2));
-    SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
+    //SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
 
   }
 
@@ -119,7 +120,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setClimber2Position(double positionMeters){
-    m_climberMotor2.set(ControlMode.Position, convertPositionToCounts(positionMeters));
+    //m_climberMotor2.set(ControlMode.Position, convertPositionToCounts(positionMeters));
   }
 
   public double convertServoPositionToClimberAngleDegrees(double servoRawPosition){

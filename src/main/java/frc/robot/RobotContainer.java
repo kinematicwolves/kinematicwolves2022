@@ -107,7 +107,7 @@ public class RobotContainer {
    */
    public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-     Command Backup = new BackwordsAuton(m_drivetrainSubsystem);
+     Command Backup = new BackwordsAuton(m_drivetrainSubsystem, m_shooterSubsystem, m_vConveyorSubsystem);
      return Backup;
 
 

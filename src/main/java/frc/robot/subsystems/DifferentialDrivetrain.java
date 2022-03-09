@@ -38,7 +38,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   private final DifferentialDrive drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
-  public static final double kMaxSpeed = 3.0; // meters per second
+  public static final double kMaxSpeed = 2.7; // meters per second
   public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
   private static final double kTrackWidth = 0.381 * 2; // meters

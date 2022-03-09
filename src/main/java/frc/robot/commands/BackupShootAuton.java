@@ -7,6 +7,7 @@ import frc.robot.subsystems.DifferentialDrivetrain;
 //import frc.robot.subsystems.ShooterSubsystem;
 //import frc.robot.subsystems.ConveyorSubsystem;
 //import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,8 +19,6 @@ public class BackupShootAuton extends SequentialCommandGroup {
   public BackupShootAuton(DifferentialDrivetrain drivetrain) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(
-      new BackwordsAuton(drivetrain)
-    );
+    super(new BackupShootAuton(drivetrain));
   }
 }

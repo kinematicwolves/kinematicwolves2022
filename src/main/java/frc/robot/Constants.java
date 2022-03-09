@@ -63,7 +63,7 @@ public final class Constants {
     //Climber Motors
     public static final int CLIMBER_MOTOR1 = 24;
     public static final int CLIMBER_MOTOR2 = 1000;
-    public static final double DEFAULT_CLIMBER_OUTPUT = 0.7; 
+    public static final double DEFAULT_CLIMBER_OUTPUT = 0.75; 
     
     // Linear actuator
     public static final int LINEAR_ACTUATOR_1 = 0; // Unverified
@@ -88,7 +88,7 @@ public final class Constants {
     public static final int HORIZONTALCONVEYORMOTOR = 20;
     public static final int VERTICALCONVEYORMOTOR = 7;
     public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
-    public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 0.9;
+    public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;
 
       // Vision Values
       public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 1.0; //change

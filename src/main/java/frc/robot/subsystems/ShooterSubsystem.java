@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,6 +21,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_shooterMotor1 = new WPI_TalonFX(Constants.SHOOTER_MOTOR1);
   private final int encoderCountsPerRev = 2048;
   
+  private ShuffleboardTab tab = Shuffleboard.getTab("Shooter Tuning");
+
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
     configureMotorFeedback(m_shooterMotor1);
@@ -61,12 +65,37 @@ public class ShooterSubsystem extends SubsystemBase {
     return requiredSpeed;
   }
 
+  public double getMotorSpeedFromShuffleboard(){
+    int DEFAULT_SPEED_RPM = 0;
+    var inputSpeedRPM = tab.add("Requested Shooter Speed (RPM)", DEFAULT_SPEED_RPM).getEntry().getDouble(DEFAULT_SPEED_RPM);
+    if (inputSpeedRPM > 6000){
+      return 6000;
+    }
+    if (inputSpeedRPM < 0){
+      return 0.0;
+    }
+    else {
+      return inputSpeedRPM;
+    }
+  }
+  
+
+  private boolean isShuffleboardControlEnabled(){
+    // This is a hack, we should really get a boolean from shuffleboard but idk what the interface looks like
+    int DEFAULT = 0;
+    return  1 == tab.add("Enable shooter speed control (1 for enable, 0 for disable)", DEFAULT).getEntry().getDouble(DEFAULT);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter motor output: ", m_shooterMotor1.getMotorOutputPercent());
     SmartDashboard.putNumber("Shooter motor speed (units per 100ms)", m_shooterMotor1.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Shooter speed (RPM)", getMotorSpeedRPM(m_shooterMotor1));
+
+    if (isShuffleboardControlEnabled()){
+      setShooterMotorSpeed(getMotorSpeedFromShuffleboard());
+    }
   }
 
   public void runShooterMotor(double inputCommand){

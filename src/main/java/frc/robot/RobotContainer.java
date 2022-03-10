@@ -4,11 +4,17 @@
 
 package frc.robot;
 
+import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
+
+import org.ejml.ops.ConvertMatrixData;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BackupShootAuton;
+//import frc.robot.commands.BackupShootAuton;
+import frc.robot.commands.BackwordsAuton;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.EndGameClimb;
@@ -17,6 +23,7 @@ import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetClimberToPosition;
+import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootWithLTrigger;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -75,6 +82,8 @@ public class RobotContainer {
     JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
     JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value);
+    JoystickButton mc_bButton = new JoystickButton(m_manipulatorController, XboxController.Button.kB.value);
+
 
 
     //Driver Controller
@@ -83,26 +92,32 @@ public class RobotContainer {
     dc_yButton.whileHeld(new EndGameClimb(m_climberSubsystem));
   
     //Munipulator Controller 
-    mc_xButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));
-    mc_xButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
-    mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1* Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed
-    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
-    mc_yButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
-    mc_lButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed
+    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
+    mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1* Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));
+    mc_yButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed
+    mc_bButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT)); //reversed 
+    mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
+    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_rButton.whenHeld(new RunIntakeMotor(m_intakeSubsystem,  -1 * Constants.DEFAULT_INTAKE_OUTPUT));
   }
 
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
    public Command getAutonomousCommand() {
-     // An ExampleCommand will run in autonomous
-     Command Backup = new BackupShootAuton(m_drivetrainSubsystem);
+    // An ExampleCommand will run in autonomous
+     Command Backup = new BackwordsAuton(m_drivetrainSubsystem, m_shooterSubsystem, m_vConveyorSubsystem);
      return Backup;
+
+
    }
 
-  //  public Command getDisabledCommand(){
-  //    return // Command to reset robot to initial state
-  //  }
+
+    /*public Command getDisabledCommand() // Command to reset robot to initial state
+    }*/
 }
+ 

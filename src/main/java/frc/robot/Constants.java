@@ -29,15 +29,15 @@ public final class Constants {
 
     // Drivetrain rate limiters
     // Slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 2.1;
-    public static final double SLEW_RATE_LIMIT_ACCEL = 1.9;
+    public static final double SLEW_RATE_LIMIT_ROTATE = 2.7;
+    public static final double SLEW_RATE_LIMIT_ACCEL = 3.9;
 
     //motor speeds
-    public static final double AUTON_SPEED = 0.3;
+    public static final double AUTON_SPEED = 0.41;
 
     // Intake Motor
     public static final int INTAKE_MOTOR = 17;
-    public static final double DEFAULT_INTAKE_OUTPUT = 0.9;
+    public static final double DEFAULT_INTAKE_OUTPUT = -1;
 
     // Pnuematic 
     public static final int INTAKE_SOLENOID_FWD = 2;
@@ -63,10 +63,7 @@ public final class Constants {
     //Climber Motors
     public static final int CLIMBER_MOTOR1 = 24;
     public static final int CLIMBER_MOTOR2 = 1000;
-    public static final double DEFAULT_CLIMBER_OUTPUT = 0.5; 
-
-    // Climber limit switch
-    public static final int CLIMBER_LIMIT_SWITCH = 9;
+    public static final double DEFAULT_CLIMBER_OUTPUT = 0.75; 
     
     // Linear actuator
     public static final int LINEAR_ACTUATOR_1 = 0; // Unverified
@@ -90,7 +87,14 @@ public final class Constants {
     //Conveyor Motor can id's
     public static final int HORIZONTALCONVEYORMOTOR = 20;
     public static final int VERTICALCONVEYORMOTOR = 7;
-    public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 0.9;
-    public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 0.9;
+    public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
+    public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;
+
+      // Vision Values
+      public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 1.0; //change
+      public static final float LIMELIGHT_HEIGHT = (float) 1.0; //change         
+      public static final float TARGET_HEIGHT = (float) 1.0; //change            
+      public static final double RotationRate = 1.0; //change
+  
     
 }

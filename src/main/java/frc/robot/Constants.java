@@ -59,6 +59,15 @@ public final class Constants {
     public static final double SHOOTER_Kd = 0.5;
     public static final int SHOOTER_PID_SLOT = 0;
     public static final int kTimeoutMs = 30; // Used for all PID loops
+
+    // Tables for shooting speeds vs distance
+    public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
+      4600, 4700, 4800, 4900, 5000, 5100
+    };
+
+    public static final double[] TARGET_DISTANCE_INCHES_ARRAY = {
+      120, 132, 144, 156, 168, 180
+    };  
     
     //Climber Motors
     public static final int CLIMBER_MOTOR1 = 24;
@@ -90,11 +99,11 @@ public final class Constants {
     public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
     public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;
 
-      // Vision Values
-      public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 44; //change
-      public static final float LIMELIGHT_HEIGHT = (float) 21; //change, inches         
-      public static final float TARGET_HEIGHT = (float) 104; //change, inches            
-      // public static final double RotationRate = 1.0; //change
+    // Vision Values
+    public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 44; //change
+    public static final float LIMELIGHT_HEIGHT = (float) 21; //change, inches         
+    public static final float TARGET_HEIGHT = (float) 104; //change, inches            
+    // public static final double RotationRate = 1.0; //change
   
     
 }

@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Utilities.LinearInterpolation;
 
 public class ShooterSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_shooterMotor1 = new WPI_TalonFX(Constants.SHOOTER_MOTOR1);
@@ -53,6 +54,11 @@ public class ShooterSubsystem extends SubsystemBase {
     double rawSpeed = motorController.getSelectedSensorVelocity(); // raw sensor units per 100ms
     double motorSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60 / 100; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
     return motorSpeedRPM;
+  }
+
+  public double getMotorSpeedForDistance(double distanceInces){
+    double requiredSpeed = LinearInterpolation.linearInterpolation(Constants.TARGET_DISTANCE_INCHES_ARRAY, Constants.SHOOTER_SPEEDS_RPM_ARRAY, distanceInces);
+    return requiredSpeed;
   }
 
   @Override

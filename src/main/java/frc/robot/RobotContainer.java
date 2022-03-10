@@ -100,6 +100,7 @@ public class RobotContainer {
     mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     mc_rButton.whenHeld(new RunIntakeMotor(m_intakeSubsystem,  -1 * Constants.DEFAULT_INTAKE_OUTPUT));
+    mc_lButton.whileHeld((new RunClimber1OpenLoop(m_climberSubsystem, 0.2)));
   }
 
   

@@ -88,8 +88,8 @@ public class RobotContainer {
 
     //Driver Controller
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
-    dc_bButton.whileHeld(new SetClimberToPosition(m_climberSubsystem, "ready to climb position", 0.2));
-    dc_yButton.whileHeld(new EndGameClimb(m_climberSubsystem));
+    dc_bButton.whenPressed(new SetClimberToPosition(m_climberSubsystem, "ready to climb position", 0.2));
+    dc_yButton.whenPressed(new EndGameClimb(m_climberSubsystem));
   
     //Munipulator Controller 
     mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed

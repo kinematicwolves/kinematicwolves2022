@@ -26,7 +26,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private boolean climber1BrakeOn = false;
   private double maxServoExtention = 0.1; // meters
   private double distanceFromPivotPointMeters = 0.1; // Distance the servo is mounted from rotation point
-  private DigitalInput limitSwitch = new DigitalInput(Constants.CLIMBER_LIMIT_SWITCH); // Should be true at beginning
 
   /* 
     These are a constant offset to gravity. Set such that it retains a position of zero. This
@@ -104,17 +103,13 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber 1 position (meters)", convertCountsToPosition(currentPositionClimber1));
     SmartDashboard.putNumber("Climber 1 error", m_climberMotor1.getClosedLoopError());
     SmartDashboard.putNumber("Motor current", m_climberMotor1.getStatorCurrent());
-    SmartDashboard.putBoolean("Climber limit switch", getLimitSwitch());
+    SmartDashboard.putString("Climber state", getClimberState());
 
     // double currentPositionClimber2 = m_climberMotor1.getSelectedSensorPosition();
     // SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
     // SmartDashboard.putNumber("Climber 2 position (meters)", convertCountsToPosition(currentPositionClimber2));
     // SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
 
-  }
-
-  public boolean getLimitSwitch(){
-    return limitSwitch.get();
   }
 
   public double getPositionMeters(){
@@ -185,11 +180,11 @@ public class ClimberSubsystem extends SubsystemBase {
     there is a small point below which we know that the limit switch must 
     be in the init position, or above which it must be extended.
     */
-    if (getLimitSwitch() & (getPositionMeters() < lowerThreshold)){
+    if  (getPositionMeters() < lowerThreshold){
       // Limit switch is active and position is not big, we must be at start spot
       return "init position";
     }
-    else if ((getLimitSwitch() & getPositionMeters() > upperThreshold)){
+    else if ( getPositionMeters() > upperThreshold){
       // Limit switch is active and position is big, we must be at end spot
       return "end position";
     }

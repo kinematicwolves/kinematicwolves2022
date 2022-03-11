@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.BackupShootAuton;
 //import frc.robot.commands.BackupShootAuton;
 import frc.robot.commands.BackwordsAuton;
@@ -89,6 +90,7 @@ public class RobotContainer {
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     //dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
     dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
+    dc_bButton.whenPressed(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.2));
   
     //Munipulator Controller 
     mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed

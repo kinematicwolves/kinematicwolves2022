@@ -36,7 +36,7 @@ public final class Constants {
     public static final double AUTON_SPEED = 0.41;
 
     // Intake Motor
-    public static final int INTAKE_MOTOR = 17;
+    public static final int INTAKE_MOTOR = 20;
     public static final double DEFAULT_INTAKE_OUTPUT = -1;
 
     // Pnuematic 
@@ -85,7 +85,7 @@ public final class Constants {
     public static final int CLIMBER_BRAKE_RVS_CHN = 4;
 
     //Conveyor Motor can id's
-    public static final int HORIZONTALCONVEYORMOTOR = 20;
+    public static final int HORIZONTALCONVEYORMOTOR = 17;
     public static final int VERTICALCONVEYORMOTOR = 7;
     public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
     public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;

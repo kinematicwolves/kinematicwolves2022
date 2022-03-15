@@ -150,6 +150,9 @@ public class VisionSubsystem extends SubsystemBase {
     filtered_distance = filter_d.calculate(distance);
     
     
+    System.out.print("Limelight Horizontal Angle: " + getFilteredHorizontalAngle());
+    System.out.print("Limelight capture status: " + getCaptureStatus());
+    System.out.print("Limelight distance (inches):" + filtered_distance);
 
     SmartDashboard.putNumber("LimelightHorizontalAngle", getHorizontalAngle());
     SmartDashboard.putNumber("LimelightVerticalAngle", getVerticalAngle());

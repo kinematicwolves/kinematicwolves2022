@@ -91,10 +91,10 @@ public final class Constants {
     public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;
 
       // Vision Values
-      public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 1.0; //change
-      public static final float LIMELIGHT_HEIGHT = (float) 1.0; //change         
-      public static final float TARGET_HEIGHT = (float) 1.0; //change            
-      public static final double RotationRate = 1.0; //change
+      public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 44; //change
+      public static final float LIMELIGHT_HEIGHT = (float) 21; //change, inches         
+      public static final float TARGET_HEIGHT = (float) 104; //change, inches            
+      // public static final double RotationRate = 1.0; //change
   
     
 }

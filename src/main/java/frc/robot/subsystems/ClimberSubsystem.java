@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,7 +34,9 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double climber2Feedforward = 0;
 
   /** Creates a new ClimberSubsystem. */
-  public ClimberSubsystem() {}
+  public ClimberSubsystem() {
+    m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+  }
 
   public void configureMotor1Feedback(){
     m_climberMotor1.configFactoryDefault();

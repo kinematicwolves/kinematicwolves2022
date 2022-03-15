@@ -24,6 +24,7 @@ import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootWithLTrigger;
+import frc.robot.commands.ToggleSpeedLimit;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
@@ -75,6 +76,8 @@ public class RobotContainer {
     // Driver controls, dc = driver controller, mc = manipulator controller
     JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
+    JoystickButton dc_leftStickButton = new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value);
+
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
     JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
@@ -88,6 +91,7 @@ public class RobotContainer {
     //Driver Controller
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     //dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
+    dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
     dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
   
     //Munipulator Controller 

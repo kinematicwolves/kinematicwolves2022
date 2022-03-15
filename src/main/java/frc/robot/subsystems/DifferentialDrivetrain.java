@@ -45,6 +45,8 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private static final double kWheelRadius = 0.0508; // meters
   private static final int kEncoderResolution = 4096;
 
+  private boolean speedLimited = false;
+
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27.0)); // Distance
                                                                                                                 // between
                                                                                                                 // two
@@ -92,13 +94,27 @@ public class DifferentialDrivetrain extends SubsystemBase {
     return (Math.abs(x) > 0.7) ? x : (x * 100 /127);
   }
 
+  public void enableSpeedLimit(){
+    speedLimited = true;
+  }
+
+  public void disableSpeedLimit(){
+    speedLimited = false;
+  }
+
+  public boolean isSpeedLimited(){
+    return speedLimited;
+  }
 
   public void moveWithJoysticks(XboxController driverController) {
-
     double xSpeed = logAdjustment (driverController.getRightX());
     
     double zRotationRate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
+    if (speedLimited){
+      xSpeed *= 0.4;
+      zRotationRate *= 0.4;
 
+    }
     // Drive Robot with commanded linear velocity and yaw rate commands
     drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));
 

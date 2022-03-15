@@ -111,8 +111,9 @@ public class DifferentialDrivetrain extends SubsystemBase {
     
     double zRotationRate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
     if (speedLimited){
-      xSpeed /= 2;
-      zRotationRate /= 2;
+      xSpeed *= 0.4;
+      zRotationRate *= 0.4;
+
     }
     // Drive Robot with commanded linear velocity and yaw rate commands
     drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));

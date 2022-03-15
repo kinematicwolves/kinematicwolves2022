@@ -151,11 +151,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
     }
     else if (horizalAngle < (-1 * alignWindow)){
       // rotate clockwise
-      drive.arcadeDrive(0, rotateSpeed);
+      drive.arcadeDrive(-1 * rotateSpeed, 0);
     }
     else if (horizalAngle > alignWindow){
       // rotate counter clockwise
-      drive.arcadeDrive(0, -1 * rotateSpeed);
+      drive.arcadeDrive(rotateSpeed, 0);
     }
   }
 }

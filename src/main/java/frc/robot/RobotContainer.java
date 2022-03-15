@@ -90,7 +90,7 @@ public class RobotContainer {
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     //dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
     dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
-    dc_bButton.whenPressed(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.2));
+    dc_bButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.3));
   
     //Munipulator Controller 
     mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT)); //reversed
@@ -101,6 +101,7 @@ public class RobotContainer {
     mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     mc_rButton.whenHeld(new RunIntakeMotor(m_intakeSubsystem,  -1 * Constants.DEFAULT_INTAKE_OUTPUT));
+    mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.3));
   }
 
   

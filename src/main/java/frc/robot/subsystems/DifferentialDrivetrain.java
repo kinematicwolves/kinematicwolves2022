@@ -44,6 +44,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private static final double kTrackWidth = 0.381 * 2; // meters
   private static final double kWheelRadius = 0.0508; // meters
   private static final int kEncoderResolution = 4096;
+  private static final double alignWindow = 2; 
 
   private boolean speedLimited = false;
 
@@ -149,5 +150,28 @@ public class DifferentialDrivetrain extends SubsystemBase {
   public boolean isInHighGear(){
     return isHighGear; 
     
+  }
+
+  public boolean isLinedUp(VisionSubsystem visionSubsystem){
+    var horizalAngle = visionSubsystem.getFilteredHorizontalAngle();
+    // degrees
+    return (horizalAngle < alignWindow) & (horizalAngle > (-1 * alignWindow));
+  }
+
+  public void rotateDrivetrainToTarget(double rotateSpeed, VisionSubsystem visionSubsystem){
+    // This assumes the limelight has a target
+    var horizalAngle = visionSubsystem.getFilteredHorizontalAngle();
+    if (isLinedUp(visionSubsystem)){
+      // Lined up!
+      drive.arcadeDrive(0, 0);
+    }
+    else if (horizalAngle < (-1 * alignWindow)){
+      // rotate clockwise
+      drive.arcadeDrive(-1 * rotateSpeed, 0);
+    }
+    else if (horizalAngle > alignWindow){
+      // rotate counter clockwise
+      drive.arcadeDrive(rotateSpeed, 0);
+    }
   }
 }

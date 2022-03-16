@@ -7,17 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 public class ShootWithLTrigger extends CommandBase {
 
 private final ShooterSubsystem m_shooterSubsystem;
 private final XboxController m_manipulatorController;
-
+private final VisionSubsystem m_visionSubsystem;
   /** Creates a new ShootWithTrigger. */
-  public ShootWithLTrigger(ShooterSubsystem shooterSubsystem, XboxController manipulatorController) {
+  public ShootWithLTrigger(ShooterSubsystem shooterSubsystem, XboxController manipulatorController, VisionSubsystem visionSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooterSubsystem = shooterSubsystem;
-    addRequirements(m_shooterSubsystem);
+    m_visionSubsystem = visionSubsystem;
+    addRequirements(m_shooterSubsystem, m_visionSubsystem);
     m_manipulatorController = manipulatorController;
   }
 
@@ -31,7 +33,10 @@ private final XboxController m_manipulatorController;
   public void execute() {
     var triggerAxis = m_manipulatorController.getLeftTriggerAxis();
     if ((triggerAxis > 0.005)) { //Set at a higher axis to give the shooter enough time to power up
-      m_shooterSubsystem.setShooterMotorSpeed(4930); //RPM
+      double targetDistanceInches = m_visionSubsystem.getFilteredDistance();
+      double requiredShooterSpeedRPM = m_shooterSubsystem.getMotorSpeedForDistance(targetDistanceInches);
+      m_shooterSubsystem.setShooterMotorSpeed(requiredShooterSpeedRPM); //RPM
+      // m_shooterSubsystem.setShooterMotorSpeed(4930); // use the if not using calibration table
     }
 
     else {

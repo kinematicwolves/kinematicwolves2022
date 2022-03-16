@@ -65,7 +65,7 @@ public class RobotContainer {
 
   private void setDefaultCommands(){
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
-    m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_manipulatorController)); //Left Trigger runs conveyor and shooter
+    m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_manipulatorController, m_visionSubsystem)); //Left Trigger runs conveyor and shooter
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by

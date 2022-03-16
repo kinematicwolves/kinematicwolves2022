@@ -38,24 +38,24 @@ public class BackwordsAuton extends CommandBase {
     //drivetrain.moveBackward(-1 * Constants.AUTON_SPEED);
     // timer += 10;
 
-    if(timer  < 2000)
-        drivetrain.moveBackward(-1 * Constants.AUTON_SPEED);
-    else if(timer >=2000 && timer <10000)
-    {
-      drivetrain.moveBackward(0);
-      m_shooterSubsystem.setShooterMotorSpeed(4950);
-      m_VConveyorSubsystem.runConveyorMotor(Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT);
-    }
-    timer += 10;
-  }
+    if(timer  < 6000)
+    drivetrain.moveBackward(-1 * Constants.AUTON_SPEED);
+else if(timer >=6000 && timer <7000)
+{
+  drivetrain.moveBackward(0);
+  m_shooterSubsystem.setShooterMotorSpeed(4500);
+}
+else if(timer > 7000 && timer < 10000){
+m_VConveyorSubsystem.runConveyorMotor(Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT);
+}
+timer += 20;
+}
+@Override
+public void end(boolean interrupted) {
+m_shooterSubsystem.setShooterMotorSpeed(0);
+m_VConveyorSubsystem.runConveyorMotor(0);
+}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
   public boolean isFinished() {
     //return timer > 2000;  //yee haaa shoot
     return timer >= 10000;

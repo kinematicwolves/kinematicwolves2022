@@ -89,16 +89,16 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    String[] shooterDisplay = {
-      String.format("Motor output: %f", m_shooterMotor1.getMotorOutputPercent()), 
-      String.format("Motor speed (RPM): %f", getMotorSpeedRPM(m_shooterMotor1))
-    };
+    // String[] shooterDisplay = {
+    //   String.format("Motor output: %f", m_shooterMotor1.getMotorOutputPercent()), 
+    //   String.format("Motor speed (RPM): %f", getMotorSpeedRPM(m_shooterMotor1))
+    // };
 
-    SmartDashboard.putStringArray("Shooter Subsystem", shooterDisplay);
+    // SmartDashboard.putStringArray("Shooter Subsystem", shooterDisplay);
 
-    if (isShuffleboardControlEnabled()){
-      setShooterMotorSpeed(getMotorSpeedFromShuffleboard());
-    }
+    // if (isShuffleboardControlEnabled()){
+    //   setShooterMotorSpeed(getMotorSpeedFromShuffleboard());
+    // }
   }
 
   public void runShooterMotor(double inputCommand){

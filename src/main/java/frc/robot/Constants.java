@@ -62,11 +62,11 @@ public final class Constants {
 
     // Tables for shooting speeds vs distance
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
-      4200
+      4500, 4800, 5000, 5200, 6000
     };
-
+      
     public static final double[] TARGET_DISTANCE_INCHES_ARRAY = {
-      56, 61, 66, 71, 76, 81, 86, 91, 96, 101, 106, 111, 116, 121, 126, 131, 136, 141, 146, 151, 156, 161, 165, 171, 176, 181, 185
+      68, 85, 98, 112, 145
     };  
     
     //Climber Motors

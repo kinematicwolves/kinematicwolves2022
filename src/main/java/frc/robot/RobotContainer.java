@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AlignWithTarget;
+import frc.robot.commands.AlignToTargetWithLTrigger;
 import frc.robot.commands.BackupShootAuton;
 //import frc.robot.commands.BackupShootAuton;
 import frc.robot.commands.BackwordsAuton;
 import frc.robot.commands.DeployIntake;
-import frc.robot.commands.ShootWithLTrigger;
+import frc.robot.commands.ShootWithRTrigger;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunClimber1OpenLoop;
 import frc.robot.commands.RunHorizontalConveyor;
@@ -65,7 +65,7 @@ public class RobotContainer {
 
   private void setDefaultCommands(){
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
-    m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_manipulatorController)); //Left Trigger runs conveyor and shooter
+    m_shooterSubsystem.setDefaultCommand(new ShootWithRTrigger(m_shooterSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem, m_manipulatorController));
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -104,10 +104,7 @@ public class RobotContainer {
     mc_yButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1 * Constants.DEFAULT_INTAKE_OUTPUT));
     mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1 * Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));
     mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1 * Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));
-    mc_rJoystickButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
-    mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
-    mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem,Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
-    mc_rButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT));
+    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
   }
 
   

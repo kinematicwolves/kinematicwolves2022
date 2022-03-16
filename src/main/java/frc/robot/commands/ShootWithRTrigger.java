@@ -45,8 +45,13 @@ double timer = 0;
       m_shooterSubsystem.setShooterMotorSpeed(4500);
   else if(timer >=1000 && timer <10000)
   {
-    m_VConveyorSubsystem.runConveyorMotor(Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT);
-    m_hConveyorSubsystem.runConveyorMotor(Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT);
+    m_VConveyorSubsystem.runConveyorMotor(0 * Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT);
+    m_hConveyorSubsystem.runConveyorMotor(0 * Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT);
+  }
+  else {
+    m_VConveyorSubsystem.runConveyorMotor(0 * Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT);
+    m_hConveyorSubsystem.runConveyorMotor(0 * Constants.DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT);
+    m_shooterSubsystem.setShooterMotorSpeed(0);
   }
 }
 }

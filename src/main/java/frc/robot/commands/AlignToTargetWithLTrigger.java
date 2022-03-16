@@ -33,7 +33,10 @@ private final XboxController m_manipulatorController;
   public void execute() {
     var triggerAxis = m_manipulatorController.getLeftTriggerAxis();
     if ((triggerAxis > 0.005)) {
-      m_drivetrain.rotateDrivetrainToTarget(m_alignSpeed, m_visionSubsystem);
+      m_drivetrain.rotateDrivetrainToTarget(3.1, m_visionSubsystem);
+    }
+    else {
+      m_drivetrain.rotateDrivetrainToTarget(0, m_visionSubsystem);
     }
   }
 

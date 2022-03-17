@@ -19,7 +19,7 @@ private final VisionSubsystem m_visionSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooterSubsystem = shooterSubsystem;
     m_visionSubsystem = visionSubsystem;
-    addRequirements(m_shooterSubsystem, m_visionSubsystem);
+    addRequirements(m_shooterSubsystem);
     m_manipulatorController = manipulatorController;
   }
 

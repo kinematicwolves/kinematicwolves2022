@@ -105,7 +105,7 @@ public class RobotContainer {
     mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, Constants.DEFAULT_VERTICAL_CONVEYOR_OUTPUT));
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     mc_rButton.whenHeld(new RunIntakeMotor(m_intakeSubsystem, Constants.DEFAULT_INTAKE_OUTPUT));
-    mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.7));
+    mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
   }
 
   

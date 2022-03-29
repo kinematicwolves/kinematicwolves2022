@@ -15,23 +15,23 @@ import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DeploySecondArm;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunClimber1OpenLoop;
+import frc.robot.commands.RunClimber2OpenLoop;
 import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootWithLTrigger;
-import frc.robot.commands.ShootWithRTrigger;
 import frc.robot.commands.ToggleSpeedLimit;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LinearActuator;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VConveyorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.subsystems.LinearActuator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,6 +66,7 @@ public class RobotContainer {
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
     m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_manipulatorController, m_visionSubsystem)); //Left Trigger runs conveyor and shooter
     //m_shooterSubsystem.setDefaultCommand(new ShootWithRTrigger(m_shooterSubsystem, m_manipulatorController));
+    m_climberSubsystem.setDefaultCommand(new RunClimber2OpenLoop(m_climberSubsystem, m_manipulatorController));
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -79,6 +80,8 @@ public class RobotContainer {
     JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton dc_leftStickButton = new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value);
     JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
+    JoystickButton dc_lButton = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value); 
+    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value); 
 
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
@@ -88,11 +91,12 @@ public class RobotContainer {
     JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value);
     JoystickButton mc_bButton = new JoystickButton(m_manipulatorController, XboxController.Button.kB.value);
     JoystickButton mc_lefJoystickButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftStick.value);
+    JoystickButton mc_rJoystickButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightStick.value); 
 
 
 
     //Driver Controller
-    dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
+    dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
     dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
     dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.55));
@@ -107,12 +111,12 @@ public class RobotContainer {
     mc_yButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1)); //reversed
     mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 1)); //reversed
     mc_bButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, 1)); //reversed 
-   // mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
     mc_lButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
     mc_lefJoystickButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1000));
-   // mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
-   mc_xButton.whenPressed(new DeploySecondArm(m_linearActuator));
+    //mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
+    mc_rJoystickButton.whenPressed(new DeploySecondArm(m_linearActuator));
 
   }
 

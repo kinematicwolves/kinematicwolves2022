@@ -19,7 +19,7 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_climberMotor1 = new WPI_TalonFX(Constants.CLIMBER_MOTOR1);
-  //private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
+  private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
   public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
   private boolean climber1BrakeOn = false;
@@ -153,6 +153,10 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setClimberMotor1Output(double commandedOutput){
+    m_climberMotor1.set(commandedOutput);
+  }
+
+  public void setClimberMotor2Output(double commandedOutput){
     m_climberMotor1.set(commandedOutput);
   }
 }

@@ -19,35 +19,35 @@ public class RunClimber2OpenLoop extends CommandBase {
   public RunClimber2OpenLoop(ClimberSubsystem climberSubsystem, XboxController manipulatorController) {
     this.climber2 = climberSubsystem;
     m_manipulatorController = manipulatorController;
-    addRequirements(climber2);
+    // addRequirements(climber2);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_manipulatorController.getPOV() == 0){
-      climber2.setClimberMotor2Output(0.55);
-    }
-    else {
-      climber2.setClimberMotor2Output(0);
-    }
-    if (m_manipulatorController.getPOV() == 180){
-    climber2.setClimberMotor2Output(0.2);
-    }
-    else {
-    climber2.setClimberMotor2Output(0);
+   
   }
-}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+      int upperWindow = 20;
+      if (m_manipulatorController.getPOV() > upperWindow & (m_manipulatorController.getPOV() < upperWindow)){
+        climber2.setClimberMotor2Output(0.55);
+      }
+      else if ((m_manipulatorController.getPOV() > 180 - upperWindow) & (m_manipulatorController.getPOV() < 180 + upperWindow)){
+        climber2.setClimberMotor2Output(0.2);
+      }
+    else {
+      climber2.setClimberMotor2Output(0);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber2.setClimberMotor1Output(0);
+    
   }
 
   // Returns true when the command should end.

@@ -11,10 +11,10 @@ public class LinearActuator extends SubsystemBase {
 
 public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
 
-public void setLinearActuatorPosition(double m_linearActuator){
+public void setLinearActuatorPosition(double position){
     // Check to make sure position is not out of bounds
-    m_linearActuator = clipLinearActuatorPositionCommand(m_linearActuator);
-    angleActuator_1.set(m_linearActuator);
+    position = clipLinearActuatorPositionCommand(position);
+    angleActuator_1.set(position);
   }
 
   
@@ -38,10 +38,6 @@ private double clipLinearActuatorPositionCommand(double position){
 
     return ((actuator_1_position_delta) < 0.04);
   }
-
-
-public void setLinearActuatorPosition(LinearActuator m_linearActuator) {
-}
 
 
 }

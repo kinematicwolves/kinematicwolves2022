@@ -20,9 +20,9 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_climberMotor1 = new WPI_TalonFX(Constants.CLIMBER_MOTOR1);
   private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
-  public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
+  // public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
-  private boolean climber1BrakeOn = false;
+  private boolean climberBrakeOn = false;
   private double maxServoExtention = 0.1; // meters
   private double distanceFromPivotPointMeters = 0.1; // Distance the servo is mounted from rotation point
 
@@ -36,6 +36,7 @@ public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
   }
 
   public void configureMotor1Feedback(){
@@ -102,7 +103,7 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber 1 position (meters)", convertCountsToPosition(currentPositionClimber1));
     SmartDashboard.putNumber("Climber 1 error", m_climberMotor1.getClosedLoopError());
 
-    double currentPositionClimber2 = m_climberMotor1.getSelectedSensorPosition();
+    double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
     SmartDashboard.putNumber("Climber 2 position (meters)", convertCountsToPosition(currentPositionClimber2));
     //SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
@@ -133,22 +134,22 @@ public class ClimberSubsystem extends SubsystemBase {
     return Math.atan(extendedLengthMeters / distanceFromPivotPointMeters);
   }
 
-  public boolean servoAtPosition(double endRawPosition){
-    // This moves so slow that PID control is not necessary
-    // Position is a value between 0 and 1
-    double currentRawPosition = angleActuator_1.getPosition();
-    double error = Math.abs(currentRawPosition - endRawPosition);
+  // public boolean servoAtPosition(double endRawPosition){
+  //   // This moves so slow that PID control is not necessary
+  //   // Position is a value between 0 and 1
+  //   double currentRawPosition = angleActuator_1.getPosition();
+  //   double error = Math.abs(currentRawPosition - endRawPosition);
 
-    return (error < 0.02);
-  }
+  //   return (error < 0.02);
+  // }
 
   public void deployClimber1Brake(PneumaticSubsystem pneumaticSubsystem){
-     climber1BrakeOn = true;
+     climberBrakeOn = true;
      pneumaticSubsystem.setClimberBrake();
   }
 
   public void releaseClimber1Brake(PneumaticSubsystem pneumaticSubsystem){
-    climber1BrakeOn = false;
+    climberBrakeOn = false;
     pneumaticSubsystem.releaseClimberBrake();
   }
 
@@ -157,6 +158,6 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setClimberMotor2Output(double commandedOutput){
-    m_climberMotor1.set(commandedOutput);
+    m_climberMotor2.set(commandedOutput);
   }
 }

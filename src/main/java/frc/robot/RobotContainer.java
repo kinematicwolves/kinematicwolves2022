@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.BackwordsAuton;
 import frc.robot.commands.DeployIntake;
+import frc.robot.commands.DeploySecondArm;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunClimber1OpenLoop;
 import frc.robot.commands.RunHorizontalConveyor;
@@ -30,6 +31,7 @@ import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VConveyorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.LinearActuator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -47,6 +49,7 @@ public class RobotContainer {
   private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
   private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+  private final LinearActuator m_linearActuator = new LinearActuator();
 
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
@@ -104,11 +107,13 @@ public class RobotContainer {
     mc_yButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1)); //reversed
     mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 1)); //reversed
     mc_bButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, 1)); //reversed 
-    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+   // mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
     mc_lButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
     mc_lefJoystickButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1000));
    // mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
+   mc_xButton.whenPressed(new DeploySecondArm(m_linearActuator));
+
   }
 
   

@@ -30,9 +30,6 @@ public final class Constants {
     public static final int CLIMBER_MOTOR1 = 24;
     /*public static final int CLIMBER_MOTOR2 = 1000;*/
 
-  // Linear actuator
-    public static final int LINEAR_ACTUATOR_1 = 0; // Unverified
-
   // Tables for shooting speeds vs distance
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
       4000, 5200 //5000, 5750
@@ -97,5 +94,11 @@ public final class Constants {
   public static final double DEFAULT_CLIMBER_OUTPUT = 0.75; 
   public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
   public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;
+
+  //Linear Actuator 
+  public static final double UPPER_SERVO_POS_LIMIT = 0.87; // All the way out
+  public static final double LOWER_SERVO_POS_LIMIT = 0.17; // All the way in
+  public static final int LINEAR_ACTUATOR_1 = 1;
+
   
 }

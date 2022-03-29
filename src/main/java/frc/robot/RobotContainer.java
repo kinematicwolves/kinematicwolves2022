@@ -50,7 +50,6 @@ public class RobotContainer {
   private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final LinearActuator m_linearActuator = new LinearActuator();
-
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
@@ -60,13 +59,13 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
+    new RunClimber2OpenLoop(m_climberSubsystem, m_manipulatorController);
   }
 
   private void setDefaultCommands(){
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
     m_shooterSubsystem.setDefaultCommand(new ShootWithLTrigger( m_shooterSubsystem, m_manipulatorController, m_visionSubsystem)); //Left Trigger runs conveyor and shooter
     //m_shooterSubsystem.setDefaultCommand(new ShootWithRTrigger(m_shooterSubsystem, m_manipulatorController));
-    m_climberSubsystem.setDefaultCommand(new RunClimber2OpenLoop(m_climberSubsystem, m_manipulatorController));
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by

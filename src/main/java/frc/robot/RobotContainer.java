@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,7 +21,6 @@ import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootWithLTrigger;
-import frc.robot.commands.ShootWithRTrigger;
 import frc.robot.commands.ToggleSpeedLimit;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
@@ -57,6 +57,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
+    CameraServer.startAutomaticCapture();
   }
 
   private void setDefaultCommands(){

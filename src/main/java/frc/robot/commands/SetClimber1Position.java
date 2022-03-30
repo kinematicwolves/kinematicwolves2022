@@ -5,29 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class DeployIntake extends CommandBase {
-  private final PneumaticSubsystem m_pneumaticSubsystem;
-  private final IntakeSubsystem m_intake;
-  /** Creates a new DeployIntake. */
-  public DeployIntake(PneumaticSubsystem pneumaticSubsystem, IntakeSubsystem intakeSubsystem) {
-    m_pneumaticSubsystem = pneumaticSubsystem;
-    m_intake = intakeSubsystem;
-    addRequirements(m_pneumaticSubsystem, m_intake);
+public class SetClimber1Position extends CommandBase {
+  private final ClimberSubsystem m_climberSubsystem;
+  private double m_commandedPosition; 
+  /** Creates a new SetClimber1Position. */
+  public SetClimber1Position(ClimberSubsystem climberSubsystem, double commandedPosition) {
+    m_climberSubsystem = climberSubsystem;
+    m_commandedPosition = commandedPosition;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_intake.isIntakeDeployed()){
-      m_intake.setIntakeUndeployed(m_pneumaticSubsystem);
-    }
-    else{
-      m_intake.setIntakeDeployed(m_pneumaticSubsystem);
-    }
+    m_climberSubsystem.setClimber1Position(m_commandedPosition);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,6 +34,6 @@ public class DeployIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

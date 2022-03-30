@@ -5,29 +5,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.DifferentialDrivetrain;
 
-public class DeployIntake extends CommandBase {
-  private final PneumaticSubsystem m_pneumaticSubsystem;
-  private final IntakeSubsystem m_intake;
-  /** Creates a new DeployIntake. */
-  public DeployIntake(PneumaticSubsystem pneumaticSubsystem, IntakeSubsystem intakeSubsystem) {
-    m_pneumaticSubsystem = pneumaticSubsystem;
-    m_intake = intakeSubsystem;
-    addRequirements(m_pneumaticSubsystem, m_intake);
+public class ToggleSpeedLimit extends CommandBase {
+  private final DifferentialDrivetrain m_drivetrain;
+  /** Creates a new ToggleSpeedLimit. */
+  public ToggleSpeedLimit(DifferentialDrivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_drivetrain = drivetrain;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_intake.isIntakeDeployed()){
-      m_intake.setIntakeUndeployed(m_pneumaticSubsystem);
+    if (m_drivetrain.isSpeedLimited()){
+      m_drivetrain.disableSpeedLimit();
     }
-    else{
-      m_intake.setIntakeDeployed(m_pneumaticSubsystem);
+    else {
+      m_drivetrain.enableSpeedLimit();
     }
+        
   }
 
   // Called every time the scheduler runs while the command is scheduled.

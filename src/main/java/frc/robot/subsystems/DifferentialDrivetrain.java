@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+
+
 public class DifferentialDrivetrain extends SubsystemBase {
   // Initial 13:42
   // Low Gear 14:60
@@ -36,6 +38,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private final WPI_TalonFX m_rightRear = new WPI_TalonFX(Constants.RIGHT_REAR_DRIVE_MOTOR);
   private final int encoderCountsPerRev = 2048;
 
+
   private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftFront, m_leftRear);
   private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightFront, m_rightRear);
 
@@ -43,17 +46,26 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private double INITIAL_GEAR_RATIO = 13/42;
   private double LOW_GEAR_RATIO = 14/60;
   private double HIGH_GEAR_RATIO = 24/50;
+  public static final double kMaxSpeed = 2.7; // meters per second
+  public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
-  private final ADIS16448_IMU imu = new ADIS16448_IMU();
+  private static final double wheelRadiusInches = 6;
+  private static final int kEncoderResolution = 2048;
+  private static final double alignWindow = 2; 
+  private static final double trackWidthInches = 27;
+
+  private boolean speedLimited = false;
+
+  // private final ADIS16448_IMU imu = new ADIS16448_IMU();
   
   private final DifferentialDrive drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
-    Units.inchesToMeters(Constants.TRACK_WIDTH_INCHES)
+    Units.inchesToMeters(trackWidthInches)
     );
   
-  DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(
-  getGyroHeading(), new Pose2d(0, 0, new Rotation2d()));
+  // DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(
+  // getGyroHeading(), new Pose2d(0, 0, new Rotation2d()));
     
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
@@ -75,15 +87,15 @@ public class DifferentialDrivetrain extends SubsystemBase {
     return currentGear == "high";
   }
 
-  public Rotation2d getGyroHeading(){
-    return Rotation2d.fromDegrees(-1 * imu.getAngle());
-  }
+  // public Rotation2d getGyroHeading(){
+  //   return Rotation2d.fromDegrees(-1 * imu.getAngle());
+  // }
 
   public double getWheelSpeedMetersPerSecond(WPI_TalonFX motorController){
     double rawSpeed = motorController.getSelectedSensorVelocity(); // raw sensor units per 100ms
     double wheelSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60 * getCurrentGearRatio() * INITIAL_GEAR_RATIO; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
     // (Rev/min)(2pi rad/rev) (radius)
-    return wheelSpeedRPM * (2 * Math.PI) * Units.inchesToMeters(Constants.WHEEL_RADIUS_INCHES) / 60;
+    return wheelSpeedRPM * (2 * Math.PI) * Units.inchesToMeters(wheelRadiusInches) / 60;
 
   }
 
@@ -93,31 +105,13 @@ public class DifferentialDrivetrain extends SubsystemBase {
     return new DifferentialDriveWheelSpeeds(leftWheelSpeed, rightWheelSpeed);
   }
 
-  private void configureDriveMotorFeedback() {
-    m_leftFront.configFactoryDefault();
-
-    m_leftFront.configSelectedFeedbackSensor(
-        TalonFXFeedbackDevice.IntegratedSensor, Constants.DRIVETRAIN_MOTOR_PID_LOOP,
-        Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-    
-    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero,
-        Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-
-    m_rightFront.configFactoryDefault();
-    m_rightFront.configSelectedFeedbackSensor(
-        TalonFXFeedbackDevice.IntegratedSensor, Constants.DRIVETRAIN_MOTOR_PID_LOOP,
-        Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-    
-    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero,
-        Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     var wheelSpeeds = getDifferentialDriveWheelSpeeds();
     var chassisSpeed = kinematics.toChassisSpeeds(wheelSpeeds);
-    SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
+    // SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
     SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
     SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
 
@@ -126,34 +120,86 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
 
   private double logAdjustment (double x) {
-    /** This is the same thing as if ((Math.abs(x) > 0.7)){
-      return x;
-    }
-    else{
-      return Math.log10(x);
-    }
-    */
-    return (Math.abs(x) > 0.7) ? x : Math.log10((x));
+    return (Math.abs(x) > 0.7) ? x : (x * 100 /127);
   }
 
+  public void enableSpeedLimit(){
+    speedLimited = true;
+  }
+
+  public void disableSpeedLimit(){
+    speedLimited = false;
+  }
+
+  public boolean isSpeedLimited(){
+    return speedLimited;
+  }
 
   public void moveWithJoysticks(XboxController driverController) {
-
     double xSpeed = logAdjustment (driverController.getRightX());
+    
     double zRotationRate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
+    if (speedLimited){
+      xSpeed *= 0.4;
+      zRotationRate *= 0.4;
 
-    accelerationFilter.calculate(xSpeed);
-    rotationFilter.calculate(zRotationRate);
-
+    }
     // Drive Robot with commanded linear velocity and yaw rate commands
-    drive.arcadeDrive(xSpeed, zRotationRate);
+    drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));
 
-    SmartDashboard.putNumber("X speed commanded by driver", xSpeed);
+    SmartDashboard.putNumber("X speed commanded by driver", accelerationFilter.calculate(xSpeed));
+    SmartDashboard.putNumber("Rotation command", rotationFilter.calculate(zRotationRate));
   }
   public void moveBackward(double speed){
 
     // Simple call to arcade drive to move along a straight line at a constant speed
     drive.arcadeDrive(0, -1 * speed);
 
+  }
+
+  // Drivetrain Variables
+  public boolean isHighGear = false; // Initialize to low gear
+
+
+  public void shiftToHighGear(PneumaticSubsystem pneumaticSubsystem) {
+    pneumaticSubsystem.setDrivetrainSolenoidFoward();
+    // Set solenoid switch to forward
+    isHighGear = true;
+    
+	}
+
+  public void shiftToLowGear(PneumaticSubsystem pneumaticSubsystem) {
+    pneumaticSubsystem.setDrivetrainSolenoidReverse();
+    // Set solenoid switch to reverse
+    isHighGear = false;
+    
+	}
+
+  public boolean isInHighGear(){
+    return isHighGear; 
+    
+  }
+
+  public boolean isLinedUp(VisionSubsystem visionSubsystem){
+    var horizalAngle = visionSubsystem.getFilteredHorizontalAngle();
+    // degrees
+    return (horizalAngle < alignWindow) & (horizalAngle > (-1 * alignWindow));
+  }
+
+  public void rotateDrivetrainToTarget(double rotateSpeed, VisionSubsystem visionSubsystem){
+    // This assumes the limelight has a target
+    var horizalAngle = visionSubsystem.getFilteredHorizontalAngle();
+    if (isLinedUp(visionSubsystem)){
+      // Lined up!
+      drive.arcadeDrive(0, 0);
+    }
+    else if (horizalAngle < (-1 * alignWindow)){
+      // rotate clockwise
+      drive.arcadeDrive(-1 * rotateSpeed, 0);
+    }
+    else if (horizalAngle > alignWindow){
+      // rotate counter clockwise
+      drive.arcadeDrive(rotateSpeed, 0);
+    }
   }
 }

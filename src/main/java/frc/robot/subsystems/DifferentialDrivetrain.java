@@ -149,10 +149,6 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_rightRear.setNeutralMode(NeutralMode.Coast);
   }
 
-  public void driveForwardDistance(double distance){
-
-  }
-
   public void enableSpeedLimit(){
     speedLimited = true;
   }

@@ -5,21 +5,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TwoBallAuton extends SequentialCommandGroup {
   /** Creates a new TwoBallAuton. */
-  public TwoBallAuton(PneumaticSubsystem pneumatics, IntakeSubsystem intake) {
+  public TwoBallAuton(PneumaticSubsystem pneumatics, IntakeSubsystem intake, 
+    DifferentialDrivetrain drivetrain, VisionSubsystem vision) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new DeployIntake(pneumatics, intake)
-    // Drive forward & run intake, then stop (we have picked up ball)
-    // Rotate 180 deg and lock on 
+      new DeployIntake(pneumatics, intake),
+      new DriveForwardAuton(drivetrain, 40, 0.4, intake), // Drives forward while running intake
+      new RotateToTarget(drivetrain, vision, 0.3) // Rotate until target found
+      // Shoot the ball
     );
   }
 }

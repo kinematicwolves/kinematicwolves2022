@@ -5,49 +5,41 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.DifferentialDrivetrain;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
-public class DriveForwardAuton extends CommandBase {
-  /** Creates a new DriveForwardAuton. */
+public class RotateToTarget extends CommandBase {
+  /** Creates a new RotateToTarget. */
   private final DifferentialDrivetrain m_drivetrain;
-  private final double m_distance;
+  private final VisionSubsystem m_vision;
   private final double m_speed;
-  private final IntakeSubsystem m_intake;
-  public DriveForwardAuton(DifferentialDrivetrain drivetrain, double distanceInches,
-    double speed, IntakeSubsystem intake
-  ) {
+
+  public RotateToTarget(DifferentialDrivetrain drivetrain, 
+  VisionSubsystem vision, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
-    m_distance = distanceInches;
+    m_vision = vision;
     m_speed = speed;
-    m_intake = intake;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_drivetrain.setMotorsBrake();
-    m_intake.runIntakeMotor(Constants.DEFAULT_INTAKE_OUTPUT);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.driveForward(m_speed);
+    m_drivetrain.rotateClockwise(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.setMotorsCoast();
-    m_intake.runIntakeMotor(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_drivetrain.getXDistanceDrivenInches() > m_distance;
+    return m_drivetrain.isLinedUp(m_vision);
   }
 }

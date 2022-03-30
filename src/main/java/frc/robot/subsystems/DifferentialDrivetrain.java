@@ -121,23 +121,14 @@ public class DifferentialDrivetrain extends SubsystemBase {
     return counts / encoderCountsPerRev * getCurrentGearRatio() * 2 * Math.PI * wheelRadiusInches;
   }
 
-  public void driveToXDistance(double distanceInches, double speed){
+  public double getXDistanceDrivenInches(){
+    return countsToDistanceDrivenInches(m_leftFront.getSelectedSensorPosition());
+  }
+
+  public void driveForward( double speed){
     // This assumes motion ONLY in the x direction!
-    m_leftFront.setNeutralMode(NeutralMode.Brake);
-    m_rightFront.setNeutralMode(NeutralMode.Brake);
-    m_leftRear.setNeutralMode(NeutralMode.Brake);
-    m_rightRear.setNeutralMode(NeutralMode.Brake);
-    double distanceDriven = countsToDistanceDrivenInches(m_leftFront.getSelectedSensorPosition());
-    if (distanceDriven < distanceInches){
-      drive.arcadeDrive(0, speed);
-    }
-    else {
-      drive.arcadeDrive(0, 0);
-    }
-    m_leftFront.setNeutralMode(NeutralMode.Coast);
-    m_rightFront.setNeutralMode(NeutralMode.Coast);
-    m_leftRear.setNeutralMode(NeutralMode.Coast);
-    m_rightRear.setNeutralMode(NeutralMode.Coast);
+    drive.arcadeDrive(0, speed);
+  
   }
 
   private double logAdjustment (double x) {
@@ -146,12 +137,16 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   public void setMotorsBrake(){
     m_leftFront.setNeutralMode(NeutralMode.Brake);
+    m_leftRear.setNeutralMode(NeutralMode.Brake);
     m_rightFront.setNeutralMode(NeutralMode.Brake);
+    m_rightRear.setNeutralMode(NeutralMode.Brake);
   }
 
   public void setMotorsCoast(){
     m_leftFront.setNeutralMode(NeutralMode.Coast);
     m_rightFront.setNeutralMode(NeutralMode.Coast);
+    m_leftRear.setNeutralMode(NeutralMode.Coast);
+    m_rightRear.setNeutralMode(NeutralMode.Coast);
   }
 
   public void driveForwardDistance(double distance){
@@ -219,6 +214,10 @@ public class DifferentialDrivetrain extends SubsystemBase {
     var horizalAngle = visionSubsystem.getFilteredHorizontalAngle();
     // degrees
     return (horizalAngle < alignWindow) & (horizalAngle > (-1 * alignWindow));
+  }
+
+  public void rotateClockwise(double rotateSpeed){
+    drive.arcadeDrive(rotateSpeed, 0);
   }
 
   public void rotateDrivetrainToTarget(double rotateSpeed, VisionSubsystem visionSubsystem){

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
@@ -43,7 +44,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   private static final double kTrackWidth = 0.381 * 2; // meters
   private static final double kWheelRadius = 0.0508; // meters
-  private static final int kEncoderResolution = 4096;
+  private static final int kEncoderResolution = 2048;
   private static final double alignWindow = 2; 
 
   private boolean speedLimited = false;
@@ -93,6 +94,20 @@ public class DifferentialDrivetrain extends SubsystemBase {
   }
   private double logAdjustment (double x) {
     return (Math.abs(x) > 0.7) ? x : (x * 100 /127);
+  }
+
+  public void setMotorsBrake(){
+    m_leftFront.setNeutralMode(NeutralMode.Brake);
+    m_rightFront.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setMotorsCoast(){
+    m_leftFront.setNeutralMode(NeutralMode.Coast);
+    m_rightFront.setNeutralMode(NeutralMode.Coast);
+  }
+
+  public void driveForwardDistance(double distance){
+
   }
 
   public void enableSpeedLimit(){

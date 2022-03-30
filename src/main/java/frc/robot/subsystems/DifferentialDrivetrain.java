@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
@@ -46,11 +47,8 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private double INITIAL_GEAR_RATIO = 13/42;
   private double LOW_GEAR_RATIO = 14/60;
   private double HIGH_GEAR_RATIO = 24/50;
-  public static final double kMaxSpeed = 2.7; // meters per second
-  public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
   private static final double wheelRadiusInches = 6;
-  private static final int kEncoderResolution = 2048;
   private static final double alignWindow = 2; 
   private static final double trackWidthInches = 27;
 
@@ -69,6 +67,8 @@ public class DifferentialDrivetrain extends SubsystemBase {
     
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
+    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+    m_leftFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
   }
 
   public double getCurrentGearRatio(){
@@ -114,10 +114,31 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
     SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
     SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
-
-
+    SmartDashboard.putNumber("Distance driven - inches (auton fwd)", countsToDistanceDrivenInches(m_rightFront.getSelectedSensorPosition()));
   }
 
+  public double countsToDistanceDrivenInches(double counts){
+    return counts / encoderCountsPerRev * getCurrentGearRatio() * 2 * Math.PI * wheelRadiusInches;
+  }
+
+  public void driveToXDistance(double distanceInches, double speed){
+    // This assumes motion ONLY in the x direction!
+    m_leftFront.setNeutralMode(NeutralMode.Brake);
+    m_rightFront.setNeutralMode(NeutralMode.Brake);
+    m_leftRear.setNeutralMode(NeutralMode.Brake);
+    m_rightRear.setNeutralMode(NeutralMode.Brake);
+    double distanceDriven = countsToDistanceDrivenInches(m_leftFront.getSelectedSensorPosition());
+    if (distanceDriven < distanceInches){
+      drive.arcadeDrive(0, speed);
+    }
+    else {
+      drive.arcadeDrive(0, 0);
+    }
+    m_leftFront.setNeutralMode(NeutralMode.Coast);
+    m_rightFront.setNeutralMode(NeutralMode.Coast);
+    m_leftRear.setNeutralMode(NeutralMode.Coast);
+    m_rightRear.setNeutralMode(NeutralMode.Coast);
+  }
 
   private double logAdjustment (double x) {
     return (Math.abs(x) > 0.7) ? x : (x * 100 /127);

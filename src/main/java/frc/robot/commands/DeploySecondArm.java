@@ -21,7 +21,7 @@ private final LinearActuator m_linearActuator;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_linearActuator.setLinearActuatorPosition(.3); 
+    m_linearActuator.setLinearActuatorPosition(0.5); 
 
     }
 

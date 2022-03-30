@@ -97,8 +97,8 @@ public class RobotContainer {
     //Driver Controller
     dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
-    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
-    dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.55));
+    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
+    dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.55));
     dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
   
     //Munipulator Controller 

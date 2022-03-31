@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -67,8 +68,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
     
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
-    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-    m_leftFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
+    m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    
+    m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_leftFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
   }
 
   public double getCurrentGearRatio(){

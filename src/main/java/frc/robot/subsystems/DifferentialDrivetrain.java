@@ -119,6 +119,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
     SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
     SmartDashboard.putNumber("Distance driven - inches (auton fwd)", countsToDistanceDrivenInches(m_rightFront.getSelectedSensorPosition()));
+    System.out.print("Distance driven - inches (auton fwd): "  + countsToDistanceDrivenInches(m_rightFront.getSelectedSensorPosition()));
   }
 
   public double countsToDistanceDrivenInches(double counts){

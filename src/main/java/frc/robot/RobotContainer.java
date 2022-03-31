@@ -22,6 +22,7 @@ import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootWithLTrigger;
 import frc.robot.commands.ToggleSpeedLimit;
+import frc.robot.commands.TwoBallAuton;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
@@ -120,7 +121,7 @@ public class RobotContainer {
    */
    public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-     Command Backup = new BackwordsAuton(m_drivetrainSubsystem, m_shooterSubsystem, m_vConveyorSubsystem);
+     Command Backup = new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_drivetrainSubsystem, m_visionSubsystem);
      return Backup;
 
 

@@ -49,7 +49,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private double LOW_GEAR_RATIO = 14/60;
   private double HIGH_GEAR_RATIO = 24/50;
 
-  private static final double wheelRadiusInches = 6;
+  private static final double wheelRadiusInches = 3;
   private static final double alignWindow = 2; 
   private static final double trackWidthInches = 27;
 
@@ -68,10 +68,10 @@ public class DifferentialDrivetrain extends SubsystemBase {
     
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
-    m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    //m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     
-    m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+   // m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
   }
 
@@ -119,11 +119,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
     SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
     SmartDashboard.putNumber("Distance driven - inches (auton fwd)", countsToDistanceDrivenInches(m_rightFront.getSelectedSensorPosition()));
-    System.out.println("\nDistance driven - inches (auton fwd): "  + countsToDistanceDrivenInches(m_rightFront.getSelectedSensorPosition()));
+    System.out.println("\nDistance driven - inches (auton fwd): "  + countsToDistanceDrivenInches (m_rightFront.getSelectedSensorPosition()));
   }
 
   public double countsToDistanceDrivenInches(double counts){
-    return counts / encoderCountsPerRev * getCurrentGearRatio() * 2 * Math.PI * wheelRadiusInches;
+    return counts / 2048 * 13/42 * 24/50 * Math.PI * wheelRadiusInches;
   }
 
   public double getXDistanceDrivenInches(){

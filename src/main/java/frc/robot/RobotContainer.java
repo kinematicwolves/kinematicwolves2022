@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.BackwordsAuton;
+import frc.robot.commands.DeployClimber2;
 import frc.robot.commands.DeployIntake;
-import frc.robot.commands.DeploySecondArm;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunClimber1OpenLoop;
 import frc.robot.commands.RunClimber2OpenLoop;
@@ -27,7 +27,6 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LinearActuator;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VConveyorSubsystem;
@@ -49,7 +48,6 @@ public class RobotContainer {
   private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
   private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
-  private final LinearActuator m_linearActuator = new LinearActuator();
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
@@ -93,7 +91,6 @@ public class RobotContainer {
     JoystickButton mc_rJoystickButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightStick.value); 
 
 
-
     //Driver Controller
     dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
@@ -104,6 +101,8 @@ public class RobotContainer {
     //Munipulator Controller 
     //-RunIntakeMotor = Horizontal Conveyor
     //-RunHorizontalConveyor = Intake Motor
+    // Up on Dpad = Climber2 set to full power
+    // Down on Dpad = Climber set to half power 
     mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
     mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1));
     mc_aButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.1));
@@ -114,10 +113,9 @@ public class RobotContainer {
     mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
     mc_lButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
     mc_lefJoystickButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1000));
+    mc_rJoystickButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem));
     //mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
-    mc_rJoystickButton.whenPressed(new DeploySecondArm(m_linearActuator));
-
-  }
+    }
 
   
   /**

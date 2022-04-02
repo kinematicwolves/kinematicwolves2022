@@ -4,13 +4,20 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -31,68 +38,128 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private final WPI_TalonFX m_leftRear = new WPI_TalonFX(Constants.LEFT_REAR_DRIVE_MOTOR);
   private final WPI_TalonFX m_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_DRIVE_MOTOR);
   private final WPI_TalonFX m_rightRear = new WPI_TalonFX(Constants.RIGHT_REAR_DRIVE_MOTOR);
+  private final double encoderCountsPerRev = 2048;
 
 
   private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftFront, m_leftRear);
   private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightFront, m_rightRear);
 
-  private final DifferentialDrive drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
+  private String currentGear = "high"; // Default starting gear
+  private double INITIAL_GEAR_RATIO = 13.0/42.0;
+  private double LOW_GEAR_RATIO = 14.0/60.0;
+  private double HIGH_GEAR_RATIO = 24.0/50.0;
 
-  public static final double kMaxSpeed = 2.7; // meters per second
-  public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
-
-  private static final double kTrackWidth = 0.381 * 2; // meters
-  private static final double kWheelRadius = 0.0508; // meters
-  private static final int kEncoderResolution = 4096;
+  private static final double wheelRadiusInches = 3;
   private static final double alignWindow = 2; 
+  private static final double trackWidthInches = 27;
 
   private boolean speedLimited = false;
 
-  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27.0)); // Distance
-                                                                                                                // between
-                                                                                                                // two
-                                                                                                                // sets
-                                                                                                                // of
-                                                                                                                // wheels
-                                                                                                                // (inches)
+  private final ADIS16448_IMU imu = new ADIS16448_IMU();
+  
+  private final DifferentialDrive drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
+  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
+    Units.inchesToMeters(trackWidthInches)
+    );
+  
+  // DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(
+  // getGyroHeading(), new Pose2d(0, 0, new Rotation2d()));
+    
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
+    //m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    m_rightFront.setSelectedSensorPosition(0);
+   // m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_leftFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    m_leftFront.setSelectedSensorPosition(0);
+    imu.reset();
   }
 
-  private void configureDriveMotorFeedback() {
-    m_leftFront.configFactoryDefault();
-
-    m_leftFront.configSelectedFeedbackSensor(
-        TalonFXFeedbackDevice.IntegratedSensor, Constants.DRIVETRAIN_MOTOR_PID_LOOP,
-        Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-    m_leftFront.config_kF(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_leftFront.config_kP(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_leftFront.config_kI(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_leftFront.config_kD(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-
-    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero,
-        Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-
-    m_rightFront.configFactoryDefault();
-    m_rightFront.configSelectedFeedbackSensor(
-        TalonFXFeedbackDevice.IntegratedSensor, Constants.DRIVETRAIN_MOTOR_PID_LOOP,
-        Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
-    m_rightFront.config_kF(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_rightFront.config_kP(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_rightFront.config_kI(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-    m_rightFront.config_kD(Constants.DRIVETRAIN_MOTOR_PID_LOOP, 0);
-
-    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero,
-        Constants.DRIVETRAIN_MOTOR_PID_TIMEOUT);
+  public double getCurrentGearRatio(){
+    return currentGear == "high" ? HIGH_GEAR_RATIO : LOW_GEAR_RATIO;
   }
+
+  public void setLowGear(){
+    currentGear = "low";
+  }
+
+  public void setHighGear(){
+    currentGear = "high";
+  }
+
+  public boolean isHighGear(){
+    return currentGear == "high";
+  }
+
+  public Rotation2d getGyroHeading(){
+    return Rotation2d.fromDegrees(-1 * imu.getAngle());
+  }
+
+  public double getGyroYAxis(){
+    return imu.getGyroAngleY();
+  }
+  public double getWheelSpeedMetersPerSecond(WPI_TalonFX motorController){
+    double rawSpeed = motorController.getSelectedSensorVelocity(); // raw sensor units per 100ms
+    double wheelSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60 * getCurrentGearRatio() * INITIAL_GEAR_RATIO; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
+    // (Rev/min)(2pi rad/rev) (radius)
+    return wheelSpeedRPM * (2 * Math.PI) * Units.inchesToMeters(wheelRadiusInches) / 60;
+
+  }
+
+  public DifferentialDriveWheelSpeeds getDifferentialDriveWheelSpeeds(){
+    double leftWheelSpeed = getWheelSpeedMetersPerSecond(m_leftFront);
+    double rightWheelSpeed = getWheelSpeedMetersPerSecond(m_rightFront);
+    return new DifferentialDriveWheelSpeeds(leftWheelSpeed, rightWheelSpeed);
+  }
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    var wheelSpeeds = getDifferentialDriveWheelSpeeds();
+    var chassisSpeed = kinematics.toChassisSpeeds(wheelSpeeds);
+    // SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
+    SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
+    SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
+    SmartDashboard.putNumber("Rotation - Y(Deg)", getGyroYAxis());
+    SmartDashboard.putNumber("Distance driven - inches (auton fwd)", getXDistanceDrivenInches());
+    SmartDashboard.putNumber("Current gear ratio", getCurrentGearRatio());
+    System.out.println("\nDistance driven - inches (auton fwd): "  + getXDistanceDrivenInches());
   }
+
+  public double countsToDistanceDrivenInches(double counts){
+    double position = counts / encoderCountsPerRev * INITIAL_GEAR_RATIO * getCurrentGearRatio() * 3.14 * wheelRadiusInches;
+    return -1 * position;
+  }
+
+  public double getXDistanceDrivenInches(){
+    return countsToDistanceDrivenInches(m_leftFront.getSelectedSensorPosition());
+  }
+
+  public void driveForward( double speed){
+    // This assumes motion ONLY in the x direction!
+    drive.arcadeDrive(0, speed);
+  
+  }
+
   private double logAdjustment (double x) {
     return (Math.abs(x) > 0.7) ? x : (x * 100 /127);
+  }
+
+  public void setMotorsBrake(){
+    m_leftFront.setNeutralMode(NeutralMode.Brake);
+    m_leftRear.setNeutralMode(NeutralMode.Brake);
+    m_rightFront.setNeutralMode(NeutralMode.Brake);
+    m_rightRear.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setMotorsCoast(){
+    m_leftFront.setNeutralMode(NeutralMode.Coast);
+    m_rightFront.setNeutralMode(NeutralMode.Coast);
+    m_leftRear.setNeutralMode(NeutralMode.Coast);
+    m_rightRear.setNeutralMode(NeutralMode.Coast);
   }
 
   public void enableSpeedLimit(){
@@ -156,6 +223,10 @@ public class DifferentialDrivetrain extends SubsystemBase {
     var horizalAngle = visionSubsystem.getFilteredHorizontalAngle();
     // degrees
     return (horizalAngle < alignWindow) & (horizalAngle > (-1 * alignWindow));
+  }
+
+  public void rotateClockwise(double rotateSpeed){
+    drive.arcadeDrive(rotateSpeed, 0);
   }
 
   public void rotateDrivetrainToTarget(double rotateSpeed, VisionSubsystem visionSubsystem){

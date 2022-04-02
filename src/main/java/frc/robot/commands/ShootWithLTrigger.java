@@ -33,7 +33,7 @@ private final VisionSubsystem m_visionSubsystem;
   public void execute() {
     var triggerAxis = m_manipulatorController.getLeftTriggerAxis();
     if (m_manipulatorController.getRightTriggerAxis() > 0.2){
-      m_shooterSubsystem.setShooterMotorSpeed(1000); //RPM
+      m_shooterSubsystem.setShooterMotorSpeed(1234); //RPM
     }
     else if ((triggerAxis > 0.005)) { //Set at a higher axis to give the shooter enough time to power up
       double targetDistanceInches = m_visionSubsystem.getFilteredDistance();

@@ -24,9 +24,9 @@ public class TwoBallAuton extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new DeployIntake(pneumatics, intake),
-      new DriveForwardAuton(drivetrain, 80, -0.5, hConveyorSubsystem), // Drives forward while running intake
+      new DriveForwardAuton(drivetrain, 80, -0.5, intake), // Drives forward while running intake
       new RotateToTarget(drivetrain, vision, -1 * 0.45), // Rotate until target found
-      new ShootTwoBalls(vision, vconveyor, intake, shooter)
+      new ShootTwoBalls(vision, vconveyor, hConveyorSubsystem, shooter)
     );
   }
 }

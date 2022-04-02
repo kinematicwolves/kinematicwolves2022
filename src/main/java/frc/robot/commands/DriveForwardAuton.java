@@ -7,33 +7,30 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DifferentialDrivetrain;
-import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+
 
 public class DriveForwardAuton extends CommandBase {
   /** Creates a new DriveForwardAuton. */
-  /*
-NOTE: horizontal conveyor subsystem is actually the intake due to some mixups 
-and not wanting to break existing code under a time crunch.
-  */
+
   private final DifferentialDrivetrain m_drivetrain;
   private final double m_distance;
   private final double m_speed;
-  private final HConveyorSubsystem m_hconveyorsubsystem;
+  private final IntakeSubsystem m_intake;
   public DriveForwardAuton(DifferentialDrivetrain drivetrain, double distanceInches,
-    double speed, HConveyorSubsystem hConveyorSubsystem) {
+    double speed, IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
     m_distance = distanceInches;
     m_speed = speed;
-    m_hconveyorsubsystem = hConveyorSubsystem; 
+    m_intake = intake; 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     // m_drivetrain.setMotorsBrake();
-    m_hconveyorsubsystem.runConveyorMotor(-1); // really the intake
+    m_intake.runIntakeMotor(-1); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,7 +44,7 @@ and not wanting to break existing code under a time crunch.
   @Override
   public void end(boolean interrupted) {
     // m_drivetrain.setMotorsCoast();
-    m_hconveyorsubsystem.runConveyorMotor(0); // really the intake
+    m_intake.runIntakeMotor(0); 
   }
 
   // Returns true when the command should end.

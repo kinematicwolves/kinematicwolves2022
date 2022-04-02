@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,6 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
   // public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
   private boolean climberBrakeOn = false;
+  private boolean climber2IsDeployed = false; 
   private double maxServoExtention = 0.1; // meters
   private double distanceFromPivotPointMeters = 0.1; // Distance the servo is mounted from rotation point
 
@@ -127,12 +127,13 @@ public class ClimberSubsystem extends SubsystemBase {
     //m_climberMotor2.set(ControlMode.Position, convertPositionToCounts(positionMeters));
   }
 
-  public double convertServoPositionToClimberAngleDegrees(double servoRawPosition){
+  /*public double convertServoPositionToClimberAngleDegrees(double servoRawPosition){
     // Need to use some trig here and scale the raw servo position to an actual distance
     double extendedLengthMeters = servoRawPosition * maxServoExtention;
     
     return Math.atan(extendedLengthMeters / distanceFromPivotPointMeters);
   }
+  */
 
   // public boolean servoAtPosition(double endRawPosition){
   //   // This moves so slow that PID control is not necessary
@@ -159,5 +160,21 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void setClimberMotor2Output(double commandedOutput){
     m_climberMotor2.set(commandedOutput);
+  }
+
+  public boolean isClimber2Deployed(){
+    return climber2IsDeployed; 
+  }
+
+  public void setClimber2Deployed(PneumaticSubsystem pneumaticSystem){
+    // add solenoid as input and flip here
+    climber2IsDeployed = true; 
+    pneumaticSystem.setClimber2Deployed();
+  }
+
+  public void setClimber2Undeployed(PneumaticSubsystem pneumaticSubsystem){
+    // Add solenoid as input and flip here
+    climber2IsDeployed = false; 
+    pneumaticSubsystem.setClimber2Undeployed();
   }
 }

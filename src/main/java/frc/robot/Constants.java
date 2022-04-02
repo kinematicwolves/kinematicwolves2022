@@ -58,7 +58,7 @@ public final class Constants {
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;
-    public static final double SHOOTER_Kp = 0.05;
+    public static final double SHOOTER_Kp = 0.08;
     public static final double SHOOTER_Ki = 0;
     public static final double SHOOTER_Kd = 0.5;
     public static final int SHOOTER_PID_SLOT = 0;

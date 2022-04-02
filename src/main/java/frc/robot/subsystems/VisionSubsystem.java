@@ -78,7 +78,13 @@ public class VisionSubsystem extends SubsystemBase {
   // Limelight x
   public double getHorizontalAngle() {
     h_angle = tx.getDouble(0.0);
-    return(h_angle);
+    if (getCaptureStatus() == 1){
+      return(h_angle);
+    }
+    else {
+      // If no target found, return a large value so it is not in the alignment window
+      return -10;
+    }
   }
 
   // Limelight y

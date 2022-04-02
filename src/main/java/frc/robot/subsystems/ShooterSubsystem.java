@@ -93,7 +93,7 @@ public class ShooterSubsystem extends SubsystemBase {
     //   String.format("Motor output: %f", m_shooterMotor1.getMotorOutputPercent()), 
     //   String.format("Motor speed (RPM): %f", getMotorSpeedRPM(m_shooterMotor1))
     // };
-
+      SmartDashboard.putNumber("Shooter Speed", getMotorSpeedRPM(m_shooterMotor1));
     // SmartDashboard.putStringArray("Shooter Subsystem", shooterDisplay);
 
     // if (isShuffleboardControlEnabled()){

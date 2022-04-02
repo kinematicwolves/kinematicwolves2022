@@ -20,6 +20,7 @@ import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
+import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.ShootWithLTrigger;
 import frc.robot.commands.ToggleSpeedLimit;
 import frc.robot.commands.TwoBallAuton;
@@ -78,6 +79,7 @@ public class RobotContainer {
     JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton dc_leftStickButton = new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value);
     JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
+    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value);
 
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
@@ -96,7 +98,7 @@ public class RobotContainer {
     dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
     dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.55));
     dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
-  
+    dc_xButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     //Munipulator Controller 
     //-RunIntakeMotor = Horizontal Conveyor
     //-RunHorizontalConveyor = Intake Motor
@@ -121,7 +123,7 @@ public class RobotContainer {
    */
    public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-     Command Backup = new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_drivetrainSubsystem, m_visionSubsystem);
+     Command Backup = new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem);
      return Backup;
 
 

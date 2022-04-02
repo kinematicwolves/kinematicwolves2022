@@ -38,16 +38,16 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private final WPI_TalonFX m_leftRear = new WPI_TalonFX(Constants.LEFT_REAR_DRIVE_MOTOR);
   private final WPI_TalonFX m_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_DRIVE_MOTOR);
   private final WPI_TalonFX m_rightRear = new WPI_TalonFX(Constants.RIGHT_REAR_DRIVE_MOTOR);
-  private final int encoderCountsPerRev = 2048;
+  private final double encoderCountsPerRev = 2048;
 
 
   private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftFront, m_leftRear);
   private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightFront, m_rightRear);
 
   private String currentGear = "high"; // Default starting gear
-  private double INITIAL_GEAR_RATIO = 13/42;
-  private double LOW_GEAR_RATIO = 14/60;
-  private double HIGH_GEAR_RATIO = 24/50;
+  private double INITIAL_GEAR_RATIO = 13.0/42.0;
+  private double LOW_GEAR_RATIO = 14.0/60.0;
+  private double HIGH_GEAR_RATIO = 24.0/50.0;
 
   private static final double wheelRadiusInches = 3;
   private static final double alignWindow = 2; 
@@ -55,7 +55,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   private boolean speedLimited = false;
 
-  // private final ADIS16448_IMU imu = new ADIS16448_IMU();
+  private final ADIS16448_IMU imu = new ADIS16448_IMU();
   
   private final DifferentialDrive drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
@@ -70,9 +70,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
   public DifferentialDrivetrain() {
     //m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
-    
+    m_rightFront.setSelectedSensorPosition(0);
    // m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    m_leftFront.setSelectedSensorPosition(0);
+    imu.reset();
   }
 
   public double getCurrentGearRatio(){
@@ -91,10 +93,13 @@ public class DifferentialDrivetrain extends SubsystemBase {
     return currentGear == "high";
   }
 
-  // public Rotation2d getGyroHeading(){
-  //   return Rotation2d.fromDegrees(-1 * imu.getAngle());
-  // }
+  public Rotation2d getGyroHeading(){
+    return Rotation2d.fromDegrees(-1 * imu.getAngle());
+  }
 
+  public double getGyroYAxis(){
+    return imu.getGyroAngleY();
+  }
   public double getWheelSpeedMetersPerSecond(WPI_TalonFX motorController){
     double rawSpeed = motorController.getSelectedSensorVelocity(); // raw sensor units per 100ms
     double wheelSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60 * getCurrentGearRatio() * INITIAL_GEAR_RATIO; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
@@ -118,12 +123,15 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
     SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
     SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
-    SmartDashboard.putNumber("Distance driven - inches (auton fwd)", countsToDistanceDrivenInches(m_rightFront.getSelectedSensorPosition()));
-    System.out.println("\nDistance driven - inches (auton fwd): "  + countsToDistanceDrivenInches (m_rightFront.getSelectedSensorPosition()));
+    SmartDashboard.putNumber("Rotation - Y(Deg)", getGyroYAxis());
+    SmartDashboard.putNumber("Distance driven - inches (auton fwd)", getXDistanceDrivenInches());
+    SmartDashboard.putNumber("Current gear ratio", getCurrentGearRatio());
+    System.out.println("\nDistance driven - inches (auton fwd): "  + getXDistanceDrivenInches());
   }
 
   public double countsToDistanceDrivenInches(double counts){
-    return counts / 2048 * 13/42 * 24/50 * Math.PI * wheelRadiusInches;
+    double position = counts / encoderCountsPerRev * INITIAL_GEAR_RATIO * getCurrentGearRatio() * 3.14 * wheelRadiusInches;
+    return -1 * position;
   }
 
   public double getXDistanceDrivenInches(){

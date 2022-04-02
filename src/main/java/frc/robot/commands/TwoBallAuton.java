@@ -6,8 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DifferentialDrivetrain;
+import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VConveyorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -15,15 +18,15 @@ import frc.robot.subsystems.VisionSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TwoBallAuton extends SequentialCommandGroup {
   /** Creates a new TwoBallAuton. */
-  public TwoBallAuton(PneumaticSubsystem pneumatics, IntakeSubsystem intake, 
-    DifferentialDrivetrain drivetrain, VisionSubsystem vision) {
+  public TwoBallAuton(PneumaticSubsystem pneumatics, IntakeSubsystem intake, HConveyorSubsystem hConveyorSubsystem, 
+    DifferentialDrivetrain drivetrain, VisionSubsystem vision, VConveyorSubsystem vconveyor, ShooterSubsystem shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new DeployIntake(pneumatics, intake),
-      new DriveForwardAuton(drivetrain, 40, -0.4, intake), // Drives forward while running intake
-      new RotateToTarget(drivetrain, vision, 0.3) // Rotate until target found
-      // Shoot the ball
+      new DriveForwardAuton(drivetrain, 80, -0.5, hConveyorSubsystem), // Drives forward while running intake
+      new RotateToTarget(drivetrain, vision, -1 * 0.45), // Rotate until target found
+      new ShootTwoBalls(vision, vconveyor, intake, shooter)
     );
   }
 }

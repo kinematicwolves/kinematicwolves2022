@@ -22,6 +22,8 @@ public class ClimberSubsystem extends SubsystemBase {
   // public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
   private String climber1State = "Initial Position";
+  private final double GEAR_REDUCTION = 1.0 / 25.0;
+  private final double SHAFT_DIAMETER_INCHES = 0.5; // Inches
   private boolean climberBrakeOn = false;
   private boolean climber2IsDeployed = false; 
   private double maxServoExtention = 0.1; // meters
@@ -49,7 +51,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public ClimberSubsystem() {
     m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_climberMotor1.setSelectedSensorPosition(0);
-    m_climberMotor1.configForwardSoftLimitThreshold(convertPositionToCounts(MAXIMUM_DISTANCE)); // Needs to be in counts
+    m_climberMotor1.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); // Needs to be in counts
     m_climberMotor1.configForwardSoftLimitEnable(true);
 
     m_climberMotor1.configReverseSoftLimitThreshold(0);
@@ -167,12 +169,11 @@ public class ClimberSubsystem extends SubsystemBase {
   }
  
   public double convertCountsToPositionInches(double positionCounts){
-    return 0.0;
+    return positionCounts / encoderCountsPerRev * GEAR_REDUCTION * Math.PI * SHAFT_DIAMETER_INCHES;
   }
 
-  public double convertPositionToCounts(double positionMeters){
-    // (distance per count (rad))
-    return 0.0;
+  public double convertPositionInchesToCounts(double positionInches){
+    return positionInches * encoderCountsPerRev / (GEAR_REDUCTION * Math.PI * SHAFT_DIAMETER_INCHES);
   }
 
 

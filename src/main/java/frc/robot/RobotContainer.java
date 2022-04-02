@@ -98,19 +98,19 @@ public class RobotContainer {
     dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
     dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.55));
     dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
-    dc_xButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    dc_xButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem, m_shooterSubsystem));
     //Munipulator Controller 
     //-RunIntakeMotor = Horizontal Conveyor
     //-RunHorizontalConveyor = Intake Motor
-    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
     mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1));
+    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
     mc_aButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.1));
-    mc_yButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1)); //reversed
-    mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 1)); //reversed
-    mc_bButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, 1)); //reversed 
+    mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1)); //reversed
+    mc_yButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, 1)); //reversed
+    mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 1)); //reversed 
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
-    mc_lButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
+    mc_lButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1));
     mc_lefJoystickButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1000));
    // mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
   }

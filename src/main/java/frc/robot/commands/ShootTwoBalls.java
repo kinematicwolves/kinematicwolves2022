@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VConveyorSubsystem;
@@ -13,16 +14,16 @@ import frc.robot.subsystems.VisionSubsystem;
 
 public class ShootTwoBalls extends CommandBase {
   private final ShooterSubsystem m_shooter;
-  private final IntakeSubsystem m_intake; // Horizontal conveyor
+  private final HConveyorSubsystem m_hconveyor; // Horizontal conveyor
   private final VConveyorSubsystem m_verticalConeyor;
   private final VisionSubsystem m_vision;
   private int timer;
   /** Creates a new ShootTwoBalls. */
   public ShootTwoBalls(
-    VisionSubsystem vision, VConveyorSubsystem vconveyor, IntakeSubsystem intake, ShooterSubsystem shooter
+    VisionSubsystem vision, VConveyorSubsystem vconveyor, HConveyorSubsystem hconveyor, ShooterSubsystem shooter
   ) {
     m_shooter = shooter;
-    m_intake = intake;
+    m_hconveyor = hconveyor;
     m_verticalConeyor = vconveyor;
     m_vision = vision;
     timer = 0;
@@ -48,14 +49,14 @@ public class ShootTwoBalls extends CommandBase {
       m_verticalConeyor.runConveyorMotor(0.80);
     }
     else if ((timer > 1300) & (timer < 5000)){
-      m_intake.runIntakeMotor(-1);
+      m_hconveyor.runConveyorMotor(1);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.runIntakeMotor(0);
+    m_hconveyor.runConveyorMotor(0);
     m_verticalConeyor.runConveyorMotor(0);
     m_shooter.setShooterMotorSpeed(0);
   }

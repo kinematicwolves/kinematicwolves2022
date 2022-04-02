@@ -25,8 +25,8 @@ public final class Constants {
     public static final int VERTICALCONVEYORMOTOR = 7;
     public static final int PNEUMATIC_CONTROL_MODULE = 9;
     public static final int SHOOTER_MOTOR1 = 15;
-    public static final int HORIZONTALCONVEYORMOTOR = 17;  
-    public static final int INTAKE_MOTOR = 20;
+    public static final int HORIZONTALCONVEYORMOTOR = 20;  
+    public static final int INTAKE_MOTOR = 17;
     public static final int CLIMBER_MOTOR1 = 24;
     /*public static final int CLIMBER_MOTOR2 = 1000;*/
 

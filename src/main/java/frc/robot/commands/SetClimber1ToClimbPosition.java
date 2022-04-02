@@ -7,20 +7,22 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class SetClimber1Position extends CommandBase {
-  private final ClimberSubsystem m_climberSubsystem;
-  private double m_commandedPosition; 
-  /** Creates a new SetClimber1Position. */
-  public SetClimber1Position(ClimberSubsystem climberSubsystem, double commandedPosition) {
-    m_climberSubsystem = climberSubsystem;
-    m_commandedPosition = commandedPosition;
+public class SetClimber1ToClimbPosition extends CommandBase {
+  private final ClimberSubsystem m_climbersubsystem; 
+  private boolean safeForClimb;
+  /** Creates a new SetClimber1ToClimbPosition. */
+  public SetClimber1ToClimbPosition(ClimberSubsystem climberSubsystem) {
+    m_climbersubsystem = climberSubsystem; 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // m_climberSubsystem.setClimber1Position(m_commandedPosition);
+    if (m_climbersubsystem.isSafeForClimb()){
+      m_climbersubsystem.setClimberMotor1Output(0.55);
+    }
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -29,11 +31,13 @@ public class SetClimber1Position extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_climbersubsystem.setClimberMotor1Output(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (m_climbersubsystem.getClimber1State() == "Ready to climb") | (!m_climbersubsystem.isSafeForClimb());
   }
 }

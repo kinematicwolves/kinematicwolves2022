@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
+
   private final WPI_TalonFX m_climberMotor1 = new WPI_TalonFX(Constants.CLIMBER_MOTOR1);
   private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
   // public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
@@ -26,8 +27,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double SHAFT_DIAMETER_INCHES = 0.5; // Inches
   private boolean climberBrakeOn = false;
   private boolean climber2IsDeployed = false; 
-  private double maxServoExtention = 0.1; // meters
-  private double distanceFromPivotPointMeters = 0.1; // Distance the servo is mounted from rotation point
 
   /* 
     These are a constant offset to gravity. Set such that it retains a position of zero. This
@@ -42,9 +41,9 @@ public class ClimberSubsystem extends SubsystemBase {
   1/2" shaft
   */
   private final double MINIMUM_DISTANCE = 0;
-  private final double MAXIMUM_DISTANCE = 100000; // UNITS TBD
-  private final double WINDOW_THRESHOLD = 1000; // UNITS TBD
-  private final double CLIMBER1_HEIGHT = 40000; // UNITS TBD
+  private final double MAXIMUM_DISTANCE = 100000; // UNITS INCHES
+  private final double WINDOW_THRESHOLD = 1000; // UNITS INCHES
+  private final double CLIMBER1_HEIGHT = 40000; // UNITS INCHES
   private final double REVERSE_DISTANCE_SETPOINT = 30000;
 
   /** Creates a new ClimberSubsystem. */
@@ -61,7 +60,8 @@ public class ClimberSubsystem extends SubsystemBase {
     m_climberMotor2.setSelectedSensorPosition(0);
   }
 
-  public String getClimber1State(){
+  private String monitorClimber1State(){
+    // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
     double encoderPostion = getPositionInches();
     if (getPositionInches() < MINIMUM_DISTANCE + WINDOW_THRESHOLD){
       return "Initial Position";
@@ -82,6 +82,14 @@ public class ClimberSubsystem extends SubsystemBase {
       return "Out of bounds";
     }
 
+  }
+
+  public String getClimber1State(){
+    return climber1State;
+  }
+
+  public boolean atClimb1Position(){
+    return getClimber1State() == "Ready to climb";
   }
 
   public boolean isSafeForClimb(){
@@ -151,15 +159,16 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    climber1State = monitorClimber1State();
     // This method will be called once per scheduler run
     double currentPositionClimber1 = m_climberMotor1.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 1 counts", currentPositionClimber1);
-    SmartDashboard.putNumber("Climber 1 position (meters)", convertCountsToPositionInches(currentPositionClimber1));
+    SmartDashboard.putNumber("Climber 1 position (inches)", convertCountsToPositionInches(currentPositionClimber1));
     SmartDashboard.putNumber("Climber 1 error", m_climberMotor1.getClosedLoopError());
 
     double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
-    SmartDashboard.putNumber("Climber 2 position (meters)", convertCountsToPositionInches(currentPositionClimber2));
+    SmartDashboard.putNumber("Climber 2 position (inches)", convertCountsToPositionInches(currentPositionClimber2));
     //SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
 
   }

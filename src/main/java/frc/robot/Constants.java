@@ -92,7 +92,7 @@ public final class Constants {
 
   // Default Motor Speeds
   public static final double DEFAULT_INTAKE_OUTPUT = -1;
-  public static final double DEFAULT_CLIMBER_OUTPUT = 0.75; 
+  public static final double DEFAULT_CLIMBER_OUTPUT = 0.4; 
   public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
   public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;
 

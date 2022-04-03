@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -59,12 +60,12 @@ public class DifferentialDrivetrain extends SubsystemBase {
   
   private final DifferentialDrive drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
 
-  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
+  public DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
     Units.inchesToMeters(trackWidthInches)
     );
   
-  // DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(
-  // getGyroHeading(), new Pose2d(0, 0, new Rotation2d()));
+  DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(
+  getGyroHeading(), new Pose2d(0, 0, new Rotation2d()));
     
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
@@ -77,6 +78,15 @@ public class DifferentialDrivetrain extends SubsystemBase {
     imu.reset();
   }
 
+  public void resetEncoders(){
+    m_rightFront.setSelectedSensorPosition(0);
+    m_leftFront.setSelectedSensorPosition(0);
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    m_odometry.resetPosition(pose, getGyroHeading());
+  }
   public double getCurrentGearRatio(){
     return currentGear == "high" ? HIGH_GEAR_RATIO : LOW_GEAR_RATIO;
   }
@@ -114,12 +124,20 @@ public class DifferentialDrivetrain extends SubsystemBase {
     return new DifferentialDriveWheelSpeeds(leftWheelSpeed, rightWheelSpeed);
   }
 
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     var wheelSpeeds = getDifferentialDriveWheelSpeeds();
     var chassisSpeed = kinematics.toChassisSpeeds(wheelSpeeds);
+
+    double leftDistanceDrivenMeters = Units.inchesToMeters(countsToDistanceDrivenInches(m_leftFront.getSelectedSensorPosition()));
+    double rightDistanceDrivenMeters = Units.inchesToMeters(countsToDistanceDrivenInches(m_rightFront.getSelectedSensorPosition()));
+    m_odometry.update(getGyroHeading(), leftDistanceDrivenMeters, rightDistanceDrivenMeters);
+
     // SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
     SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
     SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
@@ -127,6 +145,12 @@ public class DifferentialDrivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Distance driven - inches (auton fwd)", getXDistanceDrivenInches());
     SmartDashboard.putNumber("Current gear ratio", getCurrentGearRatio());
     System.out.println("\nDistance driven - inches (auton fwd): "  + getXDistanceDrivenInches());
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts){
+    m_leftFront.setVoltage(leftVolts);
+    m_rightFront.setVoltage(rightVolts);
+    drive.feed();
   }
 
   public double countsToDistanceDrivenInches(double counts){

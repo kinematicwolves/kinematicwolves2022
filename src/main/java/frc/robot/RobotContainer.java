@@ -19,7 +19,9 @@ import frc.robot.commands.RunClimber1OpenLoop;
 import frc.robot.commands.RunClimber2OpenLoop;
 import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunIntakeMotor;
+import frc.robot.commands.RunTeleopLighting;
 import frc.robot.commands.RunVerticalConveyor;
+import frc.robot.commands.SetDisabledState;
 import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
@@ -30,6 +32,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VConveyorSubsystem;
@@ -51,6 +54,7 @@ public class RobotContainer {
   private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
   private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+  private final LightingSubsystem m_lighting = new LightingSubsystem();
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
@@ -136,7 +140,14 @@ public class RobotContainer {
    }
 
 
-    /*public Command getDisabledCommand() // Command to reset robot to initial state
-    }*/
+    public Command getDisabledCommand(){
+      Command disabled = new SetDisabledState(m_lighting);
+      return disabled;
+    } // Command to reset robot to initial state
+    
+    public Command getTeleopLightingCommand(){
+      Command lightingCommand = new RunTeleopLighting(m_lighting, m_drivetrainSubsystem, m_visionSubsystem);
+      return lightingCommand;
+    }
 }
  

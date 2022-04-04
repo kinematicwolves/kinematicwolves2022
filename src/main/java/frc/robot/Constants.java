@@ -102,11 +102,11 @@ public final class Constants {
   public static final int LINEAR_ACTUATOR_1 = 0;*/
 
   public static class CandleConstants {
-    public static final int CANDLE_1_ID = 1000;
-    public static final int CANDLE_1_LED_COUNT = 10;
+    public static final int CANDLE_1_ID = 24;
+    public static final int CANDLE_1_LED_COUNT = 1000;
     
-    public static final int CANDLE_2_ID = 10001;
-    public static final int CANDLE_2_LED_COUNT = 11;
+    //public static final int CANDLE_2_ID = 10001;
+    //public static final int CANDLE_2_LED_COUNT = 11;
   }
 
   

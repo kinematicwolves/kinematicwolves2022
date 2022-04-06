@@ -19,10 +19,10 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_climberMotor1 = new WPI_TalonFX(Constants.CLIMBER_MOTOR1);
-  //private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
+  private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
   public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
-  private boolean climber1BrakeOn = false;
+  private boolean climber2IsDeployed = false; 
   private double maxServoExtention = 0.1; // meters
   private double distanceFromPivotPointMeters = 0.1; // Distance the servo is mounted from rotation point
 
@@ -31,7 +31,7 @@ public class ClimberSubsystem extends SubsystemBase {
     is an arbitrary output that is always added to the motor output.
   */ 
   private final double climber1Feedforward = 0;
-  private final double climber2Feedforward = 0;
+  //private final double climber2Feedforward = 0;
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
@@ -141,18 +141,25 @@ public class ClimberSubsystem extends SubsystemBase {
 
     return (error < 0.02);
   }
-
-  public void deployClimber1Brake(PneumaticSubsystem pneumaticSubsystem){
-     climber1BrakeOn = true;
-     pneumaticSubsystem.setClimberBrake();
-  }
-
-  public void releaseClimber1Brake(PneumaticSubsystem pneumaticSubsystem){
-    climber1BrakeOn = false;
-    pneumaticSubsystem.releaseClimberBrake();
-  }
-
   public void setClimberMotor1Output(double commandedOutput){
     m_climberMotor1.set(commandedOutput);
+  }
+
+  public void setClimberMotor2Output( double commandedOutput){
+    m_climberMotor2.set(commandedOutput);
+  }
+
+  public boolean isClimber2Deployed(){
+    return climber2IsDeployed; 
+  }
+
+  public void setClimber2Deployed(PneumaticSubsystem pneumaticSubsystem){
+  climber2IsDeployed = true;
+  pneumaticSubsystem.setClimber2Deployed(); 
+  }
+
+  public void setClimber2Undeployed(PneumaticSubsystem pneumaticSubsystem){
+    climber2IsDeployed = false;
+    pneumaticSubsystem.setClimber2Undeployed();
   }
 }

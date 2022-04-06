@@ -10,21 +10,21 @@ import frc.robot.subsystems.ClimberSubsystem;
 
 public class RunClimber1OpenLoop extends CommandBase {
 
-  private final ClimberSubsystem climber2;
+  private final ClimberSubsystem climber1;
   double commandedOutputFraction;
 
   /** Creates a new Climber2. */
   public RunClimber1OpenLoop(ClimberSubsystem climberSubsystem, double commandedFraction) {
-    this.climber2 = climberSubsystem;
+    this.climber1 = climberSubsystem;
     this.commandedOutputFraction = commandedFraction;
-    addRequirements(climber2);
+    addRequirements(climber1);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber2.setClimberMotor1Output(commandedOutputFraction);
+    climber1.setClimberMotor1Output(commandedOutputFraction);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +34,7 @@ public class RunClimber1OpenLoop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber2.setClimberMotor1Output(0);
+    climber1.setClimberMotor1Output(0);
   }
 
   // Returns true when the command should end.

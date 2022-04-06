@@ -4,28 +4,28 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IntakeSubsystem;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ClimberSubsystem;
 
-/** An example command that uses an example subsystem. */
-public class ExampleCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_subsystem;
+public class RunClimber2OpenLoop extends CommandBase {
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ExampleCommand(IntakeSubsystem subsystem) {
-    m_subsystem = subsystem;
+  private final ClimberSubsystem climber2;
+  double commandedOutputFraction;
+
+  /** Creates a new Climber2. */
+  public RunClimber2OpenLoop(ClimberSubsystem climberSubsystem, double commandedFraction) {
+    this.climber2 = climberSubsystem;
+    this.commandedOutputFraction = commandedFraction;
+    addRequirements(climber2);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    climber2.setClimberMotor2Output(commandedOutputFraction);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -33,7 +33,9 @@ public class ExampleCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    climber2.setClimberMotor2Output(0);
+  }
 
   // Returns true when the command should end.
   @Override

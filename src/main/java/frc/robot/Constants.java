@@ -28,7 +28,7 @@ public final class Constants {
     public static final int HORIZONTALCONVEYORMOTOR = 17;  
     public static final int INTAKE_MOTOR = 20;
     public static final int CLIMBER_MOTOR1 = 24;
-    /*public static final int CLIMBER_MOTOR2 = 1000;*/
+    public static final int CLIMBER_MOTOR2 = 25;
 
   // Linear actuator
     public static final int LINEAR_ACTUATOR_1 = 0; // Unverified
@@ -52,9 +52,11 @@ public final class Constants {
   // Solenoid Mappings
     public static final int DRVTRN_SOL_FWD_CHN = 0;
     public static final int DRVTRN_SOL_RVS_CHN = 1;  
-  // Pnuematics
     public static final int INTAKE_SOLENOID_FWD = 2;
     public static final int INTAKE_SOLENOID_RVS = 3; 
+    public static final int CLIMBER2_SOLENOID_FWD = 4;
+    public static final int CLIMBER2_SOLENOID_RVS = 5;
+
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;

@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignWithTarget;
-import frc.robot.commands.BackwordsAuton;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunClimber1OpenLoop;
+import frc.robot.commands.RunClimber2OpenLoop;
 import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.RunVerticalConveyor;
@@ -96,7 +96,7 @@ public class RobotContainer {
     dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
     dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
-    dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.55));
+    dc_bButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, -0.2));
     dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
     dc_xButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     //Munipulator Controller 

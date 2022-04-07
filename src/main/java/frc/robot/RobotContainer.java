@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignWithTarget;
+import frc.robot.commands.DeployClimber2;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.RunClimber1OpenLoop;
@@ -93,10 +94,10 @@ public class RobotContainer {
 
 
     //Driver Controller
-    dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
+    dc_aButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem));
     dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
-    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.2));
-    dc_bButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, -0.2));
+    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.55));
+    dc_bButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, -0.3));
     dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
     dc_xButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     //Munipulator Controller 

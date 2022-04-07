@@ -27,8 +27,8 @@ public final class Constants {
     public static final int SHOOTER_MOTOR1 = 15;
     public static final int HORIZONTALCONVEYORMOTOR = 17;  
     public static final int INTAKE_MOTOR = 20;
-    public static final int CLIMBER_MOTOR1 = 24;
-    public static final int CLIMBER_MOTOR2 = 25;
+    public static final int CLIMBER_MOTOR1 = 25;
+    public static final int CLIMBER_MOTOR2 = 27;
 
   // Linear actuator
     public static final int LINEAR_ACTUATOR_1 = 0; // Unverified

@@ -15,9 +15,8 @@ public class RunClimber1OpenLoop extends CommandBase {
 
   /** Creates a new Climber2. */
   public RunClimber1OpenLoop(ClimberSubsystem climberSubsystem, double commandedFraction) {
-    this.climber1 = climberSubsystem;
-    this.commandedOutputFraction = commandedFraction;
-    addRequirements(climber1);
+    climber1 = climberSubsystem;
+    commandedOutputFraction = commandedFraction;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

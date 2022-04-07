@@ -12,7 +12,7 @@ import frc.robot.Constants;
 
 public class LightingSubsystem extends SubsystemBase {
   private final CANdle light1 = new CANdle(Constants.CandleConstants.CANDLE_1_ID);
-  private final CANdle light2 = new CANdle(Constants.CandleConstants.CANDLE_2_ID);
+  //private final CANdle light2 = new CANdle(Constants.CandleConstants.CANDLE_2_ID);
 
   /** Creates a new LightingSubsystem. */
   public LightingSubsystem() {
@@ -39,17 +39,17 @@ public class LightingSubsystem extends SubsystemBase {
   public void setLightsOff(){
     // Not sure this is the best way to turn them off
     light1.configBrightnessScalar(0);
-    light2.configBrightnessScalar(0);
+    //light2.configBrightnessScalar(0);
   }
 
   public void setGreen(){
     light1.setLEDs(0, 255, 0);
-    light2.setLEDs(0, 255, 0);
+    //light2.setLEDs(0, 255, 0);
   }
 
   public void setOrange(){
     light1.setLEDs(255, 157, 0);
-    light2.setLEDs(255, 157, 0);
+   // light2.setLEDs(255, 157, 0);
   }
 
   @Override

@@ -28,10 +28,7 @@ public final class Constants {
     public static final int HORIZONTALCONVEYORMOTOR = 17;  
     public static final int INTAKE_MOTOR = 20;
     public static final int CLIMBER_MOTOR1 = 24;
-    /*public static final int CLIMBER_MOTOR2 = 1000;*/
-
-  // Linear actuator
-    public static final int LINEAR_ACTUATOR_1 = 0; // Unverified
+    public static final int CLIMBER_MOTOR2 = 1000;
 
   // Tables for shooting speeds vs distance
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
@@ -52,9 +49,10 @@ public final class Constants {
   // Solenoid Mappings
     public static final int DRVTRN_SOL_FWD_CHN = 0;
     public static final int DRVTRN_SOL_RVS_CHN = 1;  
-  // Pnuematics
     public static final int INTAKE_SOLENOID_FWD = 2;
     public static final int INTAKE_SOLENOID_RVS = 3; 
+    public static final int CLIMBER2_SOL_FWD = 4; //port number
+    public static final int CLIMBER2_SOL_RVS = 5; //port number
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;
@@ -94,8 +92,22 @@ public final class Constants {
 
   // Default Motor Speeds
   public static final double DEFAULT_INTAKE_OUTPUT = -1;
-  public static final double DEFAULT_CLIMBER_OUTPUT = 0.75; 
+  public static final double DEFAULT_CLIMBER_OUTPUT = 0.4; 
   public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
   public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;
+
+  //Linear Actuator 
+  /*public static final double UPPER_SERVO_POS_LIMIT = 0.87; // All the way out
+  public static final double LOWER_SERVO_POS_LIMIT = 0.17; // All the way in
+  public static final int LINEAR_ACTUATOR_1 = 0;*/
+
+  public static class CandleConstants {
+    public static final int CANDLE_1_ID = 50;
+    public static final int CANDLE_1_LED_COUNT = 68;
+    
+    //public static final int CANDLE_2_ID = 10001;
+    //public static final int CANDLE_2_LED_COUNT = 11;
+  }
+
   
 }

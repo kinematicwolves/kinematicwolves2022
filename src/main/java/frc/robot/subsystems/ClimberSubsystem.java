@@ -12,19 +12,20 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
+
   private final WPI_TalonFX m_climberMotor1 = new WPI_TalonFX(Constants.CLIMBER_MOTOR1);
-  //private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
-  public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
+  private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
+  // public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
-  private boolean climber1BrakeOn = false;
-  private double maxServoExtention = 0.1; // meters
-  private double distanceFromPivotPointMeters = 0.1; // Distance the servo is mounted from rotation point
+  private String climber1State = "Initial Position";
+  private final double GEAR_REDUCTION = 1.0 / 25.0;
+  private final double SHAFT_DIAMETER_INCHES = 0.5; // Inches
+  private boolean climber2IsDeployed = false; 
 
   /* 
     These are a constant offset to gravity. Set such that it retains a position of zero. This
@@ -33,9 +34,70 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double climber1Feedforward = 0;
   private final double climber2Feedforward = 0;
 
+  /* 
+  Constants for extending climber
+  25:1 gear ratio
+  1/2" shaft
+  */
+  private final double MINIMUM_DISTANCE = 0;
+  private final double MAXIMUM_DISTANCE = 100000; // UNITS INCHES
+  private final double WINDOW_THRESHOLD = 1000; // UNITS INCHES
+  private final double CLIMBER1_HEIGHT = 40000; // UNITS INCHES
+  private final double REVERSE_DISTANCE_SETPOINT = 30000;
+
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    m_climberMotor1.setSelectedSensorPosition(0);
+    m_climberMotor1.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); // Needs to be in counts
+    m_climberMotor1.configForwardSoftLimitEnable(true);
+
+    m_climberMotor1.configReverseSoftLimitThreshold(0);
+    m_climberMotor1.configReverseSoftLimitEnable(true);
+
+    m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    m_climberMotor2.setSelectedSensorPosition(0);
+  }
+
+  private String monitorClimber1State(){
+    // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
+    double encoderPostion = getPositionInches();
+    if (getPositionInches() < MINIMUM_DISTANCE + WINDOW_THRESHOLD){
+      return "Initial Position";
+    }
+    else if ((getPositionInches() > MINIMUM_DISTANCE + WINDOW_THRESHOLD) & (getPositionInches() < WINDOW_THRESHOLD + CLIMBER1_HEIGHT)){
+      return "Raising To Climb";
+    }
+    else if ((getPositionInches() > CLIMBER1_HEIGHT - WINDOW_THRESHOLD) & (getPositionInches() < CLIMBER1_HEIGHT + WINDOW_THRESHOLD)){
+      return "Ready to climb";
+    }
+    else if ((getPositionInches() > CLIMBER1_HEIGHT + WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE - WINDOW_THRESHOLD)){
+      return "Climbing";
+    }
+    else if ((getPositionInches() > MAXIMUM_DISTANCE - WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE)){
+      return "At Max Position";
+    }
+    else {
+      return "Out of bounds";
+    }
+
+  }
+
+  public String getClimber1State(){
+    return climber1State;
+  }
+
+  public boolean atClimb1Position(){
+    return getClimber1State() == "Ready to climb";
+  }
+
+  public boolean isSafeForClimb(){
+    if ((getClimber1State() == "Initial Position" ) | (getClimber1State() == "Raising To Climb")){
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   public void configureMotor1Feedback(){
@@ -96,63 +158,54 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    climber1State = monitorClimber1State();
     // This method will be called once per scheduler run
     double currentPositionClimber1 = m_climberMotor1.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 1 counts", currentPositionClimber1);
-    SmartDashboard.putNumber("Climber 1 position (meters)", convertCountsToPosition(currentPositionClimber1));
+    SmartDashboard.putNumber("Climber 1 position (inches)", convertCountsToPositionInches(currentPositionClimber1));
     SmartDashboard.putNumber("Climber 1 error", m_climberMotor1.getClosedLoopError());
 
-    double currentPositionClimber2 = m_climberMotor1.getSelectedSensorPosition();
+    double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
-    SmartDashboard.putNumber("Climber 2 position (meters)", convertCountsToPosition(currentPositionClimber2));
+    SmartDashboard.putNumber("Climber 2 position (inches)", convertCountsToPositionInches(currentPositionClimber2));
     //SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
 
   }
 
-  public double convertCountsToPosition(double positionCounts){
-    return 0.0;
+  public double getPositionInches(){
+    return convertCountsToPositionInches(m_climberMotor1.getSelectedSensorPosition());
+  }
+ 
+  public double convertCountsToPositionInches(double positionCounts){
+    return positionCounts / encoderCountsPerRev * GEAR_REDUCTION * Math.PI * SHAFT_DIAMETER_INCHES;
   }
 
-  public double convertPositionToCounts(double positionMeters){
-    // (distance per count (rad))
-    return 0.0;
+  public double convertPositionInchesToCounts(double positionInches){
+    return positionInches * encoderCountsPerRev / (GEAR_REDUCTION * Math.PI * SHAFT_DIAMETER_INCHES);
   }
 
-  public void setClimber1Position(double positionMeters){
-    m_climberMotor1.set(ControlMode.Position, convertPositionToCounts(positionMeters));
-  }
-
-  public void setClimber2Position(double positionMeters){
-    //m_climberMotor2.set(ControlMode.Position, convertPositionToCounts(positionMeters));
-  }
-
-  public double convertServoPositionToClimberAngleDegrees(double servoRawPosition){
-    // Need to use some trig here and scale the raw servo position to an actual distance
-    double extendedLengthMeters = servoRawPosition * maxServoExtention;
-    
-    return Math.atan(extendedLengthMeters / distanceFromPivotPointMeters);
-  }
-
-  public boolean servoAtPosition(double endRawPosition){
-    // This moves so slow that PID control is not necessary
-    // Position is a value between 0 and 1
-    double currentRawPosition = angleActuator_1.getPosition();
-    double error = Math.abs(currentRawPosition - endRawPosition);
-
-    return (error < 0.02);
-  }
-
-  public void deployClimber1Brake(PneumaticSubsystem pneumaticSubsystem){
-     climber1BrakeOn = true;
-     pneumaticSubsystem.setClimberBrake();
-  }
-
-  public void releaseClimber1Brake(PneumaticSubsystem pneumaticSubsystem){
-    climber1BrakeOn = false;
-    pneumaticSubsystem.releaseClimberBrake();
-  }
 
   public void setClimberMotor1Output(double commandedOutput){
     m_climberMotor1.set(commandedOutput);
+  }
+
+  public void setClimberMotor2Output(double commandedOutput){
+    m_climberMotor2.set(commandedOutput);
+  }
+
+  public boolean isClimber2Deployed(){
+    return climber2IsDeployed; 
+  }
+
+  public void setClimber2Deployed(PneumaticSubsystem pneumaticSystem){
+    // add solenoid as input and flip here
+    climber2IsDeployed = true; 
+    pneumaticSystem.setClimber2Deployed();
+  }
+
+  public void setClimber2Undeployed(PneumaticSubsystem pneumaticSubsystem){
+    // Add solenoid as input and flip here
+    climber2IsDeployed = false; 
+    pneumaticSubsystem.setClimber2Undeployed();
   }
 }

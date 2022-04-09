@@ -4,27 +4,25 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class RunClimber1OpenLoop extends CommandBase {
+public class RaiseClimber1 extends CommandBase {
+  /** Creates a new RaiseClimber1. */
+  private final ClimberSubsystem m_climber;
 
-  private final ClimberSubsystem climber1;
-  double commandedOutputFraction;
-
-  /** Creates a new Climber2. */
-  public RunClimber1OpenLoop(ClimberSubsystem climberSubsystem, double commandedFraction) {
-    this.climber1 = climberSubsystem;
-    this.commandedOutputFraction = commandedFraction;
-    addRequirements(climber1);
+  public RaiseClimber1(ClimberSubsystem climber) {
+    m_climber = climber;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber1.setClimberMotor1Output(commandedOutputFraction);
+    if (m_climber.isSafeForClimb()){
+      m_climber.setClimberMotor1Output(Constants.DEFAULT_CLIMBER_OUTPUT);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,12 +32,12 @@ public class RunClimber1OpenLoop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber1.setClimberMotor1Output(0);
+    m_climber.setClimberMotor1Output(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (!m_climber.isSafeForClimb()) | (m_climber.atClimb1Position());
   }
 }

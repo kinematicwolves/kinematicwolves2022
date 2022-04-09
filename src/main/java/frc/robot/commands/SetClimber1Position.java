@@ -20,7 +20,7 @@ public class SetClimber1Position extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climberSubsystem.setClimber1Position(m_commandedPosition);
+    // m_climberSubsystem.setClimber1Position(m_commandedPosition);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

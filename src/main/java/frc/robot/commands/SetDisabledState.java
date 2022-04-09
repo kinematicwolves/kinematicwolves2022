@@ -4,27 +4,21 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.LightingSubsystem;
 
-public class RunClimber1OpenLoop extends CommandBase {
-
-  private final ClimberSubsystem climber1;
-  double commandedOutputFraction;
-
-  /** Creates a new Climber2. */
-  public RunClimber1OpenLoop(ClimberSubsystem climberSubsystem, double commandedFraction) {
-    this.climber1 = climberSubsystem;
-    this.commandedOutputFraction = commandedFraction;
-    addRequirements(climber1);
+public class SetDisabledState extends CommandBase {
+  private final LightingSubsystem m_lighting;
+  /** Creates a new SetDisabledState. */
+  public SetDisabledState(LightingSubsystem lighting) {
+    m_lighting = lighting;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber1.setClimberMotor1Output(commandedOutputFraction);
+    m_lighting.setDisabledLightShow();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +28,7 @@ public class RunClimber1OpenLoop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber1.setClimberMotor1Output(0);
+    m_lighting.setLightsOff();
   }
 
   // Returns true when the command should end.

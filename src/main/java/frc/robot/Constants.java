@@ -27,8 +27,8 @@ public final class Constants {
     public static final int SHOOTER_MOTOR1 = 15;
     public static final int HORIZONTALCONVEYORMOTOR = 17;  
     public static final int INTAKE_MOTOR = 20;
-    public static final int CLIMBER_MOTOR1 = 24;
-    public static final int CLIMBER_MOTOR2 = 25;
+    public static final int CLIMBER_MOTOR1 = 25;
+    public static final int CLIMBER_MOTOR2 = 27;
 
   // Tables for shooting speeds vs distance
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
@@ -51,8 +51,8 @@ public final class Constants {
     public static final int DRVTRN_SOL_RVS_CHN = 1;  
     public static final int INTAKE_SOLENOID_FWD = 2;
     public static final int INTAKE_SOLENOID_RVS = 3; 
-    public static final int CLIMBER2_SOL_FWD = 4; //port number
-    public static final int CLIMBER2_SOL_RVS = 5; //port number
+    public static final int CLIMBER2_SOL_FWD = 4;
+    public static final int CLIMBER2_SOL_RVS = 5;
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;

@@ -25,7 +25,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private String climber1State = "Initial Position";
   private final double GEAR_REDUCTION = 1.0 / 25.0;
   private final double SHAFT_DIAMETER_INCHES = 0.5; // Inches
-  private boolean climberBrakeOn = false;
   private boolean climber2IsDeployed = false; 
 
   /* 

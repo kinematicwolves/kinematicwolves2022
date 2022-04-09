@@ -34,14 +34,14 @@ public class RunTeleopLighting extends CommandBase {
   @Override
   public void execute() {
     // I think this will turn orange after two minutes.
-    if (m_timer.get() > 120){
-      m_lighting.setOrange();
+    if (m_timer.get() > 20){
+      m_lighting.setOrangeSolidAnimation();
     }
     else if (m_drivetrain.isLinedUp(m_vision)){
-      m_lighting.setGreen();
+      m_lighting.setTwinkleAnimation();
     }
     else {
-      m_lighting.setLightsOff();
+      m_lighting.setFireAnimation();
     }
   }
 

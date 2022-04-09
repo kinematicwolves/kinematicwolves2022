@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     if (m_telopLightingCommand != null){
       m_telopLightingCommand.cancel();
+      m_telopLightingCommand = null;
     }
     
     m_disabledCommand = m_robotContainer.getDisabledCommand();

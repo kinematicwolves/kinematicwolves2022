@@ -18,7 +18,6 @@ public class PneumaticSubsystem extends SubsystemBase {
   private final PneumaticHub pHub = new PneumaticHub(9);
   private final DoubleSolenoid intakeSolenoid = pHub.makeDoubleSolenoid(Constants.INTAKE_SOLENOID_FWD, Constants.INTAKE_SOLENOID_RVS);
   private final DoubleSolenoid drivetrainSolenoid = pHub.makeDoubleSolenoid(Constants.DRVTRN_SOL_FWD_CHN, Constants.DRVTRN_SOL_RVS_CHN);
-  private final DoubleSolenoid climberBrakeSolenoid = pHub.makeDoubleSolenoid(Constants.CLIMBER_BRAKE_FWD_CHN, Constants.CLIMBER_BRAKE_RVS_CHN);
   private final DoubleSolenoid climber2Postitioning = pHub.makeDoubleSolenoid(Constants.CLIMBER2_SOL_FWD, Constants.CLIMBER2_SOL_RVS);
   /** Creates a new PneumaticSubsystem. */
 
@@ -53,13 +52,5 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public void setDrivetrainSolenoidReverse(){
     drivetrainSolenoid.set(Value.kForward);
-  }
-
-  public void setClimberBrake(){
-    climberBrakeSolenoid.set(Value.kForward);
-  }
-
-  public void releaseClimberBrake(){
-    climberBrakeSolenoid.set(Value.kReverse);
   }
 }

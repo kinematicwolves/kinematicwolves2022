@@ -101,5 +101,13 @@ public final class Constants {
   public static final double LOWER_SERVO_POS_LIMIT = 0.17; // All the way in
   public static final int LINEAR_ACTUATOR_1 = 0;*/
 
+  public static class CandleConstants {
+    public static final int CANDLE_1_ID = 50;
+    public static final int CANDLE_1_LED_COUNT = 68;
+    
+    //public static final int CANDLE_2_ID = 10001;
+    //public static final int CANDLE_2_LED_COUNT = 11;
+  }
+
   
 }

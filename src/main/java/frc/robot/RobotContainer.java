@@ -19,17 +19,21 @@ import frc.robot.commands.RunClimber1OpenLoop;
 import frc.robot.commands.RunClimber2OpenLoop;
 import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunIntakeMotor;
+import frc.robot.commands.RunTeleopLighting;
 import frc.robot.commands.RunVerticalConveyor;
+import frc.robot.commands.SetDisabledState;
 import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.ShootWithLTrigger;
+import frc.robot.commands.TestSettingLights;
 import frc.robot.commands.ToggleSpeedLimit;
 import frc.robot.commands.TwoBallAuton;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VConveyorSubsystem;
@@ -47,10 +51,11 @@ public class RobotContainer {
   private final DifferentialDrivetrain m_drivetrainSubsystem = new DifferentialDrivetrain();
   private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  // private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
   private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+  private final LightingSubsystem m_lighting = new LightingSubsystem();
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
@@ -60,7 +65,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
-    new RunClimber2OpenLoop(m_climberSubsystem, m_manipulatorController);
+    // new RunClimber2OpenLoop(m_climberSubsystem, m_manipulatorController);
     CameraServer.startAutomaticCapture();
   }
 
@@ -98,8 +103,9 @@ public class RobotContainer {
     //Driver Controller
     dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
-    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
-    dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.55));
+    // dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
+    // dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.55));
+    dc_bButton.whenPressed(new TestSettingLights(m_lighting));
     dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
     dc_xButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     //Munipulator Controller 
@@ -117,7 +123,7 @@ public class RobotContainer {
     mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
     mc_lButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
     mc_lefJoystickButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1000));
-    mc_rJoystickButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem));
+    // mc_rJoystickButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem));
     //mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
     }
 
@@ -136,7 +142,14 @@ public class RobotContainer {
    }
 
 
-    /*public Command getDisabledCommand() // Command to reset robot to initial state
-    }*/
+    public Command getDisabledCommand(){
+      Command disabled = new SetDisabledState(m_lighting);
+      return disabled;
+    } // Command to reset robot to initial state
+    
+    public Command getTeleopLightingCommand(){
+      Command lightingCommand = new RunTeleopLighting(m_lighting, m_drivetrainSubsystem, m_visionSubsystem);
+      return lightingCommand;
+    }
 }
  

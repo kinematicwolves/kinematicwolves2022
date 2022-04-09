@@ -163,7 +163,6 @@ public class ClimberSubsystem extends SubsystemBase {
     double currentPositionClimber1 = m_climberMotor1.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 1 counts", currentPositionClimber1);
     SmartDashboard.putNumber("Climber 1 position (inches)", convertCountsToPositionInches(currentPositionClimber1));
-    SmartDashboard.putNumber("Climber 1 error", m_climberMotor1.getClosedLoopError());
 
     double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);

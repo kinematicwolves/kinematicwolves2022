@@ -100,6 +100,7 @@ public class Robot extends TimedRobot {
     }
     if (m_disabledCommand != null){
       m_disabledCommand.cancel();
+      m_disabledCommand = null;
     }
 
     m_telopLightingCommand = m_robotContainer.getTeleopLightingCommand();

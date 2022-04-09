@@ -7,14 +7,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
-import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.RgbFadeAnimation;
+import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
-import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,28 +31,34 @@ public class LightingSubsystem extends SubsystemBase {
     cfg.vBatOutputMode = VBatOutputMode.Modulated;
     light1.configAllSettings(cfg);
     light1.configLEDType(LEDStripType.GRB);
+    m_animation = new RainbowAnimation(0.7, 0.8, Constants.CandleConstants.CANDLE_1_LED_COUNT); 
     
   }
 
   public void setRainbowAnimation(){
-    m_animation = new RainbowAnimation(0.7, 0.6, Constants.CandleConstants.CANDLE_1_LED_COUNT);
-    light1.animate(m_animation);
+    m_animation = new RainbowAnimation(0.7, 0.8, Constants.CandleConstants.CANDLE_1_LED_COUNT);
+    // light1.animate(m_animation);
   } 
 
   public void setGreenSolidAnimation(){
     // light1.setLEDs(0, 255, 0, 10, 0, Constants.CandleConstants.CANDLE_1_LED_COUNT);
-    m_animation = new ColorFlowAnimation(0, 255, 0, 10, 0.7, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
+    // m_animation = null;
+    m_animation = new SingleFadeAnimation(0, 255, 0, 10, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
   }
 
-  public void setOrangeSolidAnimation(){
-    m_animation = new ColorFlowAnimation(255, 157, 0, 10, 0.7, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
+  public void setPurpleSolidAnimation(){
+    // light1.setLEDs(255, 157, 0, 10, 0, Constants.CandleConstants.CANDLE_1_LED_COUNT);
+    // m_animation = null;
+    m_animation = new SingleFadeAnimation(255, 0, 255, 10, 0.0, Constants.CandleConstants.CANDLE_1_LED_COUNT);
+    // m_animation = new ColorFlowAnimation(255, 165, 0, 10, 0, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
   }
 
   public void setFireAnimation(){
-    m_animation = new FireAnimation(0.9, 0.4, Constants.CandleConstants.CANDLE_1_LED_COUNT, 0.4, 0.2);
+    m_animation = new FireAnimation(0.9, 0.99, Constants.CandleConstants.CANDLE_1_LED_COUNT, 0.7, 0.7);
   }
+
   public void setTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(120, 69, 233, 10, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent64);
+    m_animation = new TwinkleAnimation(120, 69, 233, 10, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100);
   }
   public void setDisabledLightShow(){
     setRainbowAnimation();
@@ -70,6 +75,7 @@ public class LightingSubsystem extends SubsystemBase {
     if (m_animation != null){
       light1.animate(m_animation);
     }
+
       
     // This method will be called once per scheduler run
   }

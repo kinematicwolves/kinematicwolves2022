@@ -34,21 +34,22 @@ public class RunTeleopLighting extends CommandBase {
   @Override
   public void execute() {
     // I think this will turn orange after two minutes.
-    if (m_timer.get() > 20){
-      m_lighting.setOrangeSolidAnimation();
-    }
-    else if (m_drivetrain.isLinedUp(m_vision)){
+    if (m_timer.get() > 105){
       m_lighting.setTwinkleAnimation();
     }
+    else if (m_drivetrain.isLinedUp(m_vision)){
+      m_lighting.setGreenSolidAnimation();
+    }
     else {
-      m_lighting.setFireAnimation();
+      m_lighting.setPurpleSolidAnimation();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_lighting.setLightsOff();
+    m_lighting.setDisabledLightShow();
+
   }
 
   // Returns true when the command should end.

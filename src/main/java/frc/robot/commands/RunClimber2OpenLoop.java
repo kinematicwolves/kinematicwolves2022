@@ -13,12 +13,13 @@ public class RunClimber2OpenLoop extends CommandBase {
 
   private final ClimberSubsystem climber2;
   double commandedOutputFraction;
-  private final XboxController m_manipulatorController;
+  
 
   /** Creates a new Climber2. */
-  public RunClimber2OpenLoop(ClimberSubsystem climberSubsystem, XboxController manipulatorController) {
+  public RunClimber2OpenLoop(ClimberSubsystem climberSubsystem,double output) {
     this.climber2 = climberSubsystem;
-    m_manipulatorController = manipulatorController;
+    commandedOutputFraction = output;
+    // m_manipulatorController = manipulatorController;
     // addRequirements(climber2);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -26,28 +27,28 @@ public class RunClimber2OpenLoop extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   
+   climber2.setClimberMotor2Output(commandedOutputFraction);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      int upperWindow = 20;
-      if (m_manipulatorController.getPOV() > upperWindow & (m_manipulatorController.getPOV() < upperWindow)){
-        climber2.setClimberMotor2Output(0.55);
-      }
-      else if ((m_manipulatorController.getPOV() > 180 - upperWindow) & (m_manipulatorController.getPOV() < 180 + upperWindow)){
-        climber2.setClimberMotor2Output(0.2);
-      }
-    else {
-      climber2.setClimberMotor2Output(0);
-    }
+    //   int upperWindow = 20;
+    //   if (m_manipulatorController.getPOV() > upperWindow & (m_manipulatorController.getPOV() < upperWindow)){
+    //     climber2.setClimberMotor2Output(0.55);
+    //   }
+    //   else if ((m_manipulatorController.getPOV() > 180 - upperWindow) & (m_manipulatorController.getPOV() < 180 + upperWindow)){
+    //     climber2.setClimberMotor2Output(0.2);
+    //   }
+    // else {
+    //   climber2.setClimberMotor2Output(0);
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    climber2.setClimberMotor2Output(0);
   }
 
   // Returns true when the command should end.

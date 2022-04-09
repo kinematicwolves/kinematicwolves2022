@@ -23,6 +23,7 @@ public class ClimberSubsystem extends SubsystemBase {
   // public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
   private String climber1State = "Initial Position";
+  private String climber2State = "Initial Position";
   private final double GEAR_REDUCTION = 1.0 / 25.0;
   private final double SHAFT_DIAMETER_INCHES = 0.5; // Inches
   private boolean climber2IsDeployed = false; 
@@ -40,51 +41,87 @@ public class ClimberSubsystem extends SubsystemBase {
   1/2" shaft
   */
   private final double MINIMUM_DISTANCE = 0;
-  private final double MAXIMUM_DISTANCE = 100000; // UNITS INCHES
-  private final double WINDOW_THRESHOLD = 1000; // UNITS INCHES
-  private final double CLIMBER1_HEIGHT = 40000; // UNITS INCHES
-  private final double REVERSE_DISTANCE_SETPOINT = 30000;
+  private final double MAXIMUM_DISTANCE = 24; // UNITS INCHES
+  private final double WINDOW_THRESHOLD = 0.2; // UNITS INCHES
+  private final double CLIMBER1_HEIGHT = 9; // UNITS INCHES
+
+  private final double MINIMUM_DISTANCE_C2 = 0;
+  private final double MAXIMUM_DISTANCE_C2 = 24; // UNITS INCHES
+  private final double WINDOW_THRESHOLD_C2 = 0.2; // UNITS INCHES
+  private final double CLIMBER1_HEIGHT_C2 = 9; // UNITS INCHES
+
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_climberMotor1.setSelectedSensorPosition(0);
-    m_climberMotor1.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); // Needs to be in counts
-    m_climberMotor1.configForwardSoftLimitEnable(true);
+    // m_climberMotor1.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); 
+    // m_climberMotor1.configForwardSoftLimitEnable(true);
 
-    m_climberMotor1.configReverseSoftLimitThreshold(0);
-    m_climberMotor1.configReverseSoftLimitEnable(true);
+    // m_climberMotor1.configReverseSoftLimitThreshold(0);
+    // m_climberMotor1.configReverseSoftLimitEnable(true);
 
     m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_climberMotor2.setSelectedSensorPosition(0);
+  //   m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); 
+  //   m_climberMotor2.configForwardSoftLimitEnable(true);
+
+  //   m_climberMotor2.configReverseSoftLimitThreshold(0);
+  //   m_climberMotor2.configReverseSoftLimitEnable(true);
   }
 
-  private String monitorClimber1State(){
+  private void monitorClimber1State(){
     // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
-    double encoderPostion = getPositionInches();
     if (getPositionInches() < MINIMUM_DISTANCE + WINDOW_THRESHOLD){
-      return "Initial Position";
+      climber1State = "Initial Position";
     }
     else if ((getPositionInches() > MINIMUM_DISTANCE + WINDOW_THRESHOLD) & (getPositionInches() < WINDOW_THRESHOLD + CLIMBER1_HEIGHT)){
-      return "Raising To Climb";
+      climber1State = "Raising To Climb";
     }
     else if ((getPositionInches() > CLIMBER1_HEIGHT - WINDOW_THRESHOLD) & (getPositionInches() < CLIMBER1_HEIGHT + WINDOW_THRESHOLD)){
-      return "Ready to climb";
+      climber1State = "Ready to climb";
     }
     else if ((getPositionInches() > CLIMBER1_HEIGHT + WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE - WINDOW_THRESHOLD)){
-      return "Climbing";
+      climber1State = "Climbing";
     }
     else if ((getPositionInches() > MAXIMUM_DISTANCE - WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE)){
-      return "At Max Position";
+      climber1State = "At Max Position";
     }
     else {
-      return "Out of bounds";
+      climber1State = "Out of bounds";
+    }
+
+  }
+
+  private void monitorClimber2State(){
+    // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
+    if (getPositionInches() < MINIMUM_DISTANCE + WINDOW_THRESHOLD){
+      climber2State = "Initial Position";
+    }
+    else if ((getPositionInches() > MINIMUM_DISTANCE + WINDOW_THRESHOLD) & (getPositionInches() < WINDOW_THRESHOLD + CLIMBER1_HEIGHT)){
+      climber2State = "Raising To Climb";
+    }
+    else if ((getPositionInches() > CLIMBER1_HEIGHT - WINDOW_THRESHOLD) & (getPositionInches() < CLIMBER1_HEIGHT + WINDOW_THRESHOLD)){
+      climber2State = "Ready to climb";
+    }
+    else if ((getPositionInches() > CLIMBER1_HEIGHT + WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE - WINDOW_THRESHOLD)){
+      climber2State = "Climbing";
+    }
+    else if ((getPositionInches() > MAXIMUM_DISTANCE - WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE)){
+      climber2State = "At Max Position";
+    }
+    else {
+      climber2State = "Out of bounds";
     }
 
   }
 
   public String getClimber1State(){
     return climber1State;
+  }
+
+  public String getClimber2State(){
+    return climber2State;
   }
 
   public boolean atClimb1Position(){
@@ -100,69 +137,23 @@ public class ClimberSubsystem extends SubsystemBase {
     }
   }
 
-  public void configureMotor1Feedback(){
-    m_climberMotor1.configFactoryDefault();
-		m_climberMotor1.setNeutralMode(NeutralMode.Brake);
-    m_climberMotor1.setInverted(TalonFXInvertType.Clockwise);
-		/* Config neutral deadband to be the smallest possible */
-		m_climberMotor1.configNeutralDeadband(0.001);
-
-		/* Config sensor used for Primary PID [Velocity] */
-    m_climberMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                            Constants.SHOOTER_PID_SLOT, Constants.kTimeoutMs);
-											
-
-		/* Config the peak and nominal outputs */
-		m_climberMotor1.configNominalOutputForward(0, Constants.kTimeoutMs);
-		m_climberMotor1.configNominalOutputReverse(0, Constants.kTimeoutMs);
-		m_climberMotor1.configPeakOutputForward(1, Constants.kTimeoutMs);
-		m_climberMotor1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-
-		/* Config the position closed loop gains in slot0 */
-		m_climberMotor1.config_kF(Constants.CLIMBER1_PID_SLOT, Constants.CLIMBER1_Kf, Constants.kTimeoutMs);
-		m_climberMotor1.config_kP(Constants.CLIMBER1_PID_SLOT, Constants.CLIMBER1_Kp, Constants.kTimeoutMs);
-		m_climberMotor1.config_kI(Constants.CLIMBER1_PID_SLOT, Constants.CLIMBER1_Ki, Constants.kTimeoutMs);
-		m_climberMotor1.config_kD(Constants.CLIMBER1_PID_SLOT, Constants.CLIMBER1_Kd, Constants.kTimeoutMs);
-
-    m_climberMotor1.set(ControlMode.Position, 0, DemandType.ArbitraryFeedForward, climber1Feedforward);
+  public boolean isClimber1Finished(){
+    return getClimber1State() == "At Max Position";
   }
   
-  /*public void configureMotor2Feedback(){
-    
-    //m_climberMotor2.configFactoryDefault();
-		//m_climberMotor2.setNeutralMode(NeutralMode.Brake);
-    //m_climberMotor2.setInverted(TalonFXInvertType.Clockwise);
-		//Config neutral deadband to be the smallest possible
-		//m_climberMotor2.configNeutralDeadband(0.001);
-
-		// Config sensor used for Primary PID [Velocity]
-    //m_climberMotor2.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                            Constants.SHOOTER_PID_SLOT, Constants.kTimeoutMs);
-											
-
-		// Config the peak and nominal outputs
-		m_climberMotor2.configNominalOutputForward(0, Constants.kTimeoutMs);
-		m_climberMotor2.configNominalOutputReverse(0, Constants.kTimeoutMs);
-		m_climberMotor2.configPeakOutputForward(1, Constants.kTimeoutMs);
-		m_climberMotor2.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-
-		// Config the position closed loop gains in slot0
-		m_climberMotor2.config_kF(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Kf, Constants.kTimeoutMs);
-		m_climberMotor2.config_kP(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Kp, Constants.kTimeoutMs);
-		m_climberMotor2.config_kI(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Ki, Constants.kTimeoutMs);
-		m_climberMotor2.config_kD(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Kd, Constants.kTimeoutMs);
-
-    m_climberMotor2.set(ControlMode.Position, 0, DemandType.ArbitraryFeedForward, climber2Feedforward);
-    
-  }*/
-
+  // public boolean isSafeForSecondClimb(){
+  //   return (getClimber1State() == "At Max Position") & (ge);
+  // }
+  
   @Override
   public void periodic() {
-    climber1State = monitorClimber1State();
+    monitorClimber1State();
+    monitorClimber2State();
     // This method will be called once per scheduler run
     double currentPositionClimber1 = m_climberMotor1.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 1 counts", currentPositionClimber1);
     SmartDashboard.putNumber("Climber 1 position (inches)", convertCountsToPositionInches(currentPositionClimber1));
+    SmartDashboard.putString("Climber 1 state", getClimber1State());
 
     double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);

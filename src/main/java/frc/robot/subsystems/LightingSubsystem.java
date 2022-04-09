@@ -27,7 +27,7 @@ public class LightingSubsystem extends SubsystemBase {
   /** Creates a new LightingSubsystem. */
   public LightingSubsystem() {
     CANdleConfiguration cfg = new CANdleConfiguration();
-    cfg.brightnessScalar = 0.9;
+    cfg.brightnessScalar = 0.6;
     cfg.vBatOutputMode = VBatOutputMode.Modulated;
     light1.configAllSettings(cfg);
     light1.configLEDType(LEDStripType.GRB);

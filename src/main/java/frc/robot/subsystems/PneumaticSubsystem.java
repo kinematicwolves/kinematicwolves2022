@@ -37,11 +37,11 @@ public class PneumaticSubsystem extends SubsystemBase {
   }
 
   public void setClimber2Deployed(){
-    intakeSolenoid.set(Value.kReverse);
+    climber2Postitioning.set(Value.kReverse);
   }
 
   public void setClimber2Undeployed(){
-    intakeSolenoid.set(Value.kForward);
+    climber2Postitioning.set(Value.kForward);
   }
 
   public void setDrivetrainSolenoidFoward(){

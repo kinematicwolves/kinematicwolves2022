@@ -20,6 +20,7 @@ import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.RunTeleopLighting;
 import frc.robot.commands.RunVerticalConveyor;
+import frc.robot.commands.SetClimber1ToClimbPosition;
 import frc.robot.commands.SetDisabledState;
 import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
@@ -63,7 +64,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
-    new RunClimber2OpenLoop(m_climberSubsystem, m_manipulatorController);
+    // new RunClimber2OpenLoop(m_climberSubsystem, m_manipulatorController);
     CameraServer.startAutomaticCapture();
   }
 
@@ -101,9 +102,10 @@ public class RobotContainer {
     //Driver Controller
     dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
     dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
-    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
-    dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.55));
-    
+    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.3));
+    // dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.55));
+    dc_bButton.whenPressed(new SetClimber1ToClimbPosition(m_climberSubsystem));
+    dc_aButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.6));
     dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
     dc_xButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     //Munipulator Controller 
@@ -138,7 +140,7 @@ public class RobotContainer {
    }
 
     public Command getDisabledCommand(){
-      Command disabled = new SetDisabledState(m_lighting);
+      Command disabled = new SetDisabledState(m_lighting, m_visionSubsystem);
       return disabled;
     } // Command to reset robot to initial state
     

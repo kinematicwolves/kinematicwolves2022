@@ -9,7 +9,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 
 public class SetClimber1ToClimbPosition extends CommandBase {
   private final ClimberSubsystem m_climbersubsystem; 
-  private boolean safeForClimb;
+  
   /** Creates a new SetClimber1ToClimbPosition. */
   public SetClimber1ToClimbPosition(ClimberSubsystem climberSubsystem) {
     m_climbersubsystem = climberSubsystem; 
@@ -20,7 +20,7 @@ public class SetClimber1ToClimbPosition extends CommandBase {
   @Override
   public void initialize() {
     if (m_climbersubsystem.isSafeForClimb()){
-      m_climbersubsystem.setClimberMotor1Output(0.55);
+      m_climbersubsystem.setClimberMotor1Output(-0.55);
     }
     
   }

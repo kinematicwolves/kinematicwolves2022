@@ -28,6 +28,7 @@ public class RunTeleopLighting extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
+    m_vision.turnLimelightOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

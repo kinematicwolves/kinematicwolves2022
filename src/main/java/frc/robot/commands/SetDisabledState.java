@@ -6,12 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LightingSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 public class SetDisabledState extends CommandBase {
   private final LightingSubsystem m_lighting;
+  private final VisionSubsystem m_vision;
   /** Creates a new SetDisabledState. */
-  public SetDisabledState(LightingSubsystem lighting) {
+  public SetDisabledState(LightingSubsystem lighting, VisionSubsystem vision) {
     m_lighting = lighting;
+    m_vision = vision;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -19,6 +22,7 @@ public class SetDisabledState extends CommandBase {
   @Override
   public void initialize() {
     m_lighting.setDisabledLightShow();
+    m_vision.turnLimelightOff();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

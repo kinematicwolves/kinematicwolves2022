@@ -25,7 +25,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private String climber1State = "Initial Position";
   private final double GEAR_REDUCTION = 1.0 / 25.0;
   private final double SHAFT_DIAMETER_INCHES = 0.5; // Inches
-  private boolean climberBrakeOn = false;
   private boolean climber2IsDeployed = false; 
 
   /* 
@@ -33,7 +32,7 @@ public class ClimberSubsystem extends SubsystemBase {
     is an arbitrary output that is always added to the motor output.
   */ 
   private final double climber1Feedforward = 0;
-  private final double climber2Feedforward = 0;
+  //private final double climber2Feedforward = 0;
 
   /* 
   Constants for extending climber
@@ -128,12 +127,12 @@ public class ClimberSubsystem extends SubsystemBase {
     m_climberMotor1.set(ControlMode.Position, 0, DemandType.ArbitraryFeedForward, climber1Feedforward);
   }
   
-  public void configureMotor2Feedback(){
-    /*
+  /*public void configureMotor2Feedback(){
+    
     //m_climberMotor2.configFactoryDefault();
 		//m_climberMotor2.setNeutralMode(NeutralMode.Brake);
     //m_climberMotor2.setInverted(TalonFXInvertType.Clockwise);
-		/* Config neutral deadband to be the smallest possible
+		//Config neutral deadband to be the smallest possible
 		//m_climberMotor2.configNeutralDeadband(0.001);
 
 		// Config sensor used for Primary PID [Velocity]
@@ -154,8 +153,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		m_climberMotor2.config_kD(Constants.CLIMBER2_PID_SLOT, Constants.CLIMBER2_Kd, Constants.kTimeoutMs);
 
     m_climberMotor2.set(ControlMode.Position, 0, DemandType.ArbitraryFeedForward, climber2Feedforward);
-    */
-  }
+    
+  }*/
 
   @Override
   public void periodic() {

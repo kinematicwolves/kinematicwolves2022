@@ -54,15 +54,16 @@ public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    m_climberMotor1.setInverted(TalonFXInvertType.Clockwise);
     m_climberMotor1.setSelectedSensorPosition(0);
     // m_climberMotor1.configFactoryDefault(); // To reset cfg to factory default
     m_climberMotor1.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); 
     m_climberMotor1.configForwardSoftLimitEnable(true);
-
     m_climberMotor1.configReverseSoftLimitThreshold(0);
     m_climberMotor1.configReverseSoftLimitEnable(true);
 
     m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+    m_climberMotor2.setInverted(TalonFXInvertType.Clockwise);
     m_climberMotor2.setSelectedSensorPosition(0);
     // m_climberMotor2.configFactoryDefault(); // To reset cfg to factory default
     m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MINIMUM_DISTANCE_C2)); 

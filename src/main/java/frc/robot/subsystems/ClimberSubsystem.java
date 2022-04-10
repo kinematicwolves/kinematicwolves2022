@@ -48,26 +48,28 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double MINIMUM_DISTANCE_C2 = 0;
   private final double MAXIMUM_DISTANCE_C2 = 24; // UNITS INCHES
   private final double WINDOW_THRESHOLD_C2 = 0.2; // UNITS INCHES
-  private final double CLIMBER1_HEIGHT_C2 = 9; // UNITS INCHES
+  private final double CLIMBER2_HEIGHT = 9; // UNITS INCHES
 
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_climberMotor1.setSelectedSensorPosition(0);
-    // m_climberMotor1.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); 
-    // m_climberMotor1.configForwardSoftLimitEnable(true);
+    // m_climberMotor1.configFactoryDefault(); // To reset cfg to factory default
+    m_climberMotor1.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); 
+    m_climberMotor1.configForwardSoftLimitEnable(true);
 
-    // m_climberMotor1.configReverseSoftLimitThreshold(0);
-    // m_climberMotor1.configReverseSoftLimitEnable(true);
+    m_climberMotor1.configReverseSoftLimitThreshold(0);
+    m_climberMotor1.configReverseSoftLimitEnable(true);
 
     m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_climberMotor2.setSelectedSensorPosition(0);
-  //   m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE)); 
-  //   m_climberMotor2.configForwardSoftLimitEnable(true);
+    // m_climberMotor2.configFactoryDefault(); // To reset cfg to factory default
+    m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MINIMUM_DISTANCE_C2)); 
+    m_climberMotor2.configForwardSoftLimitEnable(true);
 
-  //   m_climberMotor2.configReverseSoftLimitThreshold(0);
-  //   m_climberMotor2.configReverseSoftLimitEnable(true);
+    m_climberMotor2.configReverseSoftLimitThreshold(0);
+    m_climberMotor2.configReverseSoftLimitEnable(true);
   }
 
   private void monitorClimber1State(){
@@ -95,19 +97,19 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private void monitorClimber2State(){
     // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
-    if (getPositionInches() < MINIMUM_DISTANCE + WINDOW_THRESHOLD){
+    if (getPositionInches() < MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD){
       climber2State = "Initial Position";
     }
-    else if ((getPositionInches() > MINIMUM_DISTANCE + WINDOW_THRESHOLD) & (getPositionInches() < WINDOW_THRESHOLD + CLIMBER1_HEIGHT)){
+    else if ((getPositionInches() > MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD) & (getPositionInches() < WINDOW_THRESHOLD + CLIMBER2_HEIGHT)){
       climber2State = "Raising To Climb";
     }
-    else if ((getPositionInches() > CLIMBER1_HEIGHT - WINDOW_THRESHOLD) & (getPositionInches() < CLIMBER1_HEIGHT + WINDOW_THRESHOLD)){
+    else if ((getPositionInches() > CLIMBER2_HEIGHT - WINDOW_THRESHOLD) & (getPositionInches() < CLIMBER2_HEIGHT + WINDOW_THRESHOLD)){
       climber2State = "Ready to climb";
     }
-    else if ((getPositionInches() > CLIMBER1_HEIGHT + WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE - WINDOW_THRESHOLD)){
+    else if ((getPositionInches() > CLIMBER2_HEIGHT + WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD)){
       climber2State = "Climbing";
     }
-    else if ((getPositionInches() > MAXIMUM_DISTANCE - WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE)){
+    else if ((getPositionInches() > MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE_C2)){
       climber2State = "At Max Position";
     }
     else {
@@ -141,9 +143,13 @@ public class ClimberSubsystem extends SubsystemBase {
     return getClimber1State() == "At Max Position";
   }
   
-  // public boolean isSafeForSecondClimb(){
-  //   return (getClimber1State() == "At Max Position") & (ge);
-  // }
+  public boolean isSafeForSecondClimb(){
+    return (getClimber1State() == "At Max Position") & ((getClimber2State() == "Initial Position" ) | (getClimber2State() == "Raising To Climb"));
+  }
+
+  public boolean isClimber2Finished(){
+    return getClimber2State() == "At Max Position";
+  }
   
   @Override
   public void periodic() {
@@ -158,7 +164,7 @@ public class ClimberSubsystem extends SubsystemBase {
     double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
     SmartDashboard.putNumber("Climber 2 position (inches)", convertCountsToPositionInches(currentPositionClimber2));
-    //SmartDashboard.putNumber("Climber 2 error", m_climberMotor2.getClosedLoopError());
+    SmartDashboard.putString("Climber 2 state", getClimber2State());
 
   }
 
@@ -167,7 +173,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
  
   public double convertCountsToPositionInches(double positionCounts){
-    return positionCounts / encoderCountsPerRev * GEAR_REDUCTION * Math.PI * SHAFT_DIAMETER_INCHES;
+    return Math.abs(positionCounts / encoderCountsPerRev * GEAR_REDUCTION * Math.PI * SHAFT_DIAMETER_INCHES);
   }
 
   public double convertPositionInchesToCounts(double positionInches){

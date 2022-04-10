@@ -4,46 +4,54 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 
-public class RaiseClimber1 extends CommandBase {
-  /** Creates a new RaiseClimber1. */
+public class ClimbToTenPointRung extends CommandBase {
+  /** Creates a new ClimbToTenPointRung. */
   private final ClimberSubsystem m_climber;
-  private final IntakeSubsystem m_intake;
+  private final LightingSubsystem m_lighting;
   private final PneumaticSubsystem m_pneumatics;
-  public RaiseClimber1(ClimberSubsystem climber, IntakeSubsystem intake, PneumaticSubsystem pneumatics) {
+  private Timer m_timer = new Timer();
+
+  public ClimbToTenPointRung(ClimberSubsystem climber, LightingSubsystem lighting, PneumaticSubsystem pneumatics) {
     m_climber = climber;
-    m_intake = intake;
+    m_lighting = lighting;
     m_pneumatics = pneumatics;
+    
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_climber.isSafeForClimb()){
-      m_climber.setClimberMotor1Output(Constants.DEFAULT_CLIMBER_OUTPUT);
-      m_intake.setIntakeUndeployed(m_pneumatics);
+    m_timer.reset();
+    m_timer.start();
+    if (m_climber.isSafeForSecondClimb()){
+      m_climber.setClimber2Deployed(m_pneumatics);
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (m_timer.get() > 1.5){
+      m_climber.setClimberMotor2Output(0.6);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.setClimberMotor1Output(0);
+    m_climber.setClimberMotor2Output(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (!m_climber.isSafeForClimb()) | (m_climber.atClimb1Position());
+    return !m_climber.isSafeForSecondClimb() | m_climber.isClimber2Finished();
   }
 }

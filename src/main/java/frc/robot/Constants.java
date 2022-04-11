@@ -103,7 +103,7 @@ public final class Constants {
 
   public static class CandleConstants {
     public static final int CANDLE_1_ID = 50;
-    public static final int CANDLE_1_LED_COUNT = 308;
+    public static final int CANDLE_1_LED_COUNT = 185;
     
     //public static final int CANDLE_2_ID = 10001;
     //public static final int CANDLE_2_LED_COUNT = 11;

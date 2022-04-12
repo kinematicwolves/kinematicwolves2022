@@ -97,7 +97,7 @@ public class RobotContainer {
     mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, -1)); //reversed
     //This is to reverse intake a ball out if not all the way in the conveyor
 
-    mc_bButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, 1)); //reversed 
+    mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 1)); //reversed 
 
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
 

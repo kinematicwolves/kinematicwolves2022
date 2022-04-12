@@ -107,12 +107,6 @@ public class VisionSubsystem extends SubsystemBase {
 
   // Calculate distance to target
   private double calculateDistance() {
-    // double dist = -1;
-    
-    // if (getCaptureStatus() == 1.0) {
-    //     dist = (Constants.TARGET_HEIGHT-Constants.LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(getFilteredVerticalAngle()));
-    // }
-
     return (Constants.TARGET_HEIGHT-Constants.LIMELIGHT_HEIGHT)/Math.sin(Math.toRadians(getFilteredVerticalAngle()));
   }
 

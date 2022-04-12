@@ -23,8 +23,7 @@ public class ToggleSpeedLimit extends CommandBase {
     }
     else {
       m_drivetrain.enableSpeedLimit();
-    }
-        
+    }     
   }
 
   // Called every time the scheduler runs while the command is scheduled.

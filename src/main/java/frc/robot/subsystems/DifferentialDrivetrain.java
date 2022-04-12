@@ -4,17 +4,12 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
@@ -63,9 +58,6 @@ public class DifferentialDrivetrain extends SubsystemBase {
     Units.inchesToMeters(trackWidthInches)
     );
   
-  // DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(
-  // getGyroHeading(), new Pose2d(0, 0, new Rotation2d()));
-    
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
     //m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);

@@ -80,25 +80,16 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   
 
-  private boolean isShuffleboardControlEnabled(){
+  /*private boolean isShuffleboardControlEnabled(){
     // This is a hack, we should really get a boolean from shuffleboard but idk what the interface looks like
     int DEFAULT = 0;
     return  1 == tab.add("Enable shooter speed control (1 for enable, 0 for disable)", DEFAULT).getEntry().getDouble(DEFAULT);
-  }
+  }*/
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // String[] shooterDisplay = {
-    //   String.format("Motor output: %f", m_shooterMotor1.getMotorOutputPercent()), 
-    //   String.format("Motor speed (RPM): %f", getMotorSpeedRPM(m_shooterMotor1))
-    // };
       SmartDashboard.putNumber("Shooter Speed", getMotorSpeedRPM(m_shooterMotor1));
-    // SmartDashboard.putStringArray("Shooter Subsystem", shooterDisplay);
-
-    // if (isShuffleboardControlEnabled()){
-    //   setShooterMotorSpeed(getMotorSpeedFromShuffleboard());
-    // }
   }
 
   public void runShooterMotor(double inputCommand){

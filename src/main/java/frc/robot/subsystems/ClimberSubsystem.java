@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,7 +19,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private final WPI_TalonFX m_climberMotor1 = new WPI_TalonFX(Constants.CLIMBER_MOTOR1);
   private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
-  // public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
   private String climber1State = "Initial Position";
   private final double GEAR_REDUCTION = 1.0 / 25.0;
@@ -32,7 +30,7 @@ public class ClimberSubsystem extends SubsystemBase {
     is an arbitrary output that is always added to the motor output.
   */ 
   private final double climber1Feedforward = 0;
-  private final double climber2Feedforward = 0;
+  //private final double climber2Feedforward = 0;
 
   /* 
   Constants for extending climber
@@ -43,7 +41,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double MAXIMUM_DISTANCE = 100000; // UNITS INCHES
   private final double WINDOW_THRESHOLD = 1000; // UNITS INCHES
   private final double CLIMBER1_HEIGHT = 40000; // UNITS INCHES
-  private final double REVERSE_DISTANCE_SETPOINT = 30000;
+  //private final double REVERSE_DISTANCE_SETPOINT = 30000;
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {

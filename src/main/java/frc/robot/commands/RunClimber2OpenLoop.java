@@ -16,11 +16,11 @@ public class RunClimber2OpenLoop extends CommandBase {
   
 
   /** Creates a new Climber2. */
-  public RunClimber2OpenLoop(ClimberSubsystem climberSubsystem,double output) {
+  public RunClimber2OpenLoop(ClimberSubsystem climberSubsystem, double output) {
     this.climber2 = climberSubsystem;
-    commandedOutputFraction = output;
+    this.commandedOutputFraction = output;
     // m_manipulatorController = manipulatorController;
-    // addRequirements(climber2);
+    addRequirements(climber2);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,18 +32,7 @@ public class RunClimber2OpenLoop extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    //   int upperWindow = 20;
-    //   if (m_manipulatorController.getPOV() > upperWindow & (m_manipulatorController.getPOV() < upperWindow)){
-    //     climber2.setClimberMotor2Output(0.55);
-    //   }
-    //   else if ((m_manipulatorController.getPOV() > 180 - upperWindow) & (m_manipulatorController.getPOV() < 180 + upperWindow)){
-    //     climber2.setClimberMotor2Output(0.2);
-    //   }
-    // else {
-    //   climber2.setClimberMotor2Output(0);
-    // }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

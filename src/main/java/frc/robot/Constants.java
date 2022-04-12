@@ -27,8 +27,8 @@ public final class Constants {
     public static final int SHOOTER_MOTOR1 = 15;
     public static final int HORIZONTALCONVEYORMOTOR = 17;  
     public static final int INTAKE_MOTOR = 20;
-    public static final int CLIMBER_MOTOR1 = 27;
-    public static final int CLIMBER_MOTOR2 = 25;
+    public static final int CLIMBER_MOTOR1 = 25;
+    public static final int CLIMBER_MOTOR2 = 27;
 
   // Tables for shooting speeds vs distance
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {

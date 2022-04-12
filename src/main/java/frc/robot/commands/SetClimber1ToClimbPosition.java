@@ -20,7 +20,7 @@ public class SetClimber1ToClimbPosition extends CommandBase {
   @Override
   public void initialize() {
     if (m_climbersubsystem.isSafeForClimb()){
-      m_climbersubsystem.setClimberMotor1Output(-0.55);
+      m_climbersubsystem.setClimberMotor1Output(0.55);
     }
     
   }

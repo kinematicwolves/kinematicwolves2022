@@ -61,17 +61,18 @@ public class ClimberSubsystem extends SubsystemBase {
     m_climberMotor1.configForwardSoftLimitEnable(true);
     m_climberMotor1.configReverseSoftLimitThreshold(0);
     m_climberMotor1.configReverseSoftLimitEnable(true);
-
-    m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
-    m_climberMotor2.setInverted(TalonFXInvertType.Clockwise);
-    m_climberMotor2.setSelectedSensorPosition(0);
-    // m_climberMotor2.configFactoryDefault(); // To reset cfg to factory default
-    m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MINIMUM_DISTANCE_C2)); 
-    m_climberMotor2.configForwardSoftLimitEnable(true);
-
-    m_climberMotor2.configReverseSoftLimitThreshold(0);
-    m_climberMotor2.configReverseSoftLimitEnable(true);
   }
+
+  //   m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
+  //   m_climberMotor2.setInverted(TalonFXInvertType.Clockwise);
+  //   m_climberMotor2.setSelectedSensorPosition(0);
+  //   // m_climberMotor2.configFactoryDefault(); // To reset cfg to factory default
+  //   m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MINIMUM_DISTANCE_C2)); 
+  //   m_climberMotor2.configForwardSoftLimitEnable(true);
+
+  //   m_climberMotor2.configReverseSoftLimitThreshold(0);
+  //   m_climberMotor2.configReverseSoftLimitEnable(true);
+  // }
 
   private void monitorClimber1State(){
     // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
@@ -96,28 +97,28 @@ public class ClimberSubsystem extends SubsystemBase {
 
   }
 
-  private void monitorClimber2State(){
-    // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
-    if (getPositionInches() < MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD){
-      climber2State = "Initial Position";
-    }
-    else if ((getPositionInches() > MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD) & (getPositionInches() < WINDOW_THRESHOLD + CLIMBER2_HEIGHT)){
-      climber2State = "Raising To Climb";
-    }
-    else if ((getPositionInches() > CLIMBER2_HEIGHT - WINDOW_THRESHOLD) & (getPositionInches() < CLIMBER2_HEIGHT + WINDOW_THRESHOLD)){
-      climber2State = "Ready to climb";
-    }
-    else if ((getPositionInches() > CLIMBER2_HEIGHT + WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD)){
-      climber2State = "Climbing";
-    }
-    else if ((getPositionInches() > MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE_C2)){
-      climber2State = "At Max Position";
-    }
-    else {
-      climber2State = "Out of bounds";
-    }
+  // private void monitorClimber2State(){
+  //   // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
+  //   if (getPositionInches() < MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD){
+  //     climber2State = "Initial Position";
+  //   }
+  //   else if ((getPositionInches() > MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD) & (getPositionInches() < WINDOW_THRESHOLD + CLIMBER2_HEIGHT)){
+  //     climber2State = "Raising To Climb";
+  //   }
+  //   else if ((getPositionInches() > CLIMBER2_HEIGHT - WINDOW_THRESHOLD) & (getPositionInches() < CLIMBER2_HEIGHT + WINDOW_THRESHOLD)){
+  //     climber2State = "Ready to climb";
+  //   }
+  //   else if ((getPositionInches() > CLIMBER2_HEIGHT + WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD)){
+  //     climber2State = "Climbing";
+  //   }
+  //   else if ((getPositionInches() > MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD) & (getPositionInches() < MAXIMUM_DISTANCE_C2)){
+  //     climber2State = "At Max Position";
+  //   }
+  //   else {
+  //     climber2State = "Out of bounds";
+  //   }
 
-  }
+  //}
 
   public String getClimber1State(){
     return climber1State;
@@ -154,18 +155,18 @@ public class ClimberSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    monitorClimber1State();
-    monitorClimber2State();
+    //monitorClimber1State();
+    //monitorClimber2State();
     // This method will be called once per scheduler run
     double currentPositionClimber1 = m_climberMotor1.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 1 counts", currentPositionClimber1);
     SmartDashboard.putNumber("Climber 1 position (inches)", convertCountsToPositionInches(currentPositionClimber1));
     SmartDashboard.putString("Climber 1 state", getClimber1State());
 
-    double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
-    SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
-    SmartDashboard.putNumber("Climber 2 position (inches)", convertCountsToPositionInches(currentPositionClimber2));
-    SmartDashboard.putString("Climber 2 state", getClimber2State());
+    // double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
+    // SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
+    // SmartDashboard.putNumber("Climber 2 position (inches)", convertCountsToPositionInches(currentPositionClimber2));
+    // SmartDashboard.putString("Climber 2 state", getClimber2State());
 
   }
 

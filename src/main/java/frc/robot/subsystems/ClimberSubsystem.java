@@ -59,7 +59,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private String monitorClimber1State(){
     // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
-    double encoderPostion = getPositionInches();
+    //double encoderPostion = getPositionInches();
     if (getPositionInches() < MINIMUM_DISTANCE + WINDOW_THRESHOLD){
       return "Initial Position";
     }

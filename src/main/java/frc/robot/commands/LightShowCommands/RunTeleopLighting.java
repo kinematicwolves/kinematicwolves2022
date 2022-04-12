@@ -37,9 +37,6 @@ public class RunTeleopLighting extends CommandBase {
     if (m_timer.get() > 105){
       m_lighting.setTwinkleAnimation();
     }
-    else if (m_drivetrain.isLinedUp(m_vision)){
-      m_lighting.setGreenSolidAnimation();
-    }
     else {
       m_lighting.setPurpleSolidAnimation();
     }

@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
+import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.RunHorizontalConveyor;
-import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetDisabledState;
 import frc.robot.commands.SetShooterToSpeed;
@@ -84,22 +84,20 @@ public class RobotContainer {
 
   //Driver Controller
     dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
-    dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
+    dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_pneumaticSubsystem, m_lighting, 0.35));
 
   //Munipulator Controller 
   //-RunIntakeMotor = Horizontal Conveyor
   //-RunHorizontalConveyor = Intake Motor
   //Beware of polarities
-    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
-    mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1));
+    mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, -1));
     mc_aButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.1));
     //This is to fully intake a ball to the vertical conveyor
 
-    mc_yButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1)); //reversed
-    mc_yButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 1)); //reversed
+    mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, -1)); //reversed
     //This is to reverse intake a ball out if not all the way in the conveyor
 
-    mc_bButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, 1)); //reversed 
+    mc_bButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, 1)); //reversed 
 
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
 

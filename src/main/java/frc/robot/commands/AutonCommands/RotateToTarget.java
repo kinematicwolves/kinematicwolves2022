@@ -2,60 +2,48 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutonCommands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDrivetrain;
-import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
-public class RunTeleopLighting extends CommandBase {
-  /** Creates a new RunTeleopLighting. */
-  private final LightingSubsystem m_lighting;
+public class RotateToTarget extends CommandBase {
+  /** Creates a new RotateToTarget. */
   private final DifferentialDrivetrain m_drivetrain;
   private final VisionSubsystem m_vision;
-  private Timer m_timer = new Timer();
-  public RunTeleopLighting(LightingSubsystem lighting, DifferentialDrivetrain drivetrain, VisionSubsystem vision) {
+  private final double m_speed;
+
+  public RotateToTarget(DifferentialDrivetrain drivetrain, 
+  VisionSubsystem vision, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
-    m_lighting = lighting;
     m_vision = vision;
+    m_speed = speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_timer.reset();
-    m_timer.start();
-    m_vision.turnLimelightOn();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // I think this will turn orange after two minutes.
-    if (m_timer.get() > 105){
-      m_lighting.setTwinkleAnimation();
-    }
-    else if (m_drivetrain.isLinedUp(m_vision)){
-      m_lighting.setGreenSolidAnimation();
-    }
+    if (Math.abs(m_drivetrain.getGyroYAxis()) < 165)
+    m_drivetrain.rotateClockwise(m_speed);
     else {
-      m_lighting.setPurpleSolidAnimation();
+      m_drivetrain.rotateDrivetrainToTarget(0.31, m_vision);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_lighting.setDisabledLightShow();
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (m_drivetrain.isLinedUp(m_vision)) & (Math.abs(m_drivetrain.getGyroYAxis()) > 150);
   }
 }

@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,7 +19,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private final WPI_TalonFX m_climberMotor1 = new WPI_TalonFX(Constants.CLIMBER_MOTOR1);
   private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
-  // public static Servo angleActuator_1 = new Servo(Constants.LINEAR_ACTUATOR_1); // PWM controlled
   private final int encoderCountsPerRev = 2048;
   private String climber1State = "Initial Position";
   private String climber2State = "Initial Position";
@@ -41,15 +39,10 @@ public class ClimberSubsystem extends SubsystemBase {
   1/2" shaft
   */
   private final double MINIMUM_DISTANCE = 0;
-  private final double MAXIMUM_DISTANCE = 24; // UNITS INCHES
-  private final double WINDOW_THRESHOLD = 0.2; // UNITS INCHES
-  private final double CLIMBER1_HEIGHT = 9; // UNITS INCHES
-
-  private final double MINIMUM_DISTANCE_C2 = 0;
-  private final double MAXIMUM_DISTANCE_C2 = 24; // UNITS INCHES
-  private final double WINDOW_THRESHOLD_C2 = 0.2; // UNITS INCHES
-  private final double CLIMBER2_HEIGHT = 9; // UNITS INCHES
-
+  private final double MAXIMUM_DISTANCE = 100000; // UNITS INCHES
+  private final double WINDOW_THRESHOLD = 1000; // UNITS INCHES
+  private final double CLIMBER1_HEIGHT = 40000; // UNITS INCHES
+  //private final double REVERSE_DISTANCE_SETPOINT = 30000;
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
@@ -76,6 +69,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private void monitorClimber1State(){
     // Using a string to represent the state of climber 1 is a hack implementation, but oh well.
+    //double encoderPostion = getPositionInches();
     if (getPositionInches() < MINIMUM_DISTANCE + WINDOW_THRESHOLD){
       climber1State = "Initial Position";
     }

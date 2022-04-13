@@ -37,7 +37,7 @@ public final class Constants {
           
     public static final double[] TARGET_DISTANCE_INCHES_ARRAY = {
      105, 120, 130, 142
-     };  
+     };
 
   // Drivetrain slew rate limiters
     public static final double SLEW_RATE_LIMIT_ROTATE = 2.7;
@@ -52,7 +52,7 @@ public final class Constants {
     public static final int INTAKE_SOLENOID_FWD = 2;
     public static final int INTAKE_SOLENOID_RVS = 3; 
     public static final int CLIMBER2_SOL_FWD = 4;
-    public static final int CLIMBER2_SOL_RVS = 5;
+    public static final int CLIMBER2_SOL_RVS = 5; //phub ports
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;
@@ -76,16 +76,11 @@ public final class Constants {
     public static final double CLIMBER2_Kd = 0.5;
     public static final int CLIMBER2_PID_SLOT = 0;
 
-  //Climber pnuematic Brake
-    public static final int CLIMBER_BRAKE_FWD_CHN = 4;
-    public static final int CLIMBER_BRAKE_RVS_CHN = 4;
-
   // Vision Values
     public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 44; //change
     public static final float LIMELIGHT_HEIGHT = (float) 21; //change, inches         
     public static final float TARGET_HEIGHT = (float) 104; //change, inches            
-    // public static final double RotationRate = 1.0; //change
-  
+
   // Drivetrain PID parameters
     public static final int DRIVETRAIN_MOTOR_PID_LOOP = 0;
     public static final int DRIVETRAIN_MOTOR_PID_TIMEOUT = 0;
@@ -96,17 +91,9 @@ public final class Constants {
   public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
   public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 1;
 
-  //Linear Actuator 
-  /*public static final double UPPER_SERVO_POS_LIMIT = 0.87; // All the way out
-  public static final double LOWER_SERVO_POS_LIMIT = 0.17; // All the way in
-  public static final int LINEAR_ACTUATOR_1 = 0;*/
-
   public static class CandleConstants {
     public static final int CANDLE_1_ID = 50;
-    public static final int CANDLE_1_LED_COUNT = 185;
-    
-    //public static final int CANDLE_2_ID = 10001;
-    //public static final int CANDLE_2_LED_COUNT = 11;
+    public static final int CANDLE_1_LED_COUNT = 68;
   }
 
   

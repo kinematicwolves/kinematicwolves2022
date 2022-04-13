@@ -16,13 +16,10 @@ public class PneumaticSubsystem extends SubsystemBase {
   private final PneumaticHub pHub = new PneumaticHub(9);
   private final DoubleSolenoid intakeSolenoid = pHub.makeDoubleSolenoid(Constants.INTAKE_SOLENOID_FWD, Constants.INTAKE_SOLENOID_RVS);
   private final DoubleSolenoid drivetrainSolenoid = pHub.makeDoubleSolenoid(Constants.DRVTRN_SOL_FWD_CHN, Constants.DRVTRN_SOL_RVS_CHN);
-  private final DoubleSolenoid climber2Postitioning = pHub.makeDoubleSolenoid(Constants.CLIMBER2_SOL_FWD, Constants.CLIMBER2_SOL_RVS);
+  private final DoubleSolenoid climberDoubleSolenoid = pHub.makeDoubleSolenoid(Constants.CLIMBER2_SOL_FWD, Constants.CLIMBER2_SOL_RVS); 
+  
   /** Creates a new PneumaticSubsystem. */
-
-
-
   public PneumaticSubsystem() {}
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -37,11 +34,11 @@ public class PneumaticSubsystem extends SubsystemBase {
   }
 
   public void setClimber2Deployed(){
-    climber2Postitioning.set(Value.kReverse);
+    climberDoubleSolenoid.set(Value.kReverse);
   }
 
   public void setClimber2Undeployed(){
-    climber2Postitioning.set(Value.kForward);
+    climberDoubleSolenoid.set(Value.kForward);
   }
 
   public void setDrivetrainSolenoidFoward(){

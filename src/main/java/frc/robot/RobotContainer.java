@@ -94,9 +94,9 @@ public class RobotContainer {
   dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
   dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_pneumaticSubsystem, m_lighting, 3.5));
   dc_aButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
-  dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.7));
-  dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.2));
-  dc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.8));
+  dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.4));
+  dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.65));
+  dc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.5));
 
     //Munipulator Controller 
     //-RunIntakeMotor = Horizontal Conveyor

@@ -12,15 +12,28 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.AutonCommands.TwoBallAuton;
 import frc.robot.commands.AlignWithTarget;
+<<<<<<< HEAD
+=======
+import frc.robot.commands.ClimbToTenPointRung;
+import frc.robot.commands.DeployClimber2;
+>>>>>>> dev_climbers
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.RunTeleopLighting;
 import frc.robot.commands.RunVerticalConveyor;
+import frc.robot.commands.SetClimber1ToClimbPosition;
 import frc.robot.commands.SetDisabledState;
 import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
+<<<<<<< HEAD
+=======
+import frc.robot.commands.ShootWithLTrigger;
+import frc.robot.commands.ToggleSpeedLimit;
+import frc.robot.commands.TwoBallAuton;
+import frc.robot.subsystems.ClimberSubsystem;
+>>>>>>> dev_climbers
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -42,7 +55,7 @@ public class RobotContainer {
   private final DifferentialDrivetrain m_drivetrainSubsystem = new DifferentialDrivetrain();
   private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  // private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
   private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
@@ -83,6 +96,7 @@ public class RobotContainer {
 
   //Driver Controller
     dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem));
+<<<<<<< HEAD
     dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_pneumaticSubsystem, m_lighting, 0.35));
 
   //Munipulator Controller 
@@ -90,6 +104,23 @@ public class RobotContainer {
   //-RunHorizontalConveyor = Intake Motor
   //Beware of polarities
     mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, -1));
+=======
+    dc_leftStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
+    dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.3));
+    // dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, -0.55));
+    dc_bButton.whenPressed(new SetClimber1ToClimbPosition(m_climberSubsystem));
+    dc_aButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.3));
+    dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
+    //dc_xButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    dc_xButton.whenPressed(new ClimbToTenPointRung(m_climberSubsystem, m_pneumaticSubsystem));
+    //Munipulator Controller 
+    //-RunIntakeMotor = Horizontal Conveyor
+    //-RunHorizontalConveyor = Intake Motor
+    // Up on Dpad = Climber2 set to full power
+    // Down on Dpad = Climber set to half power 
+    mc_aButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
+    mc_aButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, -1));
+>>>>>>> dev_climbers
     mc_aButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.1));
     //This is to fully intake a ball to the vertical conveyor
 
@@ -99,6 +130,7 @@ public class RobotContainer {
     mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 1)); //reversed 
 
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+<<<<<<< HEAD
 
     mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
     mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
@@ -106,6 +138,14 @@ public class RobotContainer {
 
     mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem));
   }
+=======
+    mc_rButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
+    mc_lButton.whileHeld(new RunIntakeMotor(m_intakeSubsystem, -1));
+    mc_lefJoystickButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1000));
+    mc_rJoystickButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem));
+    mc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 0.31));
+    }
+>>>>>>> dev_climbers
 
   
   /**
@@ -121,7 +161,7 @@ public class RobotContainer {
    }
 
     public Command getDisabledCommand(){
-      Command disabled = new SetDisabledState(m_lighting);
+      Command disabled = new SetDisabledState(m_lighting, m_visionSubsystem);
       return disabled;
     } // Command to reset robot to initial state
     

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
 
 public class DriveForwardAuton extends CommandBase {
   /** Creates a new DriveForwardAuton. */
@@ -20,14 +21,16 @@ and not wanting to break existing code under a time crunch.
   private final double m_speed;
   private final IntakeSubsystem m_intake;
   private final HConveyorSubsystem m_hconveyorsubsystem;
+  private final PneumaticSubsystem m_pneumatics;
   public DriveForwardAuton(DifferentialDrivetrain drivetrain, double distanceInches,
-    double speed, IntakeSubsystem intake, HConveyorSubsystem hConveyorSubsystem) {
+    double speed, IntakeSubsystem intake, HConveyorSubsystem hConveyorSubsystem, PneumaticSubsystem pneumatics) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
     m_distance = distanceInches;
     m_speed = speed;
     m_intake = intake;
     m_hconveyorsubsystem = hConveyorSubsystem; 
+    m_pneumatics = pneumatics;
   }
 
   // Called when the command is initially scheduled.
@@ -35,6 +38,7 @@ and not wanting to break existing code under a time crunch.
   public void initialize() {
     // m_drivetrain.setMotorsBrake();
     m_intake.runIntakeMotor(-1); // really the intake
+    m_pneumatics.turnOffCompressor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,6 +53,7 @@ and not wanting to break existing code under a time crunch.
   public void end(boolean interrupted) {
     // m_drivetrain.setMotorsCoast();
     m_intake.runIntakeMotor(0); // really the intake
+    m_pneumatics.enableCompressor();  
   }
 
   // Returns true when the command should end.

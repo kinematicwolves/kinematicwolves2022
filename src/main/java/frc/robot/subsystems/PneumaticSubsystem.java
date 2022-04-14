@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -17,12 +18,21 @@ public class PneumaticSubsystem extends SubsystemBase {
   private final DoubleSolenoid intakeSolenoid = pHub.makeDoubleSolenoid(Constants.INTAKE_SOLENOID_FWD, Constants.INTAKE_SOLENOID_RVS);
   private final DoubleSolenoid drivetrainSolenoid = pHub.makeDoubleSolenoid(Constants.DRVTRN_SOL_FWD_CHN, Constants.DRVTRN_SOL_RVS_CHN);
   private final DoubleSolenoid climberDoubleSolenoid = pHub.makeDoubleSolenoid(Constants.CLIMBER2_SOL_FWD, Constants.CLIMBER2_SOL_RVS); 
+
   
   /** Creates a new PneumaticSubsystem. */
   public PneumaticSubsystem() {}
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void turnOffCompressor(){
+    pHub.disableCompressor();
+  }
+
+  public void enableCompressor(){
+    pHub.enableCompressorDigital();
   }
 
   public void setIntakeDeployed(){

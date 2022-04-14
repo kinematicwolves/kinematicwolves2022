@@ -113,9 +113,10 @@ public class RobotContainer {
     mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, -1)); //reversed
     //This is to reverse intake a ball out if not all the way in the conveyor
 
-    mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 0.8)); //reversed
+    // mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 0.8)); //reversed, not needed hopefully
 
-    mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem, m_shooterSubsystem));
+    mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, 
+        m_hConveyorSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem));
 
     mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
     mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));

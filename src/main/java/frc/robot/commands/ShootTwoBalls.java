@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VConveyorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -16,15 +17,20 @@ public class ShootTwoBalls extends CommandBase {
   private final VConveyorSubsystem m_verticalConeyor;
   private final VisionSubsystem m_vision;
   private final HConveyorSubsystem m_horizontal;
+  private final IntakeSubsystem m_intake;
+  private final PneumaticSubsystem m_pneumatics;
   private int timer;
   /** Creates a new ShootTwoBalls. */
   public ShootTwoBalls(
-    VisionSubsystem vision, VConveyorSubsystem vconveyor, HConveyorSubsystem horizontal, ShooterSubsystem shooter
+    VisionSubsystem vision, VConveyorSubsystem vconveyor, HConveyorSubsystem horizontal, 
+    ShooterSubsystem shooter, IntakeSubsystem intake, PneumaticSubsystem pneumatics
   ) {
     m_shooter = shooter;
     m_horizontal = horizontal;
     m_verticalConeyor = vconveyor;
     m_vision = vision;
+    m_intake = intake;
+    m_pneumatics = pneumatics;
     timer = 0;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -33,6 +39,7 @@ public class ShootTwoBalls extends CommandBase {
   @Override
   public void initialize() {
     timer = 0;
+    m_intake.setIntakeDeployed(m_pneumatics);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,6 +50,9 @@ public class ShootTwoBalls extends CommandBase {
     m_shooter.setShooterMotorSpeed(shooterSpeedRPM);
 
     timer += 20;
+    if (timer < 500){
+      m_horizontal.runConveyorMotor(0.8);
+    }
     if ((timer > 900) & (timer < 1100)){
       m_verticalConeyor.runConveyorMotor(0.80);
     }
@@ -57,6 +67,7 @@ public class ShootTwoBalls extends CommandBase {
     m_horizontal.runConveyorMotor(0);
     m_verticalConeyor.runConveyorMotor(0);
     m_shooter.setShooterMotorSpeed(0);
+    m_intake.setIntakeUndeployed(m_pneumatics);
   }
 
   // Returns true when the command should end.

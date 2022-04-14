@@ -26,7 +26,14 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_climberMotor1.setInverted(TalonFXInvertType.Clockwise);
+    m_climberMotor1.configFactoryDefault();
+    m_climberMotor1.configForwardSoftLimitEnable(false);
+    m_climberMotor1.configReverseSoftLimitEnable(false);
+
     m_climberMotor2.setInverted(TalonFXInvertType.CounterClockwise);
+    m_climberMotor2.configFactoryDefault();
+    m_climberMotor2.configForwardSoftLimitEnable(false);
+    m_climberMotor2.configReverseSoftLimitEnable(false);
   }
 
   public void setClimberMotor1Output(double commandedOutput){

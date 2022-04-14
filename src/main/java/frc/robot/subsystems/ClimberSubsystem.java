@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -22,7 +24,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   
   @Override
-  public void periodic() {}
+  public void periodic() {
+    m_climberMotor1.setInverted(TalonFXInvertType.Clockwise);
+    m_climberMotor2.setInverted(TalonFXInvertType.CounterClockwise);
+  }
 
   public void setClimberMotor1Output(double commandedOutput){
     m_climberMotor1.set(commandedOutput);

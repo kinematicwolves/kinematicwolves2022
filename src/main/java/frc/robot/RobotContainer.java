@@ -133,7 +133,7 @@ public class RobotContainer {
     //Robot has to be lined up 40 inches away or closer from second ball pickup
      Command Backup = new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
      m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem);
-     return Backup;
+     return null;
    }
 
     public Command getDisabledCommand(){

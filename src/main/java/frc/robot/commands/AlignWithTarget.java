@@ -46,7 +46,7 @@ public class AlignWithTarget extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drivetrain.rotateDrivetrainToTarget(0, m_visionSubsystem);
-    m_lightingSubsystem.setGreenSolidAnimation();
+    m_lightingSubsystem.setPurpleSolidAnimation();
     m_drivetrain.shiftToHighGear(m_pneumaticSubsystem);
   }
 

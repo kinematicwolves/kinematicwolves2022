@@ -39,7 +39,7 @@ public class RunTeleopLighting extends CommandBase {
       m_lighting.setTwinkleAnimation();
     }
     else {
-      m_lighting.setPurpleSolidAnimation();
+      m_lighting.setGreenSolidAnimation();
     }
   }
 

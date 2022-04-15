@@ -8,6 +8,8 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignWithTarget;
@@ -21,6 +23,7 @@ import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.ToggleSpeedLimit;
+import frc.robot.commands.AutonCommands.BackupShootBackup;
 import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
@@ -56,6 +59,7 @@ public class RobotContainer {
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -63,6 +67,14 @@ public class RobotContainer {
     configureButtonBindings();
     setDefaultCommands();
     CameraServer.startAutomaticCapture();
+
+     // A chooser for autonomous commands
+    
+    m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
+      m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Backup Shoot Then Backup Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
+      m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+    SmartDashboard.putData(m_chooser);
   }
 
   private void setDefaultCommands(){
@@ -128,13 +140,9 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    //Robot has to be lined up 40 inches away or closer from second ball pickup
-     Command Backup = new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
-     m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem);
-     return Backup;
-   }
+  public Command getAutonomousCommand() {
+    return m_chooser.getSelected();
+  }
 
     public Command getDisabledCommand(){
       Command disabled = new SetDisabledState(m_lighting, m_visionSubsystem);

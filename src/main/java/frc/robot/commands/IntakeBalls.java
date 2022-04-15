@@ -7,22 +7,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
 
 public class IntakeBalls extends CommandBase {
  
   private final IntakeSubsystem intake;
   private final HConveyorSubsystem horizontal; 
-  private final PneumaticSubsystem pneumatics; 
+  //private final PneumaticSubsystem pneumatics; 
   double commandedOutputFraction;
 
   /** Creates a new RunIntakeMotor. */
-  public IntakeBalls(IntakeSubsystem intakeSubsystem, HConveyorSubsystem hConveyorSubsystem, PneumaticSubsystem pneumaticSubsystem, double commandedFraction) {
+  public IntakeBalls(IntakeSubsystem intakeSubsystem, HConveyorSubsystem hConveyorSubsystem, double commandedFraction) {
     this.intake = intakeSubsystem; 
     horizontal = hConveyorSubsystem; 
-    pneumatics = pneumaticSubsystem; 
+    //pneumatics = pneumaticSubsystem; 
     this.commandedOutputFraction = commandedFraction;
-    addRequirements(intake, pneumatics);
+    addRequirements(intake);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,7 +29,7 @@ public class IntakeBalls extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.setIntakeDeployed(pneumatics);
+   // intake.setIntakeDeployed(pneumatics);
     horizontal.runConveyorMotor(commandedOutputFraction);
     intake.runIntakeMotor(commandedOutputFraction);
   }
@@ -44,7 +43,6 @@ public class IntakeBalls extends CommandBase {
   public void end(boolean interrupted) {
     intake.runIntakeMotor(0);
     horizontal.runConveyorMotor(0);
-    intake.setIntakeUndeployed(pneumatics);
   }
 
   // Returns true when the command should end.

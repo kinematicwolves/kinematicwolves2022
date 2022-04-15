@@ -13,15 +13,13 @@ import frc.robot.subsystems.VisionSubsystem;
 public class AlignWithTarget extends CommandBase {
   /** Creates a new AlignWithTarget. */
   private final DifferentialDrivetrain m_drivetrain;
-  private final PneumaticSubsystem m_pneumaticSubsystem; 
   private final VisionSubsystem m_visionSubsystem;
   private final LightingSubsystem m_lightingSubsystem; 
   private final double m_alignSpeed;
-  public AlignWithTarget(VisionSubsystem visionSubsystem, DifferentialDrivetrain drivetrain, PneumaticSubsystem pneumaticSubsystem,
+  public AlignWithTarget(VisionSubsystem visionSubsystem, DifferentialDrivetrain drivetrain,
   LightingSubsystem lighting, double alignSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
-    m_pneumaticSubsystem = pneumaticSubsystem; 
     m_visionSubsystem = visionSubsystem;
     m_alignSpeed = alignSpeed;
     m_lightingSubsystem = lighting; 
@@ -31,11 +29,7 @@ public class AlignWithTarget extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_drivetrain.isInHighGear()){
-      m_drivetrain.shiftToLowGear(m_pneumaticSubsystem);
-    }
   }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -46,8 +40,8 @@ public class AlignWithTarget extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drivetrain.rotateDrivetrainToTarget(0, m_visionSubsystem);
-    m_lightingSubsystem.setPurpleSolidAnimation();
-    m_drivetrain.shiftToHighGear(m_pneumaticSubsystem);
+    //m_lightingSubsystem.setPurpleSolidAnimation();
+
   }
 
   // Returns true when the command should end.

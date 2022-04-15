@@ -94,7 +94,7 @@ public class RobotContainer {
 
   //Driver Controller
   dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
-  dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_pneumaticSubsystem, m_lighting, 3.2));
+  dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_lighting, 0.31));
   dc_aButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
   dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.4));
   dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.65));
@@ -104,16 +104,16 @@ public class RobotContainer {
     //Munipulator Controller 
     //-RunIntakeMotor = Horizontal Conveyor
     //-RunHorizontalConveyor = Intake Motor
-    mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, -1));
+    mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1));
     mc_aButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.08));
     //This is to fully intake a ball to the vertical conveyor
 
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem)); 
 
-    mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, m_pneumaticSubsystem, -1)); //reversed
+    mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); //reversed
     //This is to reverse intake a ball out if not all the way in the conveyor
 
-    // mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 0.8)); //reversed, not needed hopefully
+    mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 0.8)); //reversed, not needed hopefully
 
     mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, 
         m_hConveyorSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem));
@@ -133,7 +133,7 @@ public class RobotContainer {
     //Robot has to be lined up 40 inches away or closer from second ball pickup
      Command Backup = new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
      m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem);
-     return null;
+     return Backup;
    }
 
     public Command getDisabledCommand(){

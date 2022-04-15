@@ -29,7 +29,7 @@ public class RotateToTarget extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(m_drivetrain.getGyroYAxis()) < 165)
+    if (Math.abs(m_drivetrain.getGyroYAxis()) < 168)
     m_drivetrain.rotateClockwise(m_speed);
     else {
       m_drivetrain.rotateDrivetrainToTarget(0.31, m_vision);

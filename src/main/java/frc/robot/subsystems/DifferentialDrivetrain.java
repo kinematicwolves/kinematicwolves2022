@@ -118,7 +118,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Rotation - Y(Deg)", getGyroYAxis());
     SmartDashboard.putNumber("Distance driven - inches (auton fwd)", getXDistanceDrivenInches());
     SmartDashboard.putNumber("Current gear ratio", getCurrentGearRatio());
-    System.out.println("\nDistance driven - inches (auton fwd): "  + getXDistanceDrivenInches());
+    //System.out.println("\nDistance driven - inches (auton fwd): "  + getXDistanceDrivenInches());
   }
 
   public double countsToDistanceDrivenInches(double counts){

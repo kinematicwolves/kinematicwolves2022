@@ -37,7 +37,7 @@ and not wanting to break existing code under a time crunch.
   @Override
   public void initialize() {
     // m_drivetrain.setMotorsBrake();
-    m_intake.runIntakeMotor(-1); // really the intake
+    m_intake.runIntakeMotor(-1);
     m_pneumatics.turnOffCompressor();
   }
 
@@ -51,8 +51,7 @@ and not wanting to break existing code under a time crunch.
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // m_drivetrain.setMotorsCoast();
-    m_intake.runIntakeMotor(0); // really the intake
+    m_intake.runIntakeMotor(0); 
     m_pneumatics.enableCompressor();  
   }
 

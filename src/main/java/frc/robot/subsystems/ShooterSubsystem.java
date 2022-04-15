@@ -89,7 +89,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-      SmartDashboard.putNumber("Shooter Speed", getMotorSpeedRPM(m_shooterMotor1));
+      //SmartDashboard.putNumber("Shooter Speed", getMotorSpeedRPM(m_shooterMotor1));
   }
 
   public void runShooterMotor(double inputCommand){

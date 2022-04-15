@@ -149,16 +149,16 @@ public class VisionSubsystem extends SubsystemBase {
     distance = calculateDistance();
     filtered_distance = filter_d.calculate(distance);
 
-    System.out.print("\n&Raw Vertical Angle:: " + getVerticalAngle() + " &");
-    System.out.print("\n&Raw distance:: " + getDistance() + " &");
-    System.out.print("\n&Limelight capture status::  " + getCaptureStatus() + "&");
-    System.out.print("\n&LimelightFilteredDistance (inches):: " + filtered_distance + "&");
-    System.out.print("\n&LimelightFilteredHorizontalAngle:: " + filtered_h_angle + "&");
-    System.out.print("\n&LimelightFilteredVerticalAngle:: " + filtered_v_angle + "&");
+    // System.out.print("\n&Raw Vertical Angle:: " + getVerticalAngle() + " &");
+    // System.out.print("\n&Raw distance:: " + getDistance() + " &");
+    // System.out.print("\n&Limelight capture status::  " + getCaptureStatus() + "&");
+     System.out.print("\n&LimelightFilteredDistance (inches):: " + filtered_distance + "&");
+    // System.out.print("\n&LimelightFilteredHorizontalAngle:: " + filtered_h_angle + "&");
+    // System.out.print("\n&LimelightFilteredVerticalAngle:: " + filtered_v_angle + "&");
 
-    SmartDashboard.putNumber("/nLimelight capture status: ", getCaptureStatus());
-    SmartDashboard.putNumber("LimelightFilteredDistance (inches)", filtered_distance);
-    SmartDashboard.putNumber("LimelightFilteredHorizontalAngle", filtered_h_angle);
-    SmartDashboard.putNumber("LimelightFilteredVerticalAngle", filtered_v_angle);
+    // SmartDashboard.putNumber("/nLimelight capture status: ", getCaptureStatus());
+    // SmartDashboard.putNumber("LimelightFilteredDistance (inches)", filtered_distance);
+    // SmartDashboard.putNumber("LimelightFilteredHorizontalAngle", filtered_h_angle);
+    // SmartDashboard.putNumber("LimelightFilteredVerticalAngle", filtered_v_angle);
   }
 }

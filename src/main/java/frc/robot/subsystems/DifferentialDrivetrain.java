@@ -49,6 +49,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   private static final double trackWidthInches = 27;
 
   private boolean speedLimited = false;
+  private boolean turboEnabled = false; 
 
   private final ADIS16448_IMU imu = new ADIS16448_IMU();
   
@@ -154,6 +155,8 @@ public class DifferentialDrivetrain extends SubsystemBase {
     m_rightRear.setNeutralMode(NeutralMode.Coast);
   }
 
+
+
   public void enableSpeedLimit(){
     speedLimited = true;
   }
@@ -166,6 +169,18 @@ public class DifferentialDrivetrain extends SubsystemBase {
     return speedLimited;
   }
 
+  public boolean isTurboEnabled(){
+    return turboEnabled; 
+  }
+
+  public void enableTurbo(){
+    turboEnabled = true; 
+  }
+
+  public void disableTurbo(){
+    turboEnabled = false; 
+  }
+
   public void moveWithJoysticks(XboxController driverController) {
     double xSpeed = logAdjustment (driverController.getRightX());
     
@@ -173,7 +188,11 @@ public class DifferentialDrivetrain extends SubsystemBase {
     if (speedLimited){
       xSpeed *= 0.4;
       zRotationRate *= 0.4;
-
+    }
+    if (turboEnabled){
+      xSpeed *= 1;
+      setHighGear();
+      accelerationFilter = new SlewRateLimiter(0); 
     }
     // Drive Robot with commanded linear velocity and yaw rate commands
     drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));

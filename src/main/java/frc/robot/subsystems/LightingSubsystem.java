@@ -7,12 +7,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,6 +41,10 @@ public class LightingSubsystem extends SubsystemBase {
 
   public void setGreenSolidAnimation(){
     m_animation = new SingleFadeAnimation(0, 255, 0, 10, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
+  }
+
+  public void setMexicanColorAnimation(){
+    m_animation = new ColorFlowAnimation(225, 225, 0, 225, 0.5, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
   }
 
   public void setPurpleSolidAnimation(){

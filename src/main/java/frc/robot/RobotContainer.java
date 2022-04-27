@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
+import frc.robot.commands.EnableTurbo;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.RunHorizontalConveyor;
 import frc.robot.commands.RunVerticalConveyor;
@@ -28,6 +29,8 @@ import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
 import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
+import frc.robot.commands.LightShowCommands.LimelightOnOff;
+import frc.robot.commands.LightShowCommands.RunMexicanAnimation;
 import frc.robot.commands.LightShowCommands.RunTeleopLighting;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
@@ -95,6 +98,7 @@ public class RobotContainer {
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value); 
     JoystickButton dc_rJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kRightStick.value);
+    JoystickButton dc_lJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value);
 
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
     JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
@@ -102,36 +106,30 @@ public class RobotContainer {
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
     JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value);
     JoystickButton mc_bButton = new JoystickButton(m_manipulatorController, XboxController.Button.kB.value);
+    JoystickButton mc_rJoystickButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightStick.value); 
 
 
   //Driver Controller
-  dc_lButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
-  dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_lighting, 0.31));
-  dc_aButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
-  dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.4));
-  dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.65));
-  dc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.5));
+  dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
+  dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
   dc_rJoystickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
+  dc_rButton.whenPressed(new RunMexicanAnimation(m_lighting));
+  dc_lButton.whileHeld(new EnableTurbo(m_drivetrainSubsystem));
+  
+  //dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_lighting, 0.31));
+  //dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.4));
+  //dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.65));
+  //dc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.5));
 
     //Munipulator Controller 
-    //-RunIntakeMotor = Horizontal Conveyor
-    //-RunHorizontalConveyor = Intake Motor
-    mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1));
-    mc_aButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.08));
-    //This is to fully intake a ball to the vertical conveyor
+    mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
+    mc_xButton.whileHeld(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_yButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
+     m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
+    mc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
 
-    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem)); 
-
-    mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); //reversed
-    //This is to reverse intake a ball out if not all the way in the conveyor
-
-    mc_bButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 0.8)); //reversed, not needed hopefully
-
-    mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, 
-        m_hConveyorSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem));
-
-    mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
-    mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
+    // mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
+    // mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
   }
 
   

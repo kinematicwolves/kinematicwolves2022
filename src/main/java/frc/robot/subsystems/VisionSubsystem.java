@@ -15,6 +15,7 @@ import edu.wpi.first.math.filter.LinearFilter;
 
 import java.lang.Math;
 import frc.robot.Constants;
+import frc.robot.commands.LightShowCommands.LimelightOnOff;
 
 public class VisionSubsystem extends SubsystemBase {
   /**
@@ -27,6 +28,7 @@ public class VisionSubsystem extends SubsystemBase {
   private NetworkTableEntry ty = table.getEntry("ty"); // y coordinate
   private NetworkTableEntry ta = table.getEntry("ta"); // Target area
   private NetworkTableEntry tv = table.getEntry("tv"); // target valid? boolean
+  public boolean limeLightIsOn = false; 
 
   // LED Mode table
   private NetworkTableEntry LEDModeEntry = table.getEntry("ledMode");
@@ -137,10 +139,16 @@ public class VisionSubsystem extends SubsystemBase {
 
   public void turnLimelightOn(){
     LEDModeEntry.setNumber(3);
+    limeLightIsOn = true;
   }
 
   public void turnLimelightOff(){
     LEDModeEntry.setNumber(1);
+    limeLightIsOn = false; 
+  }
+
+  public boolean isLimeLightOn(){
+    return limeLightIsOn;
   }
 
   @Override
@@ -152,7 +160,7 @@ public class VisionSubsystem extends SubsystemBase {
     // System.out.print("\n&Raw Vertical Angle:: " + getVerticalAngle() + " &");
     // System.out.print("\n&Raw distance:: " + getDistance() + " &");
     // System.out.print("\n&Limelight capture status::  " + getCaptureStatus() + "&");
-     System.out.print("\n&LimelightFilteredDistance (inches):: " + filtered_distance + "&");
+     //System.out.print("\n&LimelightFilteredDistance (inches):: " + filtered_distance + "&");
     // System.out.print("\n&LimelightFilteredHorizontalAngle:: " + filtered_h_angle + "&");
     // System.out.print("\n&LimelightFilteredVerticalAngle:: " + filtered_v_angle + "&");
 

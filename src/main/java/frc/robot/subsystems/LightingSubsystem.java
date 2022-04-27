@@ -44,7 +44,15 @@ public class LightingSubsystem extends SubsystemBase {
   }
 
   public void setMexicanColorAnimation(){
-    m_animation = new ColorFlowAnimation(225, 225, 0, 225, 0.5, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
+
+    // double numberOfSections = 3;
+    // int lightsPerSection = (int)Math.ceil(Constants.CandleConstants.CANDLE_1_LED_COUNT / numberOfSections);
+    // light1.setLEDs(255, 0, 0, 10, 0, lightsPerSection);
+    // light1.setLEDs(0, 255, 0, 10, lightsPerSection, lightsPerSection);
+    // light1.setLEDs(255, 255, 255, 10, 2 * lightsPerSection, lightsPerSection);
+    
+    m_animation = null;
+    // m_animation = new ColorFlowAnimation(225, 225, 0, 225, 0.5, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
   }
 
   public void setPurpleSolidAnimation(){

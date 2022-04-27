@@ -189,10 +189,16 @@ public class DifferentialDrivetrain extends SubsystemBase {
       xSpeed *= 0.4;
       zRotationRate *= 0.4;
     }
+
     if (turboEnabled){
       xSpeed *= 1;
-      setHighGear();
-      accelerationFilter = new SlewRateLimiter(0); 
+      if (!isHighGear()){
+        setHighGear();
+      }
+      drive.arcadeDrive(xSpeed, zRotationRate);
+    }
+    else {
+      drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));
     }
     // Drive Robot with commanded linear velocity and yaw rate commands
     drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));

@@ -23,6 +23,7 @@ import frc.robot.Constants;
 public class LightingSubsystem extends SubsystemBase {
   private final CANdle light1 = new CANdle(Constants.CandleConstants.CANDLE_1_ID);
   private Animation m_animation = null;
+  public boolean MexicanLEDOn = false; 
 
   /** Creates a new LightingSubsystem. */
   public LightingSubsystem() {
@@ -41,10 +42,20 @@ public class LightingSubsystem extends SubsystemBase {
 
   public void setGreenSolidAnimation(){
     m_animation = new SingleFadeAnimation(0, 255, 0, 10, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
+    MexicanLEDOn = false; 
   }
 
   public void setMexicanColorAnimation(){
-    m_animation = new ColorFlowAnimation(225, 225, 0, 225, 0.5, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
+    if (MexicanLEDOn){
+    m_animation = new ColorFlowAnimation(225, 225, 0, 225, 0.3, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
+    m_animation = new ColorFlowAnimation(0, 0, 225, 0 , 0.1, Constants.CandleConstants.CANDLE_1_ID, Direction.Forward); 
+    m_animation = new ColorFlowAnimation(0, 0, 0, 255, 0.2, Constants.CandleConstants.CANDLE_1_ID, Direction.Forward);
+    }
+    MexicanLEDOn = true;
+  }
+  
+  public boolean isMexicanLEDOn(){
+    return MexicanLEDOn;
   }
 
   public void setPurpleSolidAnimation(){

@@ -123,10 +123,11 @@ public class RobotContainer {
 
     //Munipulator Controller 
     mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
-    mc_xButton.whileHeld(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     mc_yButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
      m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
     mc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
+    mc_rButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 0.8));
 
     // mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
     // mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));

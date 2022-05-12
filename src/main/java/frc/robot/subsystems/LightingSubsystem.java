@@ -17,6 +17,7 @@ import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -41,8 +42,7 @@ public class LightingSubsystem extends SubsystemBase {
   } 
 
   public void setGreenSolidAnimation(){
-    m_animation = new SingleFadeAnimation(0, 255, 0, 10, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
-    MexicanLEDOn = false; 
+    m_animation = new SingleFadeAnimation(0, 255, 0, 225, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
   }
 
   public void setMexicanColorAnimation(){
@@ -52,6 +52,10 @@ public class LightingSubsystem extends SubsystemBase {
     m_animation = new ColorFlowAnimation(0, 0, 0, 255, 0.2, Constants.CandleConstants.CANDLE_1_ID, Direction.Forward);
     }
     MexicanLEDOn = true;
+  }
+
+  public void runWhiteAnimation(){
+    m_animation = new SingleFadeAnimation(0, 225, 0, 225, 0.1, Constants.CandleConstants.CANDLE_1_ID);
   }
   
   public boolean isMexicanLEDOn(){

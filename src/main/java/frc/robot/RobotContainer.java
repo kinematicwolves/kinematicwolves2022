@@ -32,6 +32,7 @@ import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
 import frc.robot.commands.LightShowCommands.LimelightOnOff;
 import frc.robot.commands.LightShowCommands.RunMexicanAnimation;
 import frc.robot.commands.LightShowCommands.RunTeleopLighting;
+import frc.robot.commands.LightShowCommands.dcrColorAnimation;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
@@ -111,10 +112,10 @@ public class RobotContainer {
 
   //Driver Controller
   dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
-  dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
+  //dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
   dc_rJoystickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
-  dc_rButton.whenPressed(new RunMexicanAnimation(m_lighting));
-  dc_lButton.whileHeld(new EnableTurbo(m_drivetrainSubsystem));
+  dc_lButton.whenPressed(new RunMexicanAnimation(m_lighting));
+  //dc_lButton.whileHeld(new EnableTurbo(m_drivetrainSubsystem));
   
   //dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_lighting, 0.31));
   //dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.4));
@@ -124,10 +125,10 @@ public class RobotContainer {
     //Munipulator Controller 
     mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
     mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
-    mc_yButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
+    mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
      m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
     mc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
-    mc_rButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 0.8));
+    mc_lButton.whenPressed(new dcrColorAnimation(m_lighting)); 
 
     // mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
     // mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));

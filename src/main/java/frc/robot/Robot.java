@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_disabledCommand;
+  private Command m_telopLightingCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -48,7 +51,17 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if (m_telopLightingCommand != null){
+      m_telopLightingCommand.cancel();
+      m_telopLightingCommand = null;
+    }
+    
+    m_disabledCommand = m_robotContainer.getDisabledCommand();
+    if (m_disabledCommand != null){
+      m_disabledCommand.schedule();
+    }
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -56,7 +69,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -66,7 +79,10 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+  }
+
 
   @Override
   public void teleopInit() {
@@ -76,6 +92,15 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+    }
+    if (m_disabledCommand != null){
+      m_disabledCommand.cancel();
+      m_disabledCommand = null;
+    }
+
+    m_telopLightingCommand = m_robotContainer.getTeleopLightingCommand();
+    if (m_telopLightingCommand != null){
+      m_telopLightingCommand.schedule();
     }
   }
 

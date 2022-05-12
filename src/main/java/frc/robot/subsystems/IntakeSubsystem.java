@@ -4,14 +4,39 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
+  private final  WPI_TalonSRX m_intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR);
+  private boolean intakeIsDeployed = false; 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {}
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void runIntakeMotor(double requestedOutputFraction){
+    m_intakeMotor.set(requestedOutputFraction);  
+  }
+
+  public boolean isIntakeDeployed(){
+    return intakeIsDeployed; 
+  }
+
+  public void setIntakeDeployed(PneumaticSubsystem pneumaticSystem){
+    // add solenoid as input and flip here
+    intakeIsDeployed = true; 
+    pneumaticSystem.setIntakeDeployed();
+  }
+
+  public void setIntakeUndeployed(PneumaticSubsystem pneumaticSubsystem){
+    // Add solenoid as input and flip here
+    intakeIsDeployed = false; 
+    pneumaticSubsystem.setIntakeUndeployed();
   }
 }

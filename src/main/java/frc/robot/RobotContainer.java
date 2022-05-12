@@ -4,14 +4,43 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AlignWithTarget;
+import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.EnableTurbo;
+import frc.robot.commands.IntakeBalls;
+import frc.robot.commands.RunHorizontalConveyor;
+import frc.robot.commands.RunVerticalConveyor;
+import frc.robot.commands.SetDisabledState;
+import frc.robot.commands.SetShooterToSpeed;
+import frc.robot.commands.ShiftGear;
+import frc.robot.commands.ShootTwoBalls;
+import frc.robot.commands.ToggleSpeedLimit;
+import frc.robot.commands.AutonCommands.BackupShootBackup;
+import frc.robot.commands.AutonCommands.TwoBallAuton;
+import frc.robot.commands.ClimberCommands.DeployClimber2;
+import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
+import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
+import frc.robot.commands.LightShowCommands.LimelightOnOff;
+import frc.robot.commands.LightShowCommands.RunMexicanAnimation;
+import frc.robot.commands.LightShowCommands.RunTeleopLighting;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
+import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightingSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VConveyorSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,16 +52,32 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final DifferentialDrivetrain m_drivetrainSubsystem = new DifferentialDrivetrain();
-
+  private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
+  private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
+  private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+  private final LightingSubsystem m_lighting = new LightingSubsystem();
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
+    CameraServer.startAutomaticCapture();
+
+     // A chooser for autonomous commands
+    
+    m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
+      m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Backup Shoot Then Backup Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
+      m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+    SmartDashboard.putData(m_chooser);
   }
 
   private void setDefaultCommands(){
@@ -45,25 +90,67 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Driver controls
-    if (m_driverController.getAButtonPressed()) {
+    // Driver controls, dc = driver controller, mc = manipulator controller
+    JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
+    JoystickButton dc_lButton = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value); 
+    JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
+    JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
+    JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
+    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value); 
+    JoystickButton dc_rJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kRightStick.value);
+    JoystickButton dc_lJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value);
 
-    }
+    JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
+    JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
+    JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
+    JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
+    JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value);
+    JoystickButton mc_bButton = new JoystickButton(m_manipulatorController, XboxController.Button.kB.value);
+    JoystickButton mc_rJoystickButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightStick.value); 
 
 
-    // Manipulator controls
-    if (m_manipulatorController.getAButtonPressed()) {
+  //Driver Controller
+  dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
+  dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
+  dc_rJoystickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
+  dc_rButton.whenPressed(new RunMexicanAnimation(m_lighting));
+  dc_lButton.whileHeld(new EnableTurbo(m_drivetrainSubsystem));
+  
+  //dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_lighting, 0.31));
+  //dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.4));
+  //dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.65));
+  //dc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.5));
 
-    }
+    //Munipulator Controller 
+    mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
+    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    mc_yButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
+     m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
+    mc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
+    mc_rButton.whileHeld(new RunHorizontalConveyor(m_hConveyorSubsystem, 0.8));
+
+    // mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
+    // mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
   }
 
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   // An ExampleCommand will run in autonomous
-  //   return m_autoCommand;
-  // }
+  public Command getAutonomousCommand() {
+    return m_chooser.getSelected();
+  }
+
+    public Command getDisabledCommand(){
+      Command disabled = new SetDisabledState(m_lighting, m_visionSubsystem);
+      return disabled;
+    } // Command to reset robot to initial state
+    
+    public Command getTeleopLightingCommand(){
+      Command lightingCommand = new RunTeleopLighting(m_lighting, m_drivetrainSubsystem, m_visionSubsystem);
+      return lightingCommand;
+    }
 }
+ 

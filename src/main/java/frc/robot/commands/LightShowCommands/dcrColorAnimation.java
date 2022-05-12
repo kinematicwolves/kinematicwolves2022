@@ -26,6 +26,7 @@ public class dcrColorAnimation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    timer += 20;
     if ((timer > 0) & (timer < 500)){
       m_lightingSubsystem.setGreenSolidAnimation();
     }
@@ -36,11 +37,13 @@ public class dcrColorAnimation extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_lightingSubsystem.setRainbowAnimation();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer > 1000;
   }
 }

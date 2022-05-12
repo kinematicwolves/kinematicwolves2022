@@ -128,7 +128,7 @@ public class RobotContainer {
     mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
      m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
     mc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
-    mc_lButton.whenPressed(new dcrColorAnimation(m_lighting)); 
+    mc_lButton.whileHeld(new dcrColorAnimation(m_lighting)); 
 
     // mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
     // mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));

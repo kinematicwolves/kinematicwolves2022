@@ -12,23 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
-import frc.robot.commands.EnableTurbo;
 import frc.robot.commands.IntakeBalls;
-import frc.robot.commands.RunHorizontalConveyor;
-import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetDisabledState;
-import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.ToggleSpeedLimit;
-import frc.robot.commands.AutonCommands.BackupShootBackup;
-import frc.robot.commands.AutonCommands.TwoBallAuton;
-import frc.robot.commands.ClimberCommands.DeployClimber2;
-import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
-import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
 import frc.robot.commands.LightShowCommands.LimelightOnOff;
 import frc.robot.commands.LightShowCommands.RunMexicanAnimation;
 import frc.robot.commands.LightShowCommands.RunTeleopLighting;
@@ -74,10 +64,12 @@ public class RobotContainer {
 
      // A chooser for autonomous commands
     
-    m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
-      m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-    m_chooser.addOption("Backup Shoot Then Backup Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
-      m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+    // m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
+    //   m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+    // m_chooser.addOption("Backup Shoot Then Backup Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
+    //   m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+    //m_chooser.addOption("Rainbow LightShow", new RainbowLIghtShow(m_lighting));
+    //m_chooser.addOption("Twinkle LightShow", new );
     SmartDashboard.putData(m_chooser);
   }
 

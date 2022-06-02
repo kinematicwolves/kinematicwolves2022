@@ -17,7 +17,7 @@ import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 
-
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -67,12 +67,18 @@ public class LightingSubsystem extends SubsystemBase {
   }
 
   public void setFireAnimation(){
-    m_animation = new FireAnimation(0.9, 0.99, Constants.CandleConstants.CANDLE_1_LED_COUNT, 0.7, 0.7);
+    m_animation = new FireAnimation(0.5, 0.99, Constants.CandleConstants.CANDLE_1_LED_COUNT, 0.7, 0.7);
   }
 
   public void setTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(120, 69, 233, 10, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100);
+    m_animation = new TwinkleAnimation(189,183,107, 225, 0.2, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100);
+    
   }
+
+  public void setPurpleTwinkleAnimation(){
+    m_animation = new TwinkleAnimation(255, 0, 255, 69, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100); 
+  }
+
   public void setDisabledLightShow(){
     setRainbowAnimation();
   }
@@ -91,4 +97,7 @@ public class LightingSubsystem extends SubsystemBase {
       
     // This method will be called once per scheduler run
   }
+
+public void addOption(String string, Command command) {
+}
 }

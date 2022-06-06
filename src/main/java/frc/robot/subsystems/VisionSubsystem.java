@@ -165,7 +165,7 @@ public class VisionSubsystem extends SubsystemBase {
     // System.out.print("\n&LimelightFilteredVerticalAngle:: " + filtered_v_angle + "&");
 
     // SmartDashboard.putNumber("/nLimelight capture status: ", getCaptureStatus());
-    // SmartDashboard.putNumber("LimelightFilteredDistance (inches)", filtered_distance);
+     SmartDashboard.putNumber("LimelightFilteredDistance (inches)", filtered_distance);
     // SmartDashboard.putNumber("LimelightFilteredHorizontalAngle", filtered_h_angle);
     // SmartDashboard.putNumber("LimelightFilteredVerticalAngle", filtered_v_angle);
   }

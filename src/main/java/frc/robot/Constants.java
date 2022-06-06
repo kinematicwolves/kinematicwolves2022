@@ -32,15 +32,15 @@ public final class Constants {
 
   // Tables for shooting speeds vs distance
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
-      4000, 4500, 4800, 5200
+      4600, 4900, 5250, 5900, 6350
      };
           
     public static final double[] TARGET_DISTANCE_INCHES_ARRAY = {
-     105, 120, 130, 142
+     105, 115, 125, 135, 145
      };
 
   // Drivetrain slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 2.7;
+    public static final double SLEW_RATE_LIMIT_ROTATE = 3.7;
     public static final double SLEW_RATE_LIMIT_ACCEL = 3.9;  
 
   //Drivetrain auton speeds

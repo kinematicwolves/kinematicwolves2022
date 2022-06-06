@@ -31,6 +31,7 @@ public final class Constants {
     public static final int CLIMBER_MOTOR2 = 30;
 
   // Tables for shooting speeds vs distance
+  // If balls aren't making it in, CHECK AIR PRESSURE FOR BALLS!
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
       4600, 4900, 5250, 5900, 6350
      };
@@ -39,20 +40,22 @@ public final class Constants {
      105, 115, 125, 135, 145
      };
 
+
   // Drivetrain slew rate limiters
     public static final double SLEW_RATE_LIMIT_ROTATE = 3.7;
-    public static final double SLEW_RATE_LIMIT_ACCEL = 3.9;  
+    public static final double SLEW_RATE_LIMIT_ACCEL = 4.1;  
 
   //Drivetrain auton speeds
     public static final double AUTON_SPEED = 0.41;
 
   // Solenoid Mappings
+     //phub ports
     public static final int DRVTRN_SOL_FWD_CHN = 0;
     public static final int DRVTRN_SOL_RVS_CHN = 1;  
     public static final int INTAKE_SOLENOID_FWD = 2;
     public static final int INTAKE_SOLENOID_RVS = 3; 
     public static final int CLIMBER2_SOL_FWD = 4;
-    public static final int CLIMBER2_SOL_RVS = 5; //phub ports
+    public static final int CLIMBER2_SOL_RVS = 5; 
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;

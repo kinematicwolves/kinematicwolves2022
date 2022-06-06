@@ -34,7 +34,7 @@ public class BackupShootBackup extends SequentialCommandGroup {
     addCommands(
       new DeployIntake(pneumatics, intake),
       new BackupToPosition(drivetrain, 45, -0.5, pneumatics),
-      new AlignWithTarget(vision, drivetrain, lighting, 0.31),
+      new AlignWithTarget(vision, drivetrain, shooter, pneumatics, 0.34),
       new ShootTwoBalls(vision, vconveyor, horizontal, shooter, intake, pneumatics),
       new BackupToPosition(drivetrain, 60, -0.5, pneumatics)
     );

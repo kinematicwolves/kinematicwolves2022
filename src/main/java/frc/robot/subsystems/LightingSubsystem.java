@@ -70,22 +70,17 @@ public class LightingSubsystem extends SubsystemBase {
     m_animation = new FireAnimation(0.5, 0.99, Constants.CandleConstants.CANDLE_1_LED_COUNT, 0.7, 0.7);
   }
 
-  public void setTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(189,183,107, 225, 0.2, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100);
+  public void setPurpleTwinkleAnimation(){
+    m_animation = new TwinkleAnimation(225, 5, 225, 225, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100);
     
   }
 
-  public void setPurpleTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(255, 0, 255, 69, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100); 
+  public void setRedTwinkleAnimation(){
+    m_animation = new TwinkleAnimation(255, 10, 10, 225, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100); 
   }
 
   public void setDisabledLightShow(){
     setRainbowAnimation();
-  }
-
-  public void setLightsOff(){
-    // Not sure this is the best way to turn them off
-    light1.configBrightnessScalar(0);
   }
 
   @Override

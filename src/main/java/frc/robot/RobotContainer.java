@@ -15,20 +15,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
+import frc.robot.commands.EjectBall;
 import frc.robot.commands.IntakeBalls;
-import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetDisabledState;
-import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
-import frc.robot.commands.ToggleSpeedLimit;
+import frc.robot.commands.AutonCommands.BackupShootBackup;
+import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
 import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
-import frc.robot.commands.LightShowCommands.LimelightOnOff;
-import frc.robot.commands.LightShowCommands.RunMexicanAnimation;
 import frc.robot.commands.LightShowCommands.RunTeleopLighting;
-import frc.robot.commands.LightShowCommands.dcrColorAnimation;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
@@ -69,15 +66,12 @@ public class RobotContainer {
     CameraServer.startAutomaticCapture();
 
      // A chooser for autonomous commands
-    
-    // m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
-    //   m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-    // m_chooser.addOption("Backup Shoot Then Backup Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
-    //   m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-    //m_chooser.addOption("Rainbow LightShow", new RainbowLIghtShow(m_lighting));
-    //m_chooser.addOption("Twinkle LightShow", new );
-    SmartDashboard.putData(m_chooser);
-  }
+     m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
+     m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+   m_chooser.addOption("One Ball Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
+     m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+   SmartDashboard.putData(m_chooser);
+ }
 
   private void setDefaultCommands(){
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
@@ -91,46 +85,51 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Driver controls, dc = driver controller, mc = manipulator controller
     JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
-    JoystickButton dc_lButton = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value); 
     JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value); 
-    JoystickButton dc_rJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kRightStick.value);
-    JoystickButton dc_lJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value);
 
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
     JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
     JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
-    JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value);
     JoystickButton mc_bButton = new JoystickButton(m_manipulatorController, XboxController.Button.kB.value);
-    JoystickButton mc_rJoystickButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightStick.value); 
 
 
   //Driver Controller
   dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
-  dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
-  dc_rJoystickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
-  dc_lButton.whenPressed(new RunMexicanAnimation(m_lighting));
-  //dc_lButton.whileHeld(new EnableTurbo(m_drivetrainSubsystem));
-  
-  dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, m_lighting, 0.34));
-  dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.4));
-  dc_yButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.65));
-  dc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.5));
+  dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem));   
+  dc_rButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 
+   m_shooterSubsystem, m_pneumaticSubsystem, 0.34));
+  dc_bButton.whileHeld(new RunClimber1OpenLoop(m_climberSubsystem, 0.65));
+  dc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.7));
 
-    //Munipulator Controller 
-    mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
-    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
-    mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
-     m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
-    mc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
-    //mc_lButton.whileHeld(new dcrColorAnimation(m_lighting)); 
-
-     mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
-    mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
+  //Munipulator Controller 
+  mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
+  mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+  mc_bButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.3));
+  mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
+   m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
+  mc_lButton.whileHeld(new EjectBall(m_shooterSubsystem, m_vConveyorSubsystem)); 
   }
+
+/*
+Driver Controls:        
+  A = Shift Gear                                     
+  B = Climber 1              
+  X = Climber 2                
+  Y = Deploy Climber            
+  RB = Align To Shoot 
+
+ Munipulator Controls: 
+  A = Intake
+  X = Deploy Intake
+  Y = Reverse Intake & Horizontal
+  B = Climber 2 (Slow)
+  RB = Shoot 2 Balls
+  LB = Eject Ball from vertical
+*/
 
   
   /**

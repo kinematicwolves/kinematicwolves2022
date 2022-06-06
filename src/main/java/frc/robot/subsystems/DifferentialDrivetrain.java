@@ -116,9 +116,9 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
     SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
     SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
-    SmartDashboard.putNumber("Rotation - Y(Deg)", getGyroYAxis());
-    SmartDashboard.putNumber("Distance driven - inches (auton fwd)", getXDistanceDrivenInches());
-    SmartDashboard.putNumber("Current gear ratio", getCurrentGearRatio());
+    // SmartDashboard.putNumber("Rotation - Y(Deg)", getGyroYAxis());
+    // SmartDashboard.putNumber("Distance driven - inches (auton fwd)", getXDistanceDrivenInches());
+    // SmartDashboard.putNumber("Current gear ratio", getCurrentGearRatio());
     //System.out.println("\nDistance driven - inches (auton fwd): "  + getXDistanceDrivenInches());
   }
 
@@ -197,8 +197,8 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // Drive Robot with commanded linear velocity and yaw rate commands
     drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));
 
-    SmartDashboard.putNumber("X speed commanded by driver", accelerationFilter.calculate(xSpeed));
-    SmartDashboard.putNumber("Rotation command", rotationFilter.calculate(zRotationRate));
+    // SmartDashboard.putNumber("X speed commanded by driver", accelerationFilter.calculate(xSpeed));
+    // SmartDashboard.putNumber("Rotation command", rotationFilter.calculate(zRotationRate));
   }
   public void moveBackward(double speed){
 

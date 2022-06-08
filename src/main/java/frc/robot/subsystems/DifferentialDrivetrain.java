@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.ShootTwoBalls;
 
 
 
@@ -209,6 +210,12 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   // Drivetrain Variables
   public boolean isHighGear = false; // Initialize to low gear
+  private PneumaticSubsystem pneumatics;
+  private VisionSubsystem vision;
+  private VConveyorSubsystem vconveyor;
+  private HConveyorSubsystem horizontal;
+  private ShooterSubsystem shooter;
+  private IntakeSubsystem intake;
 
 
   public void shiftToHighGear(PneumaticSubsystem pneumaticSubsystem) {
@@ -246,6 +253,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     if (isLinedUp(visionSubsystem)){
       // Lined up!
       drive.arcadeDrive(0, 0);
+      new ShootTwoBalls(vision, vconveyor, horizontal, shooter, intake, pneumatics); 
     }
     else if (horizalAngle < (-1 * alignWindow)){
       // rotate clockwise

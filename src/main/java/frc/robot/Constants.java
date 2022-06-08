@@ -31,7 +31,7 @@ public final class Constants {
     public static final int CLIMBER_MOTOR2 = 30;
 
   // Tables for shooting speeds vs distance
-  // If balls aren't making it in, CHECK AIR PRESSURE FOR BALLS!
+  // If balls aren't making it in, CHECK AIR PRESSURE FOR BALLS! 3.5%
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
       4600, 4900, 5250, 5900, 6350
      };
@@ -61,7 +61,7 @@ public final class Constants {
     public static final double SHOOTER_Kf = 0.051;
     public static final double SHOOTER_Kp = 0.08;
     public static final double SHOOTER_Ki = 0;
-    public static final double SHOOTER_Kd = 0.5;
+    public static final double SHOOTER_Kd = 0.6;
     public static final int SHOOTER_PID_SLOT = 0;
     public static final int kTimeoutMs = 30; // Used for all PID loops
 
@@ -69,7 +69,7 @@ public final class Constants {
     public static final double CLIMBER1_Kf = 0.051;
     public static final double CLIMBER1_Kp = 0.05;
     public static final double CLIMBER1_Ki = 0;
-    public static final double CLIMBER1_Kd = 0.5;
+    public static final double CLIMBER1_Kd = 0.;
     public static final int CLIMBER1_PID_SLOT = 0;
 
   // Climber 2 PID constants for position control

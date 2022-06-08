@@ -76,7 +76,7 @@ public class LightingSubsystem extends SubsystemBase {
   }
 
   public void setRedTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(255, 10, 10, 225, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100); 
+    m_animation = new TwinkleAnimation(255, 0, 0, 0, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100); 
   }
 
   public void setDisabledLightShow(){

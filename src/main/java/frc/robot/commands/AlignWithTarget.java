@@ -31,7 +31,7 @@ public class AlignWithTarget extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_ShooterSubsystem.setShooterMotorSpeed(3500);
+    m_ShooterSubsystem.setShooterMotorSpeed(5000);
     //Starting the shooter during lineup will conserve battery life while shortening cycle time :)
     m_PneumaticSubsystem.turnOffCompressor();
     //This will conserve battery power so the shooter sequence isn't affected by low battery

@@ -50,6 +50,7 @@ public class RunTeleopLighting extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_lighting.setDisabledLightShow();
+    m_vision.turnLimelightOff();
   }
 
   // Returns true when the command should end.

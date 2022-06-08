@@ -41,42 +41,16 @@ public class LightingSubsystem extends SubsystemBase {
     m_animation = new RainbowAnimation(0.7, 0.8, Constants.CandleConstants.CANDLE_1_LED_COUNT);
   } 
 
-  public void setGreenSolidAnimation(){
-    m_animation = new SingleFadeAnimation(0, 255, 0, 225, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
-  }
-
-  public void setMexicanColorAnimation(){
-    if (MexicanLEDOn){
-    m_animation = new ColorFlowAnimation(225, 225, 0, 225, 0.3, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
-    m_animation = new ColorFlowAnimation(0, 0, 225, 0 , 0.1, Constants.CandleConstants.CANDLE_1_ID, Direction.Forward); 
-    m_animation = new ColorFlowAnimation(0, 0, 0, 255, 0.2, Constants.CandleConstants.CANDLE_1_ID, Direction.Forward);
-    }
-    MexicanLEDOn = true;
-  }
-
-  public void runWhiteAnimation(){
-    m_animation = new SingleFadeAnimation(0, 225, 0, 225, 0.1, Constants.CandleConstants.CANDLE_1_ID);
-  }
-  
-  public boolean isMexicanLEDOn(){
-    return MexicanLEDOn;
-  }
-
-  public void setPurpleSolidAnimation(){
-    m_animation = new SingleFadeAnimation(255, 0, 255, 10, 0.0, Constants.CandleConstants.CANDLE_1_LED_COUNT);
-  }
-
-  public void setFireAnimation(){
-    m_animation = new FireAnimation(0.5, 0.99, Constants.CandleConstants.CANDLE_1_LED_COUNT, 0.7, 0.7);
-  }
-
   public void setPurpleTwinkleAnimation(){
     m_animation = new TwinkleAnimation(225, 5, 225, 225, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100);
-    
   }
 
   public void setRedTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(255, 0, 0, 0, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100); 
+    m_animation = new TwinkleAnimation(255, 0, 0, 0, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent88); 
+  }
+
+  public void setBlueTwinkleAnimation(){
+    m_animation = new TwinkleAnimation(0, 0, 225, 0, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent88);
   }
 
   public void setDisabledLightShow(){

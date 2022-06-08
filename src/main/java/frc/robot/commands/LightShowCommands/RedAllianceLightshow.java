@@ -4,13 +4,16 @@
 
 package frc.robot.commands.LightShowCommands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LightingSubsystem;
 
-public class PurpleTwinkleLightShow extends CommandBase {
-  private final LightingSubsystem m_LightingSubsystem;
-  /** Creates a new PurpleTwinkleLightShow. */
-  public PurpleTwinkleLightShow(LightingSubsystem lightingSubsystem) {
+public class RedAllianceLightshow extends CommandBase {
+  private final LightingSubsystem m_LightingSubsystem; 
+  private Timer m_timer = new Timer();
+
+  /** Creates a new RedAllianceLightshow. */
+  public RedAllianceLightshow(LightingSubsystem lightingSubsystem) {
     m_LightingSubsystem = lightingSubsystem; 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -18,12 +21,20 @@ public class PurpleTwinkleLightShow extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_LightingSubsystem.setPurpleTwinkleAnimation();
+    m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (m_timer.get() > 105){
+      m_LightingSubsystem.setRedTwinkleAnimation();
+    }
+    else {
+      m_LightingSubsystem.setPurpleTwinkleAnimation();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

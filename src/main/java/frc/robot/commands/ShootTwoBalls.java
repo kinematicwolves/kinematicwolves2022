@@ -5,29 +5,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.HConveyorSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VConveyorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class ShootTwoBalls extends CommandBase {
   private final ShooterSubsystem m_shooter;
-  private final VConveyorSubsystem m_verticalConeyor;
   private final VisionSubsystem m_vision;
-  private final HConveyorSubsystem m_horizontal;
   private final IntakeSubsystem m_intake;
   private final PneumaticSubsystem m_pneumatics;
+  private final ConveyorSubsystem m_conveyorSubsystem; 
   private int timer;
   /** Creates a new ShootTwoBalls. */
   public ShootTwoBalls(
-    VisionSubsystem vision, VConveyorSubsystem vconveyor, HConveyorSubsystem horizontal, 
+    VisionSubsystem vision, ConveyorSubsystem conveyorSubsystem, 
     ShooterSubsystem shooter, IntakeSubsystem intake, PneumaticSubsystem pneumatics
   ) {
     m_shooter = shooter;
-    m_horizontal = horizontal;
-    m_verticalConeyor = vconveyor;
+    m_conveyorSubsystem = conveyorSubsystem; 
     m_vision = vision;
     m_intake = intake;
     m_pneumatics = pneumatics;
@@ -52,15 +49,20 @@ public class ShootTwoBalls extends CommandBase {
     timer += 20;
   
     if ((timer > 1) & (timer < 800)) {
-      m_horizontal.runConveyorMotor(0.7);
-      m_verticalConeyor.runConveyorMotor(0.25);
+      m_conveyorSubsystem.runHorizontalConveyor(0.7);//m_horizontal.runConveyorMotor(0.7);
+      m_conveyorSubsystem.runVerticalConveyor(0.2);//m_verticalConeyor.runConveyorMotor(0.25);
     }
-    if ((timer > 800) & (timer < 2000)){
-      m_verticalConeyor.runConveyorMotor(0.7);
+    if ((timer > 800) & (timer < 1400)){
+      m_conveyorSubsystem.runVerticalConveyor(0.7);//m_verticalConeyor.runConveyorMotor(0.7);
     }
     if ((timer > 1400) & (timer < 2000)){
-      m_horizontal.runConveyorMotor(-1);
+      m_conveyorSubsystem.runHorizontalConveyor(-1);//m_horizontal.runConveyorMotor(-1);
       m_intake.runIntakeMotor(-1);
+      m_conveyorSubsystem.runVerticalConveyor(0);
+    }
+    if ((timer > 1400) & (timer < 2000)){
+      //fix the timing in the sequence so the vertical conveyor doesnt reject the 2nd ball 
+      m_conveyorSubsystem.runVerticalConveyor(0.7);
     }
   }
 

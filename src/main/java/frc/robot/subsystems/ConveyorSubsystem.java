@@ -1,0 +1,31 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.subsystems;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+public class ConveyorSubsystem extends SubsystemBase {
+  private final WPI_TalonSRX m_HorizontalConveyor = new WPI_TalonSRX(Constants.HORIZONTALCONVEYORMOTOR);
+  private final WPI_TalonSRX m_VerticalConveyor = new WPI_TalonSRX(Constants.HORIZONTALCONVEYORMOTOR);
+
+  /** Creates a new ConveyorSubsystem. */
+  public ConveyorSubsystem() {}
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+
+  public void runVerticalConveyor(double requestedOutputFraction){
+    m_VerticalConveyor.set(requestedOutputFraction);
+  }
+
+  public void runHorizontalConveyor(double requestedOutputFraction){
+    m_HorizontalConveyor.set(requestedOutputFraction);
+  }
+}

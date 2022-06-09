@@ -27,13 +27,12 @@ import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
 import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
 import frc.robot.commands.LightShowCommands.RunTeleopLighting;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
-import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VConveyorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 /**
@@ -49,8 +48,7 @@ public class RobotContainer {
   private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-  private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
-  private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
+  private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final LightingSubsystem m_lighting = new LightingSubsystem();
   // Controllers

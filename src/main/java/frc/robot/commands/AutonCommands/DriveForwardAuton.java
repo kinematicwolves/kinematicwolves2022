@@ -6,7 +6,6 @@ package frc.robot.commands.AutonCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDrivetrain;
-import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 
@@ -20,16 +19,14 @@ and not wanting to break existing code under a time crunch.
   private final double m_distance; 
   private final double m_speed;
   private final IntakeSubsystem m_intake;
-  private final HConveyorSubsystem m_hconveyorsubsystem;
   private final PneumaticSubsystem m_pneumatics;
   public DriveForwardAuton(DifferentialDrivetrain drivetrain, double distanceInches,
-    double speed, IntakeSubsystem intake, HConveyorSubsystem hConveyorSubsystem, PneumaticSubsystem pneumatics) {
+    double speed, IntakeSubsystem intake, PneumaticSubsystem pneumatics) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
     m_distance = distanceInches;
     m_speed = speed;
     m_intake = intake;
-    m_hconveyorsubsystem = hConveyorSubsystem; 
     m_pneumatics = pneumatics;
   }
 

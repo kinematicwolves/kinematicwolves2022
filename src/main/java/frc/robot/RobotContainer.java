@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.ControlDaCompressor;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
@@ -24,12 +23,11 @@ import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.ToggleSpeedLimit;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
-import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
-import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
+import frc.robot.commands.LightShowCommands.BlueLightshow;
+import frc.robot.commands.LightShowCommands.GayTeleopLighshow;
 import frc.robot.commands.LightShowCommands.LimelightOnOff;
-import frc.robot.commands.LightShowCommands.RunMexicanAnimation;
-import frc.robot.commands.LightShowCommands.RunTeleopLighting;
-import frc.robot.commands.LightShowCommands.dcrColorAnimation;
+import frc.robot.commands.LightShowCommands.TeleopLighing2;
+import frc.robot.commands.LightShowCommands.TeleopLighting1;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
@@ -71,12 +69,11 @@ public class RobotContainer {
 
      // A chooser for autonomous commands
     
-    // m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
-    //   m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-    // m_chooser.addOption("Backup Shoot Then Backup Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
-    //   m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-    //m_chooser.addOption("Rainbow LightShow", new RainbowLIghtShow(m_lighting));
-    //m_chooser.addOption("Twinkle LightShow", new );
+    m_chooser.setDefaultOption("Purple Led's", new TeleopLighting1(m_lighting, m_visionSubsystem, m_pneumaticSubsystem));
+    m_chooser.addOption("Red Led's", new TeleopLighing2(m_lighting, m_visionSubsystem, m_pneumaticSubsystem));
+    m_chooser.addOption("Gay Led's", new GayTeleopLighshow(m_lighting, m_visionSubsystem, m_pneumaticSubsystem));
+    m_chooser.addOption("Blue Led's", new BlueLightshow(m_lighting, m_visionSubsystem, m_pneumaticSubsystem));
+    m_chooser.addOption("Incase any one is light sensitive", new BlueLightshow(m_lighting, m_visionSubsystem, m_pneumaticSubsystem));
     SmartDashboard.putData(m_chooser);
   }
 
@@ -139,7 +136,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
+    return new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, 0); 
+    //this is just so auton does nothing and i forgot how to do the null thing
   }
 
     public Command getDisabledCommand(){
@@ -148,9 +146,7 @@ public class RobotContainer {
     } // Command to reset robot to initial state
     
     public Command getTeleopLightingCommand(){
-      Command lightingCommand = new RunTeleopLighting(m_lighting, m_drivetrainSubsystem, m_visionSubsystem,
-       m_shooterSubsystem, m_pneumaticSubsystem);
-      return lightingCommand;
+      return m_chooser.getSelected(); 
     }
 }
  

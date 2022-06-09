@@ -6,15 +6,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
-import com.ctre.phoenix.led.CANdleConfiguration;
-import com.ctre.phoenix.led.ColorFlowAnimation;
-import com.ctre.phoenix.led.FireAnimation;
-import com.ctre.phoenix.led.RainbowAnimation;
-import com.ctre.phoenix.led.SingleFadeAnimation;
-import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
-import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.RainbowAnimation;
+import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,55 +33,29 @@ public class LightingSubsystem extends SubsystemBase {
     
   }
 
+  //Animations
   public void setRainbowAnimation(){
-    m_animation = new RainbowAnimation(0.7, 0.8, Constants.CandleConstants.CANDLE_1_LED_COUNT);
-  } 
-
-  public void setGreenSolidAnimation(){
-    m_animation = new SingleFadeAnimation(0, 255, 0, 225, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
+    m_animation = new RainbowAnimation(1, 1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
   }
-
-  public void setMexicanColorAnimation(){
-    if (MexicanLEDOn){
-    m_animation = new ColorFlowAnimation(225, 225, 0, 225, 0.3, Constants.CandleConstants.CANDLE_1_LED_COUNT, Direction.Forward);
-    m_animation = new ColorFlowAnimation(0, 0, 225, 0 , 0.1, Constants.CandleConstants.CANDLE_1_ID, Direction.Forward); 
-    m_animation = new ColorFlowAnimation(0, 0, 0, 255, 0.2, Constants.CandleConstants.CANDLE_1_ID, Direction.Forward);
-    }
-    MexicanLEDOn = true;
-  }
-
-  public void runWhiteAnimation(){
-    m_animation = new SingleFadeAnimation(0, 225, 0, 225, 0.1, Constants.CandleConstants.CANDLE_1_ID);
-  }
-  
-  public boolean isMexicanLEDOn(){
-    return MexicanLEDOn;
-  }
-
-  public void setPurpleSolidAnimation(){
-    m_animation = new SingleFadeAnimation(255, 0, 255, 10, 0.0, Constants.CandleConstants.CANDLE_1_LED_COUNT);
-  }
-
-  public void setFireAnimation(){
-    m_animation = new FireAnimation(0.5, 0.99, Constants.CandleConstants.CANDLE_1_LED_COUNT, 0.7, 0.7);
-  }
-
-  public void setTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(189,183,107, 225, 0.2, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100);
-    
-  }
-
   public void setPurpleTwinkleAnimation(){
     m_animation = new TwinkleAnimation(255, 0, 255, 69, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100); 
   }
-
-  public void setDisabledLightShow(){
-    setRainbowAnimation();
+  public void setRedTwinkleAnimation(){
+    m_animation = new TwinkleAnimation(225, 0, 1, 0, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT,TwinklePercent.Percent100);
+  }
+  public void setBlueTwinkleAnimation(){
+    m_animation = new TwinkleAnimation(0, 0, 225, 30, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT,TwinklePercent.Percent100);
+  }
+  public void setBlackAnimation(){
+    m_animation = new TwinkleAnimation(0, 0, 0, 0 , 0 , Constants.CandleConstants.CANDLE_1_LED_COUNT,TwinklePercent.Percent100); 
+  }
+  public void setGreenTwinkleAnimation(){
+    m_animation = new TwinkleAnimation(0, 225, 0, 0, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT,TwinklePercent.Percent100); 
   }
 
-  public void setLightsOff(){
-    // Not sure this is the best way to turn them off
-    light1.configBrightnessScalar(0);
+
+  public void setDisabledLightShow(){
+    m_animation = new RainbowAnimation(0.9, 0.5, Constants.CandleConstants.CANDLE_1_LED_COUNT);
   }
 
   @Override

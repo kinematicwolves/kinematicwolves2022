@@ -35,16 +35,15 @@ public class RunTeleopLighting extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
-    //m_pneumaticSubsystem.enableCompressor();
-    //m_shooterSubsystem.setShooterMotorSpeed(1300);
-   // m_vision.turnLimelightOff();
+    m_pneumaticSubsystem.turnOffCompressor();
+   m_vision.turnLimelightOff();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     // I think this will turn orange after two minutes.
-   m_lighting.setRainbowAnimation();
+   m_lighting.setPurpleTwinkleAnimation();
   }
 
   // Called once the command ends or is interrupted.

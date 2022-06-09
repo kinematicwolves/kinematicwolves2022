@@ -18,6 +18,7 @@ public class PneumaticSubsystem extends SubsystemBase {
   private final DoubleSolenoid intakeSolenoid = pHub.makeDoubleSolenoid(Constants.INTAKE_SOLENOID_FWD, Constants.INTAKE_SOLENOID_RVS);
   private final DoubleSolenoid drivetrainSolenoid = pHub.makeDoubleSolenoid(Constants.DRVTRN_SOL_FWD_CHN, Constants.DRVTRN_SOL_RVS_CHN);
   private final DoubleSolenoid climberDoubleSolenoid = pHub.makeDoubleSolenoid(Constants.CLIMBER2_SOL_FWD, Constants.CLIMBER2_SOL_RVS); 
+  private boolean compressorIsOn = false; 
 
   
   /** Creates a new PneumaticSubsystem. */
@@ -27,12 +28,18 @@ public class PneumaticSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public boolean isCompressorOn(){
+    return compressorIsOn; 
+  }
+
   public void turnOffCompressor(){
     pHub.disableCompressor();
+    compressorIsOn = false; 
   }
 
   public void enableCompressor(){
     pHub.enableCompressorDigital();
+    compressorIsOn = true; 
   }
 
   public void setIntakeDeployed(){

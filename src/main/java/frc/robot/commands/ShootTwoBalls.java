@@ -47,7 +47,7 @@ public class ShootTwoBalls extends CommandBase {
     double distance = m_vision.getFilteredDistance();
     m_intake.setIntakeDeployed(m_pneumatics);
     double shooterSpeedRPM = m_shooter.getMotorSpeedForDistance(distance);
-    m_shooter.setShooterMotorSpeed(shooterSpeedRPM);
+    m_shooter.setShooterMotorSpeed(3000); // config in rpm
 
     timer += 20;
     if ((timer > 1500) & (timer < 2300)) {

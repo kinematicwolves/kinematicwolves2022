@@ -42,15 +42,15 @@ public class LightingSubsystem extends SubsystemBase {
   } 
 
   public void setPurpleTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(225, 5, 225, 225, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100);
+    m_animation = new TwinkleAnimation(225, 5, 225, 100, 0.8, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent76);
   }
 
   public void setRedTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(255, 0, 0, 0, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent88); 
+    m_animation = new TwinkleAnimation(255, 0, 0, 0, 0.25, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent88); 
   }
 
   public void setBlueTwinkleAnimation(){
-    m_animation = new TwinkleAnimation(0, 0, 225, 0, 0.1, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent88);
+    m_animation = new TwinkleAnimation(0, 0, 225, 0, 0.25, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent88);
   }
 
   public void setDisabledLightShow(){

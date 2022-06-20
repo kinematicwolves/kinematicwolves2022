@@ -25,7 +25,8 @@ import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
 import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
-import frc.robot.commands.LightShowCommands.RunTeleopLighting;
+import frc.robot.commands.LightShowCommands.BlueAllianceLightshow;
+import frc.robot.commands.LightShowCommands.RedAllianceLightshow;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
@@ -56,7 +57,8 @@ public class RobotContainer {
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Command> m_AutonChooser = new SendableChooser<>();
+  SendableChooser<Command> m_LightsChooser = new SendableChooser<>(); 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -66,11 +68,16 @@ public class RobotContainer {
     CameraServer.startAutomaticCapture();
 
      // A chooser for autonomous commands
-     m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
+     m_AutonChooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
      m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-   m_chooser.addOption("One Ball Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
+     m_AutonChooser.addOption("One Ball Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
      m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-   SmartDashboard.putData(m_chooser);
+   SmartDashboard.putData(m_AutonChooser);
+
+   // A chooser for Lightshow commands
+   m_LightsChooser.setDefaultOption("Red Alliance Lighshow", new RedAllianceLightshow(m_lighting, m_visionSubsystem, m_drivetrainSubsystem, m_pneumaticSubsystem));
+   m_LightsChooser.addOption("Blue Alliance Lightshow", new BlueAllianceLightshow(m_lighting, m_visionSubsystem, m_drivetrainSubsystem, m_pneumaticSubsystem));
+   SmartDashboard.putData(m_LightsChooser);
  }
 
   private void setDefaultCommands(){
@@ -138,7 +145,7 @@ Driver Controls:
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
+    return m_AutonChooser.getSelected();
   }
 
     public Command getDisabledCommand(){
@@ -147,9 +154,8 @@ Driver Controls:
     } // Command to reset robot to initial state
     
     public Command getTeleopLightingCommand(){
-      Command lightingCommand = new RunTeleopLighting(m_lighting, m_drivetrainSubsystem, m_visionSubsystem,
-       m_shooterSubsystem, m_pneumaticSubsystem);
-      return lightingCommand;
+      return m_LightsChooser.getSelected();
+      // This is to choose which lights you want
     }
 }
  

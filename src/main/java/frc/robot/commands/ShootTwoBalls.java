@@ -49,19 +49,18 @@ public class ShootTwoBalls extends CommandBase {
     timer += 20;
   
     if ((timer > 1) & (timer < 800)) {
-      m_conveyorSubsystem.runHorizontalConveyor(0.7);//m_horizontal.runConveyorMotor(0.7);
-      m_conveyorSubsystem.runVerticalConveyor(0.2);//m_verticalConeyor.runConveyorMotor(0.25);
+      m_conveyorSubsystem.runHorizontalConveyor(0.7);
+      m_conveyorSubsystem.runVerticalConveyor(0.2);
     }
     if ((timer > 800) & (timer < 1400)){
-      m_conveyorSubsystem.runVerticalConveyor(0.7);//m_verticalConeyor.runConveyorMotor(0.7);
+      m_conveyorSubsystem.runVerticalConveyor(0.7);
     }
     if ((timer > 1400) & (timer < 2000)){
-      m_conveyorSubsystem.runHorizontalConveyor(-1);//m_horizontal.runConveyorMotor(-1);
+      m_conveyorSubsystem.runHorizontalConveyor(-1);
       m_intake.runIntakeMotor(-1);
       m_conveyorSubsystem.runVerticalConveyor(0);
     }
-    if ((timer > 1400) & (timer < 2000)){
-      //fix the timing in the sequence so the vertical conveyor doesnt reject the 2nd ball 
+    if ((timer > 1600) & (timer < 2000)){
       m_conveyorSubsystem.runVerticalConveyor(0.7);
     }
   }
@@ -69,8 +68,8 @@ public class ShootTwoBalls extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_horizontal.runConveyorMotor(0);
-    m_verticalConeyor.runConveyorMotor(0);
+    m_conveyorSubsystem.runHorizontalConveyor(0);
+    m_conveyorSubsystem.runVerticalConveyor(0);
     m_shooter.setShooterMotorSpeed(0);
     m_pneumatics.enableCompressor();
     m_intake.runIntakeMotor(0);

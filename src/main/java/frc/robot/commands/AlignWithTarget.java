@@ -34,6 +34,7 @@ public class AlignWithTarget extends CommandBase {
     m_ShooterSubsystem.setShooterMotorSpeed(5000);
     //Starting the shooter during lineup will conserve battery life while shortening cycle time :)
     m_PneumaticSubsystem.turnOffCompressor();
+    m_drivetrain.setLowGear();
     //This will conserve battery power so the shooter sequence isn't affected by low battery
   }
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,6 +47,7 @@ public class AlignWithTarget extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drivetrain.rotateDrivetrainToTarget(0, m_visionSubsystem);
+    m_drivetrain.setHighGear();
   }
 
   // Returns true when the command should end.

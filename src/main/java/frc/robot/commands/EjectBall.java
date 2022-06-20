@@ -5,16 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VConveyorSubsystem;
 
 public class EjectBall extends CommandBase {
   private final ShooterSubsystem m_ShooterSubsystem;
-  private final VConveyorSubsystem m_VConveyorSubsystem; 
+  private final ConveyorSubsystem conveyorSubsystem; 
   /** Creates a new EjectBall. */
-  public EjectBall(ShooterSubsystem shooterSubsystem, VConveyorSubsystem vConveyorSubsystem) {
+  public EjectBall(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem) {
     m_ShooterSubsystem = shooterSubsystem; 
-    m_VConveyorSubsystem = vConveyorSubsystem; 
+    this.conveyorSubsystem = conveyorSubsystem; 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,14 +27,14 @@ public class EjectBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_VConveyorSubsystem.runConveyorMotor(0.8);
+    conveyorSubsystem.runVerticalConveyor(0.8);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_ShooterSubsystem.setShooterMotorSpeed(0);
-    m_VConveyorSubsystem.runConveyorMotor(0);
+    conveyorSubsystem.runVerticalConveyor(0);
   }
 
   // Returns true when the command should end.

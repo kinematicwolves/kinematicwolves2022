@@ -24,6 +24,12 @@ import frc.robot.commands.ShootTwoBalls;
 
 
 public class DifferentialDrivetrain extends SubsystemBase {
+  private final PneumaticSubsystem pneumatics = new PneumaticSubsystem();
+  private final  VisionSubsystem vision = new VisionSubsystem();
+  private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem(); 
+
   // Initial 13:42
   // Low Gear 14:60
   // High Gear 24:50
@@ -210,12 +216,6 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   // Drivetrain Variables
   public boolean isHighGear = false; // Initialize to low gear
-  private PneumaticSubsystem pneumatics;
-  private VisionSubsystem vision;
-  private VConveyorSubsystem vconveyor;
-  private HConveyorSubsystem horizontal;
-  private ShooterSubsystem shooter;
-  private IntakeSubsystem intake;
 
 
   public void shiftToHighGear(PneumaticSubsystem pneumaticSubsystem) {
@@ -253,7 +253,9 @@ public class DifferentialDrivetrain extends SubsystemBase {
     if (isLinedUp(visionSubsystem)){
       // Lined up!
       drive.arcadeDrive(0, 0);
-      new ShootTwoBalls(vision, vconveyor, horizontal, shooter, intake, pneumatics); 
+    if (isLinedUp(visionSubsystem)){
+      new ShootTwoBalls(vision, conveyorSubsystem, shooter, intake, pneumatics); 
+    }
     }
     else if (horizalAngle < (-1 * alignWindow)){
       // rotate clockwise

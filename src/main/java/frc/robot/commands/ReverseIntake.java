@@ -5,19 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.HConveyorSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
 
-
-public class RunHorizontalConveyor extends CommandBase {
+public class ReverseIntake extends CommandBase {
  
-  private final HConveyorSubsystem horizontalconveyor;
-  double commandedOutputFraction;
+  private final IntakeSubsystem intake;
+  private final ConveyorSubsystem conveyorSubsystem; 
+  //private final PneumaticSubsystem pneumatics; 
 
   /** Creates a new RunIntakeMotor. */
-  public RunHorizontalConveyor(HConveyorSubsystem hConveyorSubsystem, double commandedFraction) {
-    this.horizontalconveyor = hConveyorSubsystem; 
-    this.commandedOutputFraction = commandedFraction;
-    addRequirements(horizontalconveyor);
+  public ReverseIntake(IntakeSubsystem intakeSubsystem, ConveyorSubsystem conveyorSubsystem) {
+    this.intake = intakeSubsystem; 
+    this.conveyorSubsystem = conveyorSubsystem; 
+    //pneumatics = pneumaticSubsystem; 
+    addRequirements(intake);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -25,17 +28,20 @@ public class RunHorizontalConveyor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    horizontalconveyor.runConveyorMotor(commandedOutputFraction);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    conveyorSubsystem.runHorizontalConveyor(1);
+    intake.runIntakeMotor(0.8);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    horizontalconveyor.runConveyorMotor(0);
+    intake.runIntakeMotor(0);
+    conveyorSubsystem.runHorizontalConveyor(0);
   }
 
   // Returns true when the command should end.

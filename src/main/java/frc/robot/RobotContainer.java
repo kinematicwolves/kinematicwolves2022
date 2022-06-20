@@ -17,7 +17,9 @@ import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.EjectBall;
 import frc.robot.commands.IntakeBalls;
+import frc.robot.commands.ReverseIntake;
 import frc.robot.commands.SetDisabledState;
+import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.AutonCommands.BackupShootBackup;
@@ -25,7 +27,8 @@ import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
 import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
-import frc.robot.commands.LightShowCommands.RunTeleopLighting;
+import frc.robot.commands.LightShowCommands.BlueAllianceLightshow;
+import frc.robot.commands.LightShowCommands.RedAllianceLightshow;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
@@ -51,24 +54,29 @@ public class RobotContainer {
   private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final LightingSubsystem m_lighting = new LightingSubsystem();
+
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Command> m_autonChooser = new SendableChooser<>();
+  SendableChooser<Command> m_lightshowChooser = new SendableChooser<>();
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
     CameraServer.startAutomaticCapture();
 
      // A chooser for autonomous commands
-     m_chooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
-     m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-   m_chooser.addOption("One Ball Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
-     m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-   SmartDashboard.putData(m_chooser);
+     m_autonChooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_conveyorSubsystem, m_drivetrainSubsystem, 
+     m_visionSubsystem, m_shooterSubsystem));
+     m_autonChooser.addOption("One Ball Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
+     m_intakeSubsystem, m_visionSubsystem, m_lighting, m_conveyorSubsystem, m_shooterSubsystem));
+   SmartDashboard.putData(m_autonChooser);
+
+   // A chooser for alliance colors (untested)
+   m_lightshowChooser.setDefaultOption("Red Alliance Lightshow", new RedAllianceLightshow(m_lighting, m_pneumaticSubsystem, m_visionSubsystem, m_drivetrainSubsystem));
+   m_lightshowChooser.addOption("Blue Alliance Lightshow", new BlueAllianceLightshow(m_lighting, m_pneumaticSubsystem, m_visionSubsystem, m_drivetrainSubsystem));
  }
 
   private void setDefaultCommands(){
@@ -80,6 +88,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
   private void configureButtonBindings() {
     // Driver controls, dc = driver controller, mc = manipulator controller
     JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
@@ -93,6 +102,7 @@ public class RobotContainer {
     JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
     JoystickButton mc_bButton = new JoystickButton(m_manipulatorController, XboxController.Button.kB.value);
+    JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value); 
 
 
   //Driver Controller
@@ -104,12 +114,12 @@ public class RobotContainer {
   dc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.7));
 
   //Munipulator Controller 
-  mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
-  mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
-  mc_bButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.3));
-  mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
-   m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
-  mc_lButton.whileHeld(new EjectBall(m_shooterSubsystem, m_vConveyorSubsystem)); 
+  mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_conveyorSubsystem)); 
+  mc_yButton.whileHeld(new  ReverseIntake(m_intakeSubsystem, m_conveyorSubsystem)); 
+  mc_lButton.whileHeld(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+  mc_xButton.whileHeld(new RunClimber2OpenLoop(m_climberSubsystem, 0.3));
+  mc_rButton.whileHeld(new EjectBall(m_shooterSubsystem, m_conveyorSubsystem)); 
+  mc_bButton.whenPressed(new SetShooterToSpeed(m_shooterSubsystem, 5000));
   }
 
 /*
@@ -118,7 +128,7 @@ Driver Controls:
   B = Climber 1              
   X = Climber 2                
   Y = Deploy Climber            
-  RB = Align To Shoot 
+  RB = Align & Shoot 
 
  Munipulator Controls: 
   A = Intake
@@ -126,7 +136,7 @@ Driver Controls:
   Y = Reverse Intake & Horizontal
   B = Climber 2 (Slow)
   RB = Shoot 2 Balls
-  LB = Eject Ball from vertical
+  LB = DeployIntake (while held)
 */
 
   
@@ -136,18 +146,16 @@ Driver Controls:
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
-  }
+    return m_autonChooser.getSelected();
+  } // This is to choose which auton we want based on our stratagy
 
-    public Command getDisabledCommand(){
-      Command disabled = new SetDisabledState(m_lighting, m_visionSubsystem);
-      return disabled;
-    } // Command to reset robot to initial state
+  public Command getDisabledCommand(){
+    Command disabled = new SetDisabledState(m_lighting, m_visionSubsystem);
+    return disabled;
+  } // Command to reset robot to initial state
     
-    public Command getTeleopLightingCommand(){
-      Command lightingCommand = new RunTeleopLighting(m_lighting, m_drivetrainSubsystem, m_visionSubsystem,
-       m_shooterSubsystem, m_pneumaticSubsystem);
-      return lightingCommand;
-    }
+  public Command getTeleopLightingCommand(){
+    return m_lightshowChooser.getSelected();
+  } // This is to choose what color Led's we want based on our alliance 
 }
  

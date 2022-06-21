@@ -42,8 +42,8 @@ public final class Constants {
 
 
   // Drivetrain slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 3.7;
-    public static final double SLEW_RATE_LIMIT_ACCEL = 4.1;  
+    public static final double SLEW_RATE_LIMIT_ROTATE = 4.3;
+    public static final double SLEW_RATE_LIMIT_ACCEL = 3.9;  
 
   //Drivetrain auton speeds
     public static final double AUTON_SPEED = 0.41;

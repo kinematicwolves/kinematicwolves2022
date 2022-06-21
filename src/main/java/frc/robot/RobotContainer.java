@@ -12,14 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
-import frc.robot.commands.EjectBall;
 import frc.robot.commands.IntakeBalls;
-import frc.robot.commands.SetDisabledState;
 import frc.robot.commands.ShiftGear;
-import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.AutonCommands.BackupShootBackup;
 import frc.robot.commands.AutonCommands.CenterPositionAuton1;
 import frc.robot.commands.AutonCommands.LeftPositionAuton1;
@@ -30,6 +26,10 @@ import frc.robot.commands.ClimberCommands.Climber1Timed;
 import frc.robot.commands.ClimberCommands.Climber2Timed;
 import frc.robot.commands.LightShowCommands.BlueAllianceLightshow;
 import frc.robot.commands.LightShowCommands.RedAllianceLightshow;
+import frc.robot.commands.LightShowCommands.SetDisabledState;
+import frc.robot.commands.ShooterCommands.AlignWithTarget;
+import frc.robot.commands.ShooterCommands.EjectBall;
+import frc.robot.commands.ShooterCommands.ShootTwoBalls;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
@@ -117,7 +117,7 @@ public class RobotContainer {
 
   //Munipulator Controller 
   mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
-  mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, 1));
+  mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, 1)); //rvs
   mc_lJoystickButton.whileHeld(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
   mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
    m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 

@@ -6,7 +6,7 @@ package frc.robot.commands.AutonCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DeployIntake;
-import frc.robot.commands.ShootTwoBalls;
+import frc.robot.commands.ShooterCommands.ShootTwoBalls;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;

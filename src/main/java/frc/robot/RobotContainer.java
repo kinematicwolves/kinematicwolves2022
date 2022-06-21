@@ -149,6 +149,7 @@ Driver Controls:
    */
   public Command getAutonomousCommand() {
     return m_AutonChooser.getSelected();
+    //choose which auton you want
   }
 
     public Command getDisabledCommand(){

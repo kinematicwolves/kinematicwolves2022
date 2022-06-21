@@ -51,14 +51,14 @@ public class ShootTwoBalls extends CommandBase {
 
     timer += 20;
   
-    if ((timer > 1) & (timer < 800)) {
+    if ((timer > 1) & (timer < 100)) {
       m_horizontal.runConveyorMotor(0.7);
       m_verticalConeyor.runConveyorMotor(0.25);
     }
-    if ((timer > 800) & (timer < 2000)){
+    if ((timer > 100) & (timer < 2200)){
       m_verticalConeyor.runConveyorMotor(0.7);
     }
-    if ((timer > 1400) & (timer < 2000)){
+    if ((timer > 1600) & (timer < 2200)){
       m_horizontal.runConveyorMotor(-1);
       m_intake.runIntakeMotor(-1);
     }
@@ -77,6 +77,6 @@ public class ShootTwoBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer > 2000;
+    return timer > 2200;
   }
 }

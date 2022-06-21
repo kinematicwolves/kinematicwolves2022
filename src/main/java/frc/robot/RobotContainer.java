@@ -21,6 +21,9 @@ import frc.robot.commands.SetDisabledState;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.AutonCommands.BackupShootBackup;
+import frc.robot.commands.AutonCommands.CenterPositionAuton1;
+import frc.robot.commands.AutonCommands.LeftPositionAuton1;
+import frc.robot.commands.AutonCommands.RightPostionAuton1;
 import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.ClimberCommands.Climber1Timed;
@@ -68,10 +71,9 @@ public class RobotContainer {
     CameraServer.startAutomaticCapture();
 
      // A chooser for autonomous commands
-     m_AutonChooser.setDefaultOption("Two Ball Auton", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, 
-     m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-     m_AutonChooser.addOption("One Ball Auton", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, 
-     m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+     m_AutonChooser.setDefaultOption("2 Ball Auto for Center Position", new CenterPositionAuton1(m_drivetrainSubsystem, m_hConveyorSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_visionSubsystem, m_pneumaticSubsystem));
+     m_AutonChooser.addOption("2 Ball Auto for Right Position", new RightPostionAuton1(m_drivetrainSubsystem, m_hConveyorSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_visionSubsystem, m_pneumaticSubsystem));
+     m_AutonChooser.addOption("2 Ball Auto for Left Position", new LeftPositionAuton1(m_drivetrainSubsystem, m_hConveyorSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_visionSubsystem, m_pneumaticSubsystem));
    SmartDashboard.putData(m_AutonChooser);
 
    // A chooser for Lightshow commands

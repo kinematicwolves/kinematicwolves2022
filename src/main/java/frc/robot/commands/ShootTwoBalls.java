@@ -39,23 +39,23 @@ public class ShootTwoBalls extends CommandBase {
   @Override
   public void initialize() {
     timer = 0;
+    m_intake.setIntakeDeployed(m_pneumatics);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double distance = m_vision.getFilteredDistance();
-    m_intake.setIntakeDeployed(m_pneumatics);
     double shooterSpeedRPM = m_shooter.getMotorSpeedForDistance(distance);
     m_shooter.setShooterMotorSpeed(shooterSpeedRPM);
 
     timer += 20;
   
-    if ((timer > 1) & (timer < 100)) {
+    if ((timer > 1) & (timer < 1000)) {
       m_horizontal.runConveyorMotor(0.7);
       m_verticalConeyor.runConveyorMotor(0.25);
     }
-    if ((timer > 100) & (timer < 2200)){
+    if ((timer > 1000) & (timer < 2200)){
       m_verticalConeyor.runConveyorMotor(0.7);
     }
     if ((timer > 1600) & (timer < 2200)){

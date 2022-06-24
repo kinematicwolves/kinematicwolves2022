@@ -12,29 +12,26 @@ public class Climber1Timed extends CommandBase {
 
   private final ClimberSubsystem climber1;
   double commandedOutputFraction;
-  private int timer;
+
 
 
   /** Creates a new Climber2. */
   public Climber1Timed(ClimberSubsystem climberSubsystem, double output) {
     this.climber1 = climberSubsystem;
     this.commandedOutputFraction = output;
-    timer = 0;
     addRequirements(climber1);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {  timer = 0; }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    timer +=20;
-    if((timer > 1) & (timer < 2000)){
       climber1.setClimberMotor1Output(commandedOutputFraction);
-    }}
+    }
   
 
   // Called once the command ends or is interrupted.
@@ -46,6 +43,6 @@ public class Climber1Timed extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer > 2000;
+    return false;
   }
 }

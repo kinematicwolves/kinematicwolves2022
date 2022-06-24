@@ -2,38 +2,52 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ClimberCommands;
+
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DifferentialDrivetrain;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class ToggleSpeedLimit extends CommandBase {
-  private final DifferentialDrivetrain m_drivetrain;
-  /** Creates a new ToggleSpeedLimit. */
-  public ToggleSpeedLimit(DifferentialDrivetrain drivetrain) {
+public class Climber2Setup extends CommandBase {
+  private final ClimberSubsystem climber2;
+  private int timer; 
+  double commandedOutputFraction;
+  
+
+  /** Creates a new Climber2. */
+  public Climber2Setup(ClimberSubsystem climberSubsystem, double output) {
+    this.climber2 = climberSubsystem;
+    this.commandedOutputFraction = output;
+    timer = 0; 
     // Use addRequirements() here to declare subsystem dependencies.
-    m_drivetrain = drivetrain;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      m_drivetrain.enableSpeedLimit();   
+    timer = 0;
   }
+
+  
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    timer += 20; 
+    if ((timer > 1) & (timer < 1000)){
+      climber2.setClimberMotor2Output(commandedOutputFraction);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.disableSpeedLimit();
+    climber2.setClimberMotor2Output(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer > 1000;
   }
 }

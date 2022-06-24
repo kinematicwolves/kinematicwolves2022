@@ -30,7 +30,7 @@ public class ClimberSubsystem extends SubsystemBase {
     m_climberMotor1.configForwardSoftLimitEnable(false);
     m_climberMotor1.configReverseSoftLimitEnable(false);
 
-    m_climberMotor2.setInverted(TalonFXInvertType.CounterClockwise);
+    m_climberMotor2.setInverted(TalonFXInvertType.Clockwise);
     m_climberMotor2.configFactoryDefault();
     m_climberMotor2.configForwardSoftLimitEnable(false);
     m_climberMotor2.configReverseSoftLimitEnable(false);

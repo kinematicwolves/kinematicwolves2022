@@ -50,17 +50,20 @@ public class ShootTwoBalls extends CommandBase {
     m_shooter.setShooterMotorSpeed(shooterSpeedRPM);
 
     timer += 20;
-  
-    if ((timer > 1) & (timer < 1000)) {
-      m_horizontal.runConveyorMotor(0.7);
-      m_verticalConeyor.runConveyorMotor(0.25);
+
+    if ((timer > 1000) & (timer < 1500)) {
+      m_horizontal.runConveyorMotor(1);
+      m_verticalConeyor.runConveyorMotor(0.1);
     }
-    if ((timer > 1000) & (timer < 2200)){
-      m_verticalConeyor.runConveyorMotor(0.7);
+    if ((timer > 1500) & (timer < 2000)){
+      m_verticalConeyor.runConveyorMotor(0.7); 
     }
-    if ((timer > 1600) & (timer < 2200)){
+    if ((timer > 2000) & (timer < 2500)){
       m_horizontal.runConveyorMotor(-1);
       m_intake.runIntakeMotor(-1);
+    }
+    if ((timer > 3700) & (timer < 4000)){
+      m_verticalConeyor.runConveyorMotor(0.7);
     }
   }
 
@@ -72,12 +75,11 @@ public class ShootTwoBalls extends CommandBase {
     m_shooter.setShooterMotorSpeed(0);
     m_pneumatics.enableCompressor();
     m_intake.runIntakeMotor(0);
-    m_intake.setIntakeUndeployed(m_pneumatics);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer > 2200;
+    return timer > 4000;
   }
 }

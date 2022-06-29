@@ -20,9 +20,9 @@ import frc.robot.subsystems.VisionSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class BackupShootBackup extends SequentialCommandGroup {
+public class OneBallAuto extends SequentialCommandGroup {
   /** Creates a new BackupShootBackup. */
-  public BackupShootBackup(DifferentialDrivetrain drivetrain, PneumaticSubsystem pneumatics, 
+  public OneBallAuto(DifferentialDrivetrain drivetrain, PneumaticSubsystem pneumatics, 
     IntakeSubsystem intake, VisionSubsystem vision, LightingSubsystem lighting, HConveyorSubsystem horizontal, 
     VConveyorSubsystem vconveyor, ShooterSubsystem shooter) {
     // Add your commands in the addCommands() call, e.g.

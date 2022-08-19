@@ -42,7 +42,7 @@ public final class Constants {
 
 
   // Drivetrain slew rate limiters
-    public static final double SLEW_RATE_LIMIT_ROTATE = 20;
+    public static final double SLEW_RATE_LIMIT_ROTATE = 8;
     public static final double SLEW_RATE_LIMIT_ACCEL = 3.8;  
 
   //Drivetrain auton speeds
@@ -99,3 +99,4 @@ public final class Constants {
     public static final int CANDLE_1_LED_COUNT = 185;
   }
 }
+

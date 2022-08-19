@@ -17,9 +17,11 @@ import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ToggleSpeedLimit;
+import frc.robot.commands.AutonCommands.BackupShootBackup;
 import frc.robot.commands.AutonCommands.CenterPositionAuton1;
 import frc.robot.commands.AutonCommands.LeftPositionAuton1;
 import frc.robot.commands.AutonCommands.RightPostionAuton1;
+import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.Climber1Timed;
 import frc.robot.commands.ClimberCommands.Climber2Setup;
 import frc.robot.commands.ClimberCommands.Climber2Timed;
@@ -71,9 +73,8 @@ public class RobotContainer {
     CameraServer.startAutomaticCapture();
 
      // A chooser for autonomous commands
-     m_AutonChooser.setDefaultOption("2 Ball Auto for Center Position", new CenterPositionAuton1(m_drivetrainSubsystem, m_hConveyorSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_visionSubsystem, m_pneumaticSubsystem));
-     m_AutonChooser.addOption("2 Ball Auto for Right Position", new RightPostionAuton1(m_drivetrainSubsystem, m_hConveyorSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_visionSubsystem, m_pneumaticSubsystem));
-     m_AutonChooser.addOption("2 Ball Auto for Left Position", new LeftPositionAuton1(m_drivetrainSubsystem, m_hConveyorSubsystem, m_vConveyorSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_visionSubsystem, m_pneumaticSubsystem));
+     m_AutonChooser.setDefaultOption("2 Ball Auto", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
+     m_AutonChooser.addOption("1 Ball Auto", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
    SmartDashboard.putData(m_AutonChooser);
 
    // A chooser for Lightshow commands
@@ -85,7 +86,7 @@ public class RobotContainer {
   private void setDefaultCommands(){
     m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
   }
-  /**
+  /**4
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
@@ -115,9 +116,9 @@ public class RobotContainer {
   dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
   dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem));   
   dc_bButton.whileHeld(new Climber1Timed(m_climberSubsystem, 0.75));
-  dc_xButton.whileHeld(new Climber2Timed(m_climberSubsystem, 0.75));
+  dc_xButton.whileHeld(new Climber2Timed(m_climberSubsystem, -0.75));
   dc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 
-  m_shooterSubsystem, m_pneumaticSubsystem, m_intakeSubsystem, 0.36));
+  m_shooterSubsystem, m_pneumaticSubsystem, m_intakeSubsystem, 0.355));
   dc_rButton.whileHeld(new ToggleSpeedLimit(m_drivetrainSubsystem));
   
 
@@ -169,4 +170,5 @@ Driver Controls:
       // This is to choose which lights you want
     }
 }
+
  

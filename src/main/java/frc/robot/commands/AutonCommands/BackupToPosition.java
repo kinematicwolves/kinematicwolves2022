@@ -12,33 +12,31 @@ import frc.robot.subsystems.PneumaticSubsystem;
 public class BackupToPosition extends CommandBase {
   /** Creates a new BackupToPosition. */
   private final DifferentialDrivetrain m_drivetrain;
-  private final double m_distance; 
-  private final double m_speed;
-
+  private int timer; 
   private final PneumaticSubsystem m_pneumatics;
   
-  public BackupToPosition(DifferentialDrivetrain drivetrain, double distanceInches,
-  double speed, PneumaticSubsystem pneumatics) {
+  public BackupToPosition(DifferentialDrivetrain drivetrain,
+   PneumaticSubsystem pneumatics) {
     m_drivetrain = drivetrain;
-    m_distance = distanceInches;
-    m_speed = speed;
     m_pneumatics = pneumatics;
+    timer = 0; 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drivetrain.driveForward(m_speed);
     m_pneumatics.turnOffCompressor();
+    timer = 0; 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // NOTE: The robot should go backward until hits a distance
-    m_drivetrain.driveForward(-1 * m_speed);
-
+    timer += 20;
+    if ((timer > 1) & (timer < 2000)) {
+      m_drivetrain.driveForward(0.43);
+    }
     
   }
 
@@ -46,11 +44,12 @@ public class BackupToPosition extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_pneumatics.enableCompressor();
+    m_drivetrain.driveForward(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_drivetrain.getXDistanceDrivenInches()) > m_distance;
+    return timer > 3000; 
   }
 }

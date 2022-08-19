@@ -187,8 +187,8 @@ public class DifferentialDrivetrain extends SubsystemBase {
     
     double zRotationRate = logAdjustment(1 * driverController.getLeftY()); //for POV Drive
     if (speedLimited){
-      xSpeed *= 0.5;
-      zRotationRate *= 0.5;
+      xSpeed *= 0.4;
+      zRotationRate *= 0.8;
     }
     if (turboEnabled){
       xSpeed *= 1;

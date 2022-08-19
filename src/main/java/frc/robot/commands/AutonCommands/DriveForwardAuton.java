@@ -17,17 +17,14 @@ NOTE: horizontal conveyor subsystem is actually the intake due to some mixups
 and not wanting to break existing code under a time crunch.
   */
   private final DifferentialDrivetrain m_drivetrain;
-  private final double m_distance; 
-  private final double m_speed;
+
   private final IntakeSubsystem m_intake;
   private final HConveyorSubsystem m_hconveyorsubsystem;
   private final PneumaticSubsystem m_pneumatics;
-  public DriveForwardAuton(DifferentialDrivetrain drivetrain, double distanceInches,
-    double speed, IntakeSubsystem intake, HConveyorSubsystem hConveyorSubsystem, PneumaticSubsystem pneumatics) {
+  private int timer; 
+  public DriveForwardAuton(DifferentialDrivetrain drivetrain, IntakeSubsystem intake, HConveyorSubsystem hConveyorSubsystem, PneumaticSubsystem pneumatics) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
-    m_distance = distanceInches;
-    m_speed = speed;
     m_intake = intake;
     m_hconveyorsubsystem = hConveyorSubsystem; 
     m_pneumatics = pneumatics;
@@ -39,25 +36,27 @@ and not wanting to break existing code under a time crunch.
     // m_drivetrain.setMotorsBrake();
     m_intake.runIntakeMotor(-1);
     m_pneumatics.turnOffCompressor();
+    timer = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.driveForward(m_speed);
-    System.out.println("**Distance driven: " + m_drivetrain.getXDistanceDrivenInches() + " **");
+    if ((timer > 1) & (timer < 2000))
+    m_drivetrain.driveForward(-0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_intake.runIntakeMotor(0); 
+    m_drivetrain.driveForward(0);
     m_pneumatics.enableCompressor();  
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_drivetrain.getXDistanceDrivenInches() > m_distance;
+    return timer > 2000;
   }
 }

@@ -17,9 +17,9 @@ import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ToggleSpeedLimit;
-import frc.robot.commands.AutonCommands.BackupShootBackup;
 import frc.robot.commands.AutonCommands.CenterPositionAuton1;
 import frc.robot.commands.AutonCommands.LeftPositionAuton1;
+import frc.robot.commands.AutonCommands.OneBallAuto;
 import frc.robot.commands.AutonCommands.RightPostionAuton1;
 import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.Climber1Timed;
@@ -50,15 +50,15 @@ import frc.robot.subsystems.VisionSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final DifferentialDrivetrain m_drivetrainSubsystem = new DifferentialDrivetrain();
-  private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-  private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
-  private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
-  private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
-  private final LightingSubsystem m_lighting = new LightingSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final DifferentialDrivetrain drivetrain = new DifferentialDrivetrain();
+  private final PneumaticSubsystem pneumaticSubsystem = new PneumaticSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  private final HConveyorSubsystem hConveyorSubsystem = new HConveyorSubsystem();
+  private final VConveyorSubsystem vConveyorSubsystem = new VConveyorSubsystem();
+  private final VisionSubsystem visionSubsystem = new VisionSubsystem();
+  private final LightingSubsystem lightingSubsystem = new LightingSubsystem();
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
   private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
@@ -73,18 +73,17 @@ public class RobotContainer {
     CameraServer.startAutomaticCapture();
 
      // A chooser for autonomous commands
-     m_AutonChooser.setDefaultOption("2 Ball Auto", new TwoBallAuton(m_pneumaticSubsystem, m_intakeSubsystem, m_hConveyorSubsystem, m_drivetrainSubsystem, m_visionSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-     m_AutonChooser.addOption("1 Ball Auto", new BackupShootBackup(m_drivetrainSubsystem, m_pneumaticSubsystem, m_intakeSubsystem, m_visionSubsystem, m_lighting, m_hConveyorSubsystem, m_vConveyorSubsystem, m_shooterSubsystem));
-   SmartDashboard.putData(m_AutonChooser);
+     m_AutonChooser.setDefaultOption("1 Ball Auto", new OneBallAuto(drivetrain, pneumaticSubsystem, intakeSubsystem, visionSubsystem, lightingSubsystem, hConveyorSubsystem, vConveyorSubsystem, shooterSubsystem));
+     m_AutonChooser.addOption("2 Ball Auto", new TwoBallAuton(pneumaticSubsystem, intakeSubsystem, hConveyorSubsystem, drivetrain, visionSubsystem, vConveyorSubsystem, shooterSubsystem));
 
    // A chooser for Lightshow commands
-   m_LightsChooser.setDefaultOption("Red Alliance Lighshow", new RedAllianceLightshow(m_lighting, m_visionSubsystem, m_drivetrainSubsystem, m_pneumaticSubsystem));
-   m_LightsChooser.addOption("Blue Alliance Lightshow", new BlueAllianceLightshow(m_lighting, m_visionSubsystem, m_drivetrainSubsystem, m_pneumaticSubsystem));
+   m_LightsChooser.setDefaultOption("Red Alliance Lighshow", new RedAllianceLightshow(lightingSubsystem, visionSubsystem, drivetrain, pneumaticSubsystem));
+   m_LightsChooser.addOption("Blue Alliance Lightshow", new BlueAllianceLightshow(lightingSubsystem, visionSubsystem, drivetrain, pneumaticSubsystem));
    SmartDashboard.putData(m_LightsChooser);
  }
 
   private void setDefaultCommands(){
-    m_drivetrainSubsystem.setDefaultCommand(new DriveRobotOpenLoop(m_drivetrainSubsystem, m_driverController));
+    drivetrain.setDefaultCommand(new DriveRobotOpenLoop(drivetrain, m_driverController));
   }
   /**4
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -113,23 +112,23 @@ public class RobotContainer {
 
 
   //Driver Controller
-  dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
-  dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem));   
-  dc_bButton.whileHeld(new Climber1Timed(m_climberSubsystem, 0.75));
-  dc_xButton.whileHeld(new Climber2Timed(m_climberSubsystem, -0.75));
-  dc_lButton.whileHeld(new AlignWithTarget(m_visionSubsystem, m_drivetrainSubsystem, 
-  m_shooterSubsystem, m_pneumaticSubsystem, m_intakeSubsystem, 0.355));
-  dc_rButton.whileHeld(new ToggleSpeedLimit(m_drivetrainSubsystem));
+  dc_aButton.whenPressed(new ShiftGear(pneumaticSubsystem, drivetrain)); 
+  dc_yButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem));   
+  dc_bButton.whileHeld(new Climber1Timed(climberSubsystem, 0.75));
+  dc_xButton.whileHeld(new Climber2Timed(climberSubsystem, 0.75));
+  dc_lButton.whileHeld(new AlignWithTarget(visionSubsystem, drivetrain, 
+  shooterSubsystem, pneumaticSubsystem, intakeSubsystem, 0.36));
+  dc_rButton.whileHeld(new ToggleSpeedLimit(drivetrain));
   
 
   //Munipulator Controller 
-  mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
-  mc_yButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, 1)); //rvs
-  mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
-  mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
-   m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem));
-  mc_bButton.whileHeld(new EjectBall(m_shooterSubsystem, m_vConveyorSubsystem)); 
-  mc_lJoystickButton.whenPressed(new Climber2Setup(m_climberSubsystem, 0.8)); 
+  mc_aButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, -1)); 
+  mc_yButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, 1)); //rvs
+  mc_xButton.whenPressed(new DeployIntake(pneumaticSubsystem, intakeSubsystem));
+  mc_rButton.whileHeld(new ShootTwoBalls(visionSubsystem, vConveyorSubsystem, hConveyorSubsystem,
+   shooterSubsystem, intakeSubsystem, pneumaticSubsystem));
+  mc_bButton.whileHeld(new EjectBall(shooterSubsystem, vConveyorSubsystem)); 
+  mc_lJoystickButton.whenPressed(new Climber2Setup(climberSubsystem, 0.8)); 
   }
 
 /*
@@ -161,7 +160,7 @@ Driver Controls:
   }
 
     public Command getDisabledCommand(){
-      Command disabled = new SetDisabledState(m_lighting, m_visionSubsystem);
+      Command disabled = new SetDisabledState(lightingSubsystem, visionSubsystem);
       return disabled;
     } // Command to reset robot to initial state
     

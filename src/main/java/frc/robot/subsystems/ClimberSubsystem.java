@@ -19,13 +19,24 @@ public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
   private boolean climber2IsDeployed = false; 
 
-  private static final double climberMaxCurrent = 50;
+  private double CLIMBER_GEAR_RATIO = 25.0/1.0;
+  private final double encoderCountsPerRev = 2048;
+  private final double spoolCurcumfence = 1.5;
 
   /* 
     These are a constant offset to gravity. Set such that it retains a position of zero. This
     is an arbitrary output that is always added to the motor output.
   */ 
 
+public double getClimberDistanceTravledPerRotation(){
+  double climberSpoolRotation = encoderCountsPerRev * CLIMBER_GEAR_RATIO;
+  return climberSpoolRotation * spoolCurcumfence;
+}
+
+public ClimberDistanceTravled getClimberDistanceTravled(){
+  double climber1DistanceTravled = getClimberDistanceTravledPerRotation(m_climberMotor1);
+
+}
   
   @Override
   public void periodic() {
@@ -38,12 +49,13 @@ public class ClimberSubsystem extends SubsystemBase {
      m_climberMotor2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
      50, 0.5));
 
-
     //smart dashboard info
     SmartDashboard.putNumber("Sensor Position", m_climberMotor1.getSelectedSensorPosition());
     SmartDashboard.putNumber("Supply current", m_climberMotor1.getStatorCurrent());   
     SmartDashboard.putNumber("Sensor Position", m_climberMotor2.getSelectedSensorPosition());
     SmartDashboard.putNumber("Supply current", m_climberMotor2.getStatorCurrent());
+
+    SmartDashboard.putNumber("Climber 1 distance traveled (in inches) ", CLIMBER_GEAR_RATIO)
   }
 
   public void setClimberMotor1Output(double commandedOutput){

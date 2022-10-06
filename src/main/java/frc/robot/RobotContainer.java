@@ -17,21 +17,15 @@ import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ToggleSpeedLimit;
-import frc.robot.commands.AutonCommands.CenterPositionAuton1;
-import frc.robot.commands.AutonCommands.LeftPositionAuton1;
 import frc.robot.commands.AutonCommands.OneBallAuto;
-import frc.robot.commands.AutonCommands.RightPostionAuton1;
 import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.Climber1Timed;
-import frc.robot.commands.ClimberCommands.Climber2Setup;
 import frc.robot.commands.ClimberCommands.Climber2Timed;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.LightShowCommands.BlueAllianceLightshow;
 import frc.robot.commands.LightShowCommands.RedAllianceLightshow;
 import frc.robot.commands.LightShowCommands.SetDisabledState;
-import frc.robot.commands.ShooterCommands.AlignWithTarget;
 import frc.robot.commands.ShooterCommands.EjectBall;
-import frc.robot.commands.ShooterCommands.ShootTwoBalls;
 import frc.robot.commands.ShooterCommands.TwoBallShot;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
@@ -127,7 +121,6 @@ public class RobotContainer {
   mc_yButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, 1)); //rvs
   mc_xButton.whenPressed(new DeployIntake(pneumaticSubsystem, intakeSubsystem));
   mc_bButton.whileHeld(new EjectBall(shooterSubsystem, vConveyorSubsystem)); 
-  mc_lJoystickButton.whenPressed(new Climber2Setup(climberSubsystem, 0.8)); 
   }
 
 /*

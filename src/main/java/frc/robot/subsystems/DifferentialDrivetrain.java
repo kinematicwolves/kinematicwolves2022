@@ -253,10 +253,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     if (isLinedUp(visionSubsystem)){
       // Lined up!
       drive.arcadeDrive(0, 0);
-    if (isLinedUp(visionSubsystem)){
-      new ShootTwoBalls(vision, vconveyor, horizontal, shooter, intake, pneumatics); 
     }
-   }
     else if (horizalAngle < (-1 * alignWindow)){
       // rotate clockwise
       drive.arcadeDrive(-1 * rotateSpeed, 0);

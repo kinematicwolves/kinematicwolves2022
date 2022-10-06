@@ -45,25 +45,31 @@ public class ShootTwoBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double distance = m_vision.getFilteredDistance();
-    double shooterSpeedRPM = m_shooter.getMotorSpeedForDistance(distance);
-    m_shooter.setShooterMotorSpeed(shooterSpeedRPM);
 
     timer += 20;
 
-    if ((timer > 1000) & (timer < 1500)) {
+    if ((timer > 800) & (timer < 1000)) {
       m_horizontal.runConveyorMotor(1);
-      m_verticalConeyor.runConveyorMotor(0.1);
+      //ball seperation in the indexer
     }
-    if ((timer > 1500) & (timer < 2000)){
-      m_verticalConeyor.runConveyorMotor(0.7); 
+    if ((timer > 1000) & (timer < 1600)){
+      m_verticalConeyor.runConveyorMotor(0.8);
+      //lifts first ball to shooter fly wheel | shoots ball one
     }
-    if ((timer > 2000) & (timer < 2500)){
+    if ((timer > 1600) & (timer < 2300)) {
+      m_verticalConeyor.runConveyorMotor(0);
+      /*this stops the vertical conveyor to not put any oposing force to 
+      the second ball traveling between the deadzone*/
+    }
+    if ((timer > 1700) & (timer < 2300)){
       m_horizontal.runConveyorMotor(-1);
       m_intake.runIntakeMotor(-1);
+      //launch's second ball to the vertical conveyor 
     }
-    if ((timer > 3700) & (timer < 4000)){
-      m_verticalConeyor.runConveyorMotor(0.7);
+    if ((timer > 2300) & (timer < 3000)){
+      m_horizontal.runConveyorMotor(-1);
+      m_verticalConeyor.runConveyorMotor(0.8);
+      //fires second ball
     }
   }
 
@@ -80,6 +86,6 @@ public class ShootTwoBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer > 4000;
+    return timer > 3000;
   }
 }

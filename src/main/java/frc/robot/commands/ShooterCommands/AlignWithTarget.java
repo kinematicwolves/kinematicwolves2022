@@ -18,7 +18,7 @@ public class AlignWithTarget extends CommandBase {
   private final ShooterSubsystem m_ShooterSubsystem; 
   private final PneumaticSubsystem m_PneumaticSubsystem; 
   private final double m_alignSpeed;
-  private final IntakeSubsystem intakeSubsystem; 
+  private final IntakeSubsystem intakeSubsystem;
   public AlignWithTarget(VisionSubsystem visionSubsystem, DifferentialDrivetrain drivetrain, ShooterSubsystem shooterSubsystem, 
    PneumaticSubsystem pneumaticSubsystem, IntakeSubsystem intakeSubsystem, double alignSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -34,9 +34,8 @@ public class AlignWithTarget extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   // m_ShooterSubsystem.setShooterMotorSpeed(5100);//Starting the shooter during lineup will conserve battery life while shortening cycle time :)
+   m_ShooterSubsystem.setShooterMotorSpeed(4000);//Starting the shooter during lineup will conserve battery life while shortening cycle time :)
     m_PneumaticSubsystem.turnOffCompressor();//This will conserve battery power so the shooter sequence isn't affected by low battery
-    m_drivetrain.setLowGear(); // A little more power for anyone coming at us during lineup 
     intakeSubsystem.setIntakeDeployed(m_PneumaticSubsystem);
     
   }
@@ -50,7 +49,6 @@ public class AlignWithTarget extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drivetrain.rotateDrivetrainToTarget(0, m_visionSubsystem);
-    m_drivetrain.setHighGear();
     double distance = m_visionSubsystem.getFilteredDistance();
     double shooterSpeedRPM = m_ShooterSubsystem.getMotorSpeedForDistance(distance);
     m_ShooterSubsystem.setShooterMotorSpeed(shooterSpeedRPM);

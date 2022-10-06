@@ -32,6 +32,7 @@ import frc.robot.commands.LightShowCommands.SetDisabledState;
 import frc.robot.commands.ShooterCommands.AlignWithTarget;
 import frc.robot.commands.ShooterCommands.EjectBall;
 import frc.robot.commands.ShooterCommands.ShootTwoBalls;
+import frc.robot.commands.ShooterCommands.TwoBallShot;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
@@ -112,12 +113,12 @@ public class RobotContainer {
 
 
   //Driver Controller
-  dc_aButton.whenPressed(new ShiftGear(pneumaticSubsystem, drivetrain)); 
-  dc_yButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem));   
-  dc_bButton.whileHeld(new Climber1Timed(climberSubsystem, 0.75));
+  dc_aButton.whenPressed(new ShiftGear(pneumaticSubsystem, drivetrain));
+  dc_yButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem)); 
+  dc_bButton.whileHeld(new Climber1Timed(climberSubsystem, 0.75)); 
   dc_xButton.whileHeld(new Climber2Timed(climberSubsystem, 0.75));
-  dc_lButton.whileHeld(new AlignWithTarget(visionSubsystem, drivetrain, 
-  shooterSubsystem, pneumaticSubsystem, intakeSubsystem, 0.36));
+  dc_lButton.whileHeld(new TwoBallShot(drivetrain, pneumaticSubsystem, intakeSubsystem, 
+    visionSubsystem, lightingSubsystem, hConveyorSubsystem, vConveyorSubsystem, shooterSubsystem));
   dc_rButton.whileHeld(new ToggleSpeedLimit(drivetrain));
   
 
@@ -125,8 +126,6 @@ public class RobotContainer {
   mc_aButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, -1)); 
   mc_yButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, 1)); //rvs
   mc_xButton.whenPressed(new DeployIntake(pneumaticSubsystem, intakeSubsystem));
-  mc_rButton.whileHeld(new ShootTwoBalls(visionSubsystem, vConveyorSubsystem, hConveyorSubsystem,
-   shooterSubsystem, intakeSubsystem, pneumaticSubsystem));
   mc_bButton.whileHeld(new EjectBall(shooterSubsystem, vConveyorSubsystem)); 
   mc_lJoystickButton.whenPressed(new Climber2Setup(climberSubsystem, 0.8)); 
   }

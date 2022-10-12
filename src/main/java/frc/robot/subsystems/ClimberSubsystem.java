@@ -40,7 +40,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double CLIMBER1_HEIGHT_C1 = 21000; // Ready to climb
 
   private final double MINIMUM_DISTANCE_C2 = 0;
-  private final double MAXIMUM_DISTANCE_C2 = 47.2; // UNITS INCHES
+  private final double MAXIMUM_DISTANCE_C2 = 1000000; // UNITS INCHES
   private final double WINDOW_THRESHOLD_C2 = 0.2; // UNITS INCHES + I dont know what this means
   private final double CLIMBER2_HEIGHT = 23.6; // UNITS INCHES
 

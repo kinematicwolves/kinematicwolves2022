@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.IntakeBalls;
-import frc.robot.commands.ShiftGear;
 import frc.robot.commands.AutonCommands.OneBallAuto;
 import frc.robot.commands.AutonCommands.TwoBallAuton;
-import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
-import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
-import frc.robot.commands.ClimberCommands.SetClimber1ToClimbPosition;
+import frc.robot.commands.ClimberCommands.Climber2LiftsRobot;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
+import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
+import frc.robot.commands.ClimberCommands.SetClimber1ToClimbPosition;
+import frc.robot.commands.ClimberCommands.SetClimber2ToClimbPosition;
 import frc.robot.commands.LightShowCommands.BlueAllianceLightshow;
 import frc.robot.commands.LightShowCommands.RedAllianceLightshow;
 import frc.robot.commands.LightShowCommands.SetDisabledState;
@@ -91,39 +91,33 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Driver controls, dc = driver controller, mc = manipulator controller
     JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
-    JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
-    JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
-    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value); 
-    JoystickButton dc_lButton = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
-    JoystickButton dc_rJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kRightStick.value);
+    JoystickButton dc_startButton = new JoystickButton(m_driverController, XboxController.Button.kStart.value);
+    JoystickButton dc_backButton = new JoystickButton(m_driverController, XboxController.Button.kBack.value);
 
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
-    JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
-    JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
     JoystickButton mc_bButton = new JoystickButton(m_manipulatorController, XboxController.Button.kB.value);
     JoystickButton mc_yButton = new JoystickButton(m_manipulatorController, XboxController.Button.kY.value);
+    JoystickButton mc_startButton = new JoystickButton(m_manipulatorController, XboxController.Button.kStart.value);
+    JoystickButton mc_backButton = new JoystickButton(m_manipulatorController, XboxController.Button.kBack.value);
 
 
 
   //Driver Controller
-  dc_aButton.whenPressed(new ShiftGear(pneumaticSubsystem, drivetrain)); // A = Shift gear
-  dc_yButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem)); // Y = Deploy 2nd climber
-  dc_xButton.whileHeld(new RunClimber1OpenLoop(climberSubsystem, 0.45)); // X = Run Climber 1 at 45%
-  dc_bButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0.45)); // B = Run Climber 2 at 45%
-
-  dc_rButton.whileHeld(new TwoBallShot(drivetrain, pneumaticSubsystem, intakeSubsystem, 
-    visionSubsystem, lightingSubsystem, hConveyorSubsystem, vConveyorSubsystem, shooterSubsystem)); // RB  = Line up & Shoot 2 balls (Untested)
-  
+  dc_yButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem)); // Y = Deploy 2nd Climber
+  dc_rButton.whileHeld(new TwoBallShot(drivetrain, pneumaticSubsystem, intakeSubsystem,
+    visionSubsystem, lightingSubsystem, hConveyorSubsystem, vConveyorSubsystem, shooterSubsystem)); // RB = Line up & Shoot
+  dc_startButton.whenPressed(new SetClimber2ToClimbPosition(climberSubsystem)); 
+  dc_backButton.whenPressed(new Climber2LiftsRobot(climberSubsystem)); 
 
   //Munipulator Controller 
-  mc_aButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, -1)); // A = Intake
-  mc_yButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, 1)); // Y = Reverse Intake
-  mc_xButton.whenPressed(new DeployIntake(pneumaticSubsystem, intakeSubsystem)); // X = Deploy / Undeploy intake
-  mc_bButton.whileHeld(new EjectBall(shooterSubsystem, vConveyorSubsystem)); // B = Eject ball from vertical 
-
-  mc_lButton.whenPressed(new SetClimber1ToClimbPosition(climberSubsystem)); // LB = Set climber 1 to climb position (Untested)
+  mc_aButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, 1)); //Ball Intake (A)
+  mc_bButton.whileHeld(new EjectBall(shooterSubsystem, vConveyorSubsystem)); //Ball Eject (B)
+  mc_xButton.whenPressed(new DeployIntake(pneumaticSubsystem, intakeSubsystem)); //Lift or Drop Intake (X)
+  mc_yButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, -1)); //Intake Reversal (Y)
+  mc_startButton.whenPressed(new SetClimber1ToClimbPosition(climberSubsystem)); //Climber 1 Set Up (Start Button)
+  mc_backButton.whenPressed(new RunClimber1OpenLoop(climberSubsystem, .1)); //Climber 1 Lift (Back Button)
 
   }
 

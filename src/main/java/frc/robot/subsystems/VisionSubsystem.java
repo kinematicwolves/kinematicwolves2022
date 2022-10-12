@@ -154,16 +154,10 @@ public class VisionSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     distance = calculateDistance();
     filtered_distance = filter_d.calculate(distance);
-
-    // System.out.print("\n&Raw Vertical Angle:: " + getVerticalAngle() + " &");
-    // System.out.print("\n&Raw distance:: " + getDistance() + " &");
-    // System.out.print("\n&Limelight capture status::  " + getCaptureStatus() + "&");
-     //System.out.print("\n&LimelightFilteredDistance (inches):: " + filtered_distance + "&");
-    // System.out.print("\n&LimelightFilteredHorizontalAngle:: " + filtered_h_angle + "&");
-    // System.out.print("\n&LimelightFilteredVerticalAngle:: " + filtered_v_angle + "&");
-
+  
+  // Un-comment this if you need limelight data
     // SmartDashboard.putNumber("/nLimelight capture status: ", getCaptureStatus());
-     SmartDashboard.putNumber("LimelightFilteredDistance (inches)", filtered_distance);
+    // SmartDashboard.putNumber("LimelightFilteredDistance (inches)", filtered_distance);
     // SmartDashboard.putNumber("LimelightFilteredHorizontalAngle", filtered_h_angle);
     // SmartDashboard.putNumber("LimelightFilteredVerticalAngle", filtered_v_angle);
   }

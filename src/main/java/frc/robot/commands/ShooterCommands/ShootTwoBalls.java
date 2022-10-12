@@ -39,7 +39,6 @@ public class ShootTwoBalls extends CommandBase {
   @Override
   public void initialize() {
     timer = 0;
-    m_intake.setIntakeDeployed(m_pneumatics);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,7 +47,7 @@ public class ShootTwoBalls extends CommandBase {
 
     timer += 20;
 
-    if ((timer > 800) & (timer < 1000)) {
+    if ((timer > 1) & (timer < 1000)) {
       m_horizontal.runConveyorMotor(1);
       //ball seperation in the indexer
     }

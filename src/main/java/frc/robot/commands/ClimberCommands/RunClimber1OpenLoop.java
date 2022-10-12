@@ -8,7 +8,7 @@ package frc.robot.commands.ClimberCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class Climber1Timed extends CommandBase {
+public class RunClimber1OpenLoop extends CommandBase {
 
   private final ClimberSubsystem climber1;
   double commandedOutputFraction;
@@ -16,7 +16,7 @@ public class Climber1Timed extends CommandBase {
 
 
   /** Creates a new Climber2. */
-  public Climber1Timed(ClimberSubsystem climberSubsystem, double output) {
+  public RunClimber1OpenLoop(ClimberSubsystem climberSubsystem, double output) {
     this.climber1 = climberSubsystem;
     this.commandedOutputFraction = output;
     addRequirements(climber1);

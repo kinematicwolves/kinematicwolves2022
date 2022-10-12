@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.ShooterCommands.ShootTwoBalls;
 
 
 
@@ -114,13 +113,9 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     var wheelSpeeds = getDifferentialDriveWheelSpeeds();
     var chassisSpeed = kinematics.toChassisSpeeds(wheelSpeeds);
-    // SmartDashboard.putNumber("IMU Angle reading (deg)", -1 * imu.getAngle());
     SmartDashboard.putNumber("Linear velocity (vx) (m/s)", chassisSpeed.vxMetersPerSecond);
     SmartDashboard.putNumber("Rotational speed (RPM)", chassisSpeed.omegaRadiansPerSecond / (2 * Math.PI) * 60);
-    // SmartDashboard.putNumber("Rotation - Y(Deg)", getGyroYAxis());
-    // SmartDashboard.putNumber("Distance driven - inches (auton fwd)", getXDistanceDrivenInches());
-    // SmartDashboard.putNumber("Current gear ratio", getCurrentGearRatio());
-    //System.out.println("\nDistance driven - inches (auton fwd): "  + getXDistanceDrivenInches());
+    SmartDashboard.putNumber("Current gear ratio", getCurrentGearRatio());
   }
 
   public double countsToDistanceDrivenInches(double counts){
@@ -198,6 +193,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
     // Drive Robot with commanded linear velocity and yaw rate commands
     drive.arcadeDrive(accelerationFilter.calculate(xSpeed), rotationFilter.calculate(zRotationRate));
 
+  // Un-comment this to check drivetrain speeds
     // SmartDashboard.putNumber("X speed commanded by driver", accelerationFilter.calculate(xSpeed));
     // SmartDashboard.putNumber("Rotation command", rotationFilter.calculate(zRotationRate));
   }
@@ -210,12 +206,6 @@ public class DifferentialDrivetrain extends SubsystemBase {
 
   // Drivetrain Variables
   public boolean isHighGear = false; // Initialize to low gear
-  private PneumaticSubsystem pneumatics;
-  private VisionSubsystem vision;
-  private VConveyorSubsystem vconveyor;
-  private HConveyorSubsystem horizontal;
-  private ShooterSubsystem shooter;
-  private IntakeSubsystem intake;
 
 
   public void shiftToHighGear(PneumaticSubsystem pneumaticSubsystem) {

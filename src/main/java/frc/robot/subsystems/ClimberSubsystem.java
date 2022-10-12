@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
@@ -34,9 +35,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   // These need to be adujsted 
   private final double MINIMUM_DISTANCE_C1 = 0;
-  private final double MAXIMUM_DISTANCE_C1 = 83.8; // UNITS INCHES
-  private final double WINDOW_THRESHOLD_C1 = 0.2; // UNITS INCHES + I dont know what this means
-  private final double CLIMBER1_HEIGHT_C1 = 41.9; // UNITS INCHES
+  private final double MAXIMUM_DISTANCE_C1 = 40000; // Robot's up
+  private final double WINDOW_THRESHOLD_C1 = 0.2; // I dont know what this means
+  private final double CLIMBER1_HEIGHT_C1 = 21000; // Ready to climb
 
   private final double MINIMUM_DISTANCE_C2 = 0;
   private final double MAXIMUM_DISTANCE_C2 = 47.2; // UNITS INCHES
@@ -49,6 +50,12 @@ public class ClimberSubsystem extends SubsystemBase {
     m_climberMotor1.setInverted(TalonFXInvertType.CounterClockwise); //Change to clockwise if motor is spinning in the wrong direction
     m_climberMotor2.setInverted(TalonFXInvertType.Clockwise); //Change to counterclockwise if motor is spinning in the wrong direction 
 
+    m_climberMotor1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
+    50, 0.5));
+    m_climberMotor2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
+    50, 0.5));
+
+    
     // No idea what the soft limit threshold does
     // bruh why are there 2 things making the motor start at 0 (espesially the one with the timeoutMs parameter)??
     m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
@@ -61,7 +68,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_climberMotor2.setSelectedSensorPosition(0);
-    m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MINIMUM_DISTANCE_C2)); 
+    m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE_C2)); 
     m_climberMotor2.configForwardSoftLimitEnable(true);
 
     m_climberMotor2.configReverseSoftLimitThreshold(0);
@@ -161,7 +168,8 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
     SmartDashboard.putNumber("Climber 2 position (inches)", convertCountsToPositionInches(currentPositionClimber2));
     SmartDashboard.putString("Climber 2 state", getClimber2State());
-
+    SmartDashboard.putNumber("Supply current", m_climberMotor1.getStatorCurrent());
+    SmartDashboard.putNumber("Supply current", m_climberMotor2.getStatorCurrent());
   }
 
   public double getPositionInches(){

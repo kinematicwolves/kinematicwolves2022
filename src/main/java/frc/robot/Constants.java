@@ -50,12 +50,12 @@ public final class Constants {
 
   // Solenoid Mappings
      //phub ports
-    public static final int DRVTRN_SOL_FWD_CHN = 0;
-    public static final int DRVTRN_SOL_RVS_CHN = 1;  
-    public static final int INTAKE_SOLENOID_FWD = 2;
-    public static final int INTAKE_SOLENOID_RVS = 3; 
-    public static final int CLIMBER2_SOL_FWD = 4;
-    public static final int CLIMBER2_SOL_RVS = 5; 
+    public static final int DRVTRN_SOL_FWD_CHN = 15;
+    public static final int DRVTRN_SOL_RVS_CHN = 0;  
+    public static final int INTAKE_SOLENOID_FWD = 1;
+    public static final int INTAKE_SOLENOID_RVS = 2; 
+    public static final int CLIMBER2_SOL_FWD = 8;
+    public static final int CLIMBER2_SOL_RVS = 9; 
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;

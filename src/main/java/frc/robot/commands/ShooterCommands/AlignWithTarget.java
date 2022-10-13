@@ -34,7 +34,7 @@ public class AlignWithTarget extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   m_ShooterSubsystem.setShooterMotorSpeed(4000);//Starting the shooter during lineup will conserve battery life while shortening cycle time :)
+   m_ShooterSubsystem.setShooterMotorSpeed(6000);//Starting the shooter during lineup will conserve battery life while shortening cycle time :)
     m_PneumaticSubsystem.turnOffCompressor();//This will conserve battery power so the shooter sequence isn't affected by low battery
     intakeSubsystem.setIntakeDeployed(m_PneumaticSubsystem);
     
@@ -48,10 +48,8 @@ public class AlignWithTarget extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_ShooterSubsystem.setShooterMotorSpeed(0);
     m_drivetrain.rotateDrivetrainToTarget(0, m_visionSubsystem);
-    double distance = m_visionSubsystem.getFilteredDistance();
-    double shooterSpeedRPM = m_ShooterSubsystem.getMotorSpeedForDistance(distance);
-    m_ShooterSubsystem.setShooterMotorSpeed(shooterSpeedRPM);
   }
 
   // Returns true when the command should end.

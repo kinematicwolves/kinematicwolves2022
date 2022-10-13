@@ -39,6 +39,9 @@ public class ShootTwoBalls extends CommandBase {
   @Override
   public void initialize() {
     timer = 0;
+    double distance = m_vision.getFilteredDistance();
+    double shooterSpeedRPM = m_shooter.getMotorSpeedForDistance(distance);
+    m_shooter.setShooterMotorSpeed(shooterSpeedRPM);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -80,6 +83,7 @@ public class ShootTwoBalls extends CommandBase {
     m_shooter.setShooterMotorSpeed(0);
     m_pneumatics.enableCompressor();
     m_intake.runIntakeMotor(0);
+    m_intake.setIntakeUndeployed(m_pneumatics);
   }
 
   // Returns true when the command should end.

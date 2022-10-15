@@ -19,7 +19,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_climberMotor2 = new WPI_TalonFX(Constants.CLIMBER_MOTOR2);
   private final int encoderCountsPerRev = 2048;
   private String climber1State = "Initial Position";
-  private String climber2State = "Initial Position";
   private final int GEAR_REDUCTION = 25 / 1;
   private final double SPOOL_CIRCUMFERENCE_INCHES = 3.1; // Inches
   private boolean climber2IsDeployed = false; 
@@ -127,10 +126,6 @@ public class ClimberSubsystem extends SubsystemBase {
     return climber1State;
   }
 
-  public String getClimber2State(){
-    return climber2State;
-  }
-
   
   @Override
   public void periodic() {
@@ -142,17 +137,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
     double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 2 position (Ash)", convertCountsToPositionInches(currentPositionClimber2));
-    SmartDashboard.putString("Climber 2 state", getClimber2State());
     SmartDashboard.putNumber("Supply current", m_climberMotor1.getStatorCurrent());
     SmartDashboard.putNumber("Supply current", m_climberMotor2.getStatorCurrent());
   }
 
   public double getPositionInches(){
     return convertCountsToPositionInches(m_climberMotor1.getSelectedSensorPosition());
-  }
-
-  public double getPositionInches_C2(){
-    return convertCountsToPositionInches(m_climberMotor2.getSelectedSensorPosition());
   }
  
   public double convertCountsToPositionInches(double positionCounts){

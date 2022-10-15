@@ -47,7 +47,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double MINIMUM_DISTANCE_C1 = 0;
   private final double MAXIMUM_DISTANCE_C1 = 40000; // Robot is all the way up on mid bar
   private final double WINDOW_THRESHOLD_C1 = 0.2; // Dont worry about this
-  private final double CLIMBER1_HEIGHT_C1 = 21000; // Climb postion
+  private final double CLIMBER1_HEIGHT_C1 = 20000; // Climb postion
 
   //Needs to be callibrated
   private final double MINIMUM_DISTANCE_C2 = 0;
@@ -130,6 +130,19 @@ public class ClimberSubsystem extends SubsystemBase {
     }
     else {
       climber2State = "C2_Out of bounds";
+    }
+  }
+
+  public boolean atClimb1Position(){
+    return getClimber1State() == "Ready to climb";
+  }
+
+  public boolean isSafeForClimb(){
+    if ((getClimber1State() == "Initial Position" ) | (getClimber1State() == "Raising To Climb")){
+      return true;
+    }
+    else {
+      return false;
     }
   }
 

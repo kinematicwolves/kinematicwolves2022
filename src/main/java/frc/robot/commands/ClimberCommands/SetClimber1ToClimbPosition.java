@@ -27,9 +27,7 @@ public class SetClimber1ToClimbPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_climber.isSafeForClimb()){
-      m_climber.setClimberMotor1Output(Constants.DEFAULT_CLIMBER_OUTPUT); 
-    }
+    m_climber.setClimberMotor1Output(Constants.DEFAULT_CLIMBER_OUTPUT); 
   }
 
   // Called once the command ends or is interrupted.
@@ -42,8 +40,7 @@ public class SetClimber1ToClimbPosition extends CommandBase {
   @Override
   public boolean isFinished() {
   //if this doesnt work then try line 49 instead 
-    return (m_climber.getClimber1State() == "Ready to climb") | (!m_climber.isSafeForClimb());
-    //return (!m_climber.isSafeForClimb()) | (m_climber.atClimb1Position());
+    return (m_climber.getClimber1State() == "Ready to climb");
   }
 
 }

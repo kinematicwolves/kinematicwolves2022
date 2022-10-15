@@ -33,31 +33,42 @@ public class ClimberSubsystem extends SubsystemBase {
     3.1" spool circumference
   */
 
-  // These need to be adujsted 
+  /*
+   * The second climber needs to be calibrated. 
+   * - Fisrt make sure the 2nd climber is FULLY reset. If you dont know what this means then ask mehcanical. The hook should be fully touching the bar. And remind them that the rope has to be on top. 
+   * - Then re-deploy the code. Go to driverstation and open up smart dashboard. Make sure all data is on there. Your going to be looking for "climber to position (Ash)". 
+   * - Once you find it, it should say 0. If it doesn't then re-deploy the code.
+   * - After you've confirmed it's at 0, tell mehcanical to set the 2nd climber to is max height. 
+   * - You'll see that the numbers have changed for the 2nd climber in smart Dashboard. The number that's in there is the number your going to put in the  "CLIMBER2_HEIGHT = 0" constant below
+   * - After you've copied and pasted the number tell mehcanical to fully extend the climber back down BEFORE THE RED!!!!! If it's not before the red then the climber will break:) 
+   * - Once it's down, check smart dashboard to copy and paste the number you get into "MAXIMUM_DISTANCE_C2 = 0" constant below. 
+   * - Now your done and can test the climbers. Just make sure the speeds are safe on them. You can change the speed by going to the Constants.java file and look for "DEFAULT_CLIMBER_OUTPUT". (Control + F if you can't find it.)
+   */
   private final double MINIMUM_DISTANCE_C1 = 0;
-  private final double MAXIMUM_DISTANCE_C1 = 40000; // Robot's up
-  private final double WINDOW_THRESHOLD_C1 = 0.2; // I dont know what this means
-  private final double CLIMBER1_HEIGHT_C1 = 21000; // Ready to climb
+  private final double MAXIMUM_DISTANCE_C1 = 40000; // Robot is all the way up on mid bar
+  private final double WINDOW_THRESHOLD_C1 = 0.2; // Dont worry about this
+  private final double CLIMBER1_HEIGHT_C1 = 21000; // Climb postion
 
+  //Needs to be callibrated
   private final double MINIMUM_DISTANCE_C2 = 0;
-  private final double MAXIMUM_DISTANCE_C2 = 1000000; // UNITS INCHES
-  private final double WINDOW_THRESHOLD_C2 = 0.2; // UNITS INCHES + I dont know what this means
-  private final double CLIMBER2_HEIGHT = 23.6; // UNITS INCHES
+  private final double MAXIMUM_DISTANCE_C2 = 0; // Robot is up on high bar
+  private final double WINDOW_THRESHOLD_C2 = 0.2; // Dont worry about this
+  private final double CLIMBER2_HEIGHT = 0; // Ready to be postioned and climb high bar 
 
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
+    // direction of rotation
     m_climberMotor1.setInverted(TalonFXInvertType.CounterClockwise); //Change to clockwise if motor is spinning in the wrong direction
-    m_climberMotor2.setInverted(TalonFXInvertType.Clockwise); //Change to counterclockwise if motor is spinning in the wrong direction 
+    m_climberMotor2.setInverted(TalonFXInvertType.CounterClockwise); //Change to counterclockwise if motor is spinning in the wrong direction 
 
+    // current limits
     m_climberMotor1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
     50, 0.5));
     m_climberMotor2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
     50, 0.5));
 
     
-    // No idea what the soft limit threshold does
-    // bruh why are there 2 things making the motor start at 0 (espesially the one with the timeoutMs parameter)??
     m_climberMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_climberMotor1.setSelectedSensorPosition(0);
     m_climberMotor1.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE_C1)); 
@@ -100,23 +111,23 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private void monitorClimber2State(){
     // Using a string to represent the state of climber 2 is a hack implementation, but oh well.
-    if (getPositionInches() < MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD_C2){
-      climber2State = "Initial Position";
+    if (getPositionInches_C2() < MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD_C2){
+      climber2State = "C2_Initial Position";
     }
-    else if ((getPositionInches() > MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD_C2) & (getPositionInches() < WINDOW_THRESHOLD_C2 + CLIMBER2_HEIGHT)){
-      climber2State = "Raising To Climb";
+    else if ((getPositionInches_C2() > MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < WINDOW_THRESHOLD_C2 + CLIMBER2_HEIGHT)){
+      climber2State = "C2_Raising To Climb";
     }
-    else if ((getPositionInches() > CLIMBER2_HEIGHT - WINDOW_THRESHOLD_C2) & (getPositionInches() < CLIMBER2_HEIGHT + WINDOW_THRESHOLD_C2)){
-      climber2State = "Ready to climb";
+    else if ((getPositionInches_C2() > CLIMBER2_HEIGHT - WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < CLIMBER2_HEIGHT + WINDOW_THRESHOLD_C2)){
+      climber2State = "C2_Ready to climb";
     }
-    else if ((getPositionInches() > CLIMBER2_HEIGHT + WINDOW_THRESHOLD_C2) & (getPositionInches() < MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD_C2)){
-      climber2State = "Climbing";
+    else if ((getPositionInches_C2() > CLIMBER2_HEIGHT + WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD_C2)){
+      climber2State = "C2_Climbing";
     }
-    else if ((getPositionInches() > MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD_C2) & (getPositionInches() < MAXIMUM_DISTANCE_C2)){
-      climber2State = "At Max Position";
+    else if ((getPositionInches_C2() > MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < MAXIMUM_DISTANCE_C2)){
+      climber2State = "C2_At Max Position";
     }
     else {
-      climber2State = "Out of bounds";
+      climber2State = "C2_Out of bounds";
     }
 
   }
@@ -129,30 +140,6 @@ public class ClimberSubsystem extends SubsystemBase {
     return climber2State;
   }
 
-  public boolean atClimb1Position(){
-    return getClimber1State() == "Ready to climb";
-  }
-
-  public boolean isSafeForClimb(){
-    if ((getClimber1State() == "Initial Position" ) | (getClimber1State() == "Raising To Climb")){
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  public boolean isClimber1Finished(){
-    return getClimber1State() == "At Max Position";
-  }
-  
-  public boolean isSafeForSecondClimb(){
-    return (getClimber1State() == "At Max Position") & ((getClimber2State() == "Initial Position" ) | (getClimber2State() == "Raising To Climb"));
-  }
-
-  public boolean isClimber2Finished(){
-    return getClimber2State() == "At Max Position";
-  }
   
   @Override
   public void periodic() {
@@ -160,13 +147,11 @@ public class ClimberSubsystem extends SubsystemBase {
     monitorClimber2State();
     // This method will be called once per scheduler run
     double currentPositionClimber1 = m_climberMotor1.getSelectedSensorPosition();
-    SmartDashboard.putNumber("Climber 1 counts", currentPositionClimber1);
-    SmartDashboard.putNumber("Climber 1 position (inches)", convertCountsToPositionInches(currentPositionClimber1));
+    SmartDashboard.putNumber("Climber 1 position (Ash)", convertCountsToPositionInches(currentPositionClimber1));
     SmartDashboard.putString("Climber 1 state", getClimber1State());
 
     double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
-    SmartDashboard.putNumber("Climber 2 counts", currentPositionClimber2);
-    SmartDashboard.putNumber("Climber 2 position (inches)", convertCountsToPositionInches(currentPositionClimber2));
+    SmartDashboard.putNumber("Climber 2 position (Ash)", convertCountsToPositionInches(currentPositionClimber2));
     SmartDashboard.putString("Climber 2 state", getClimber2State());
     SmartDashboard.putNumber("Supply current", m_climberMotor1.getStatorCurrent());
     SmartDashboard.putNumber("Supply current", m_climberMotor2.getStatorCurrent());
@@ -174,6 +159,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public double getPositionInches(){
     return convertCountsToPositionInches(m_climberMotor1.getSelectedSensorPosition());
+  }
+
+  public double getPositionInches_C2(){
+    return convertCountsToPositionInches(m_climberMotor2.getSelectedSensorPosition());
   }
  
   public double convertCountsToPositionInches(double positionCounts){

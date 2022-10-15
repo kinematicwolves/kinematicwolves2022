@@ -37,6 +37,7 @@ public class RedAllianceLightshow extends CommandBase {
     visionSubsystem.turnLimelightOn();
     differentialDrivetrain.setHighGear();
     pneumaticSubsystem.enableCompressor();
+    differentialDrivetrain.enableSpeedLimit();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

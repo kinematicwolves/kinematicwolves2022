@@ -24,9 +24,7 @@ public class Climber1LiftsRobot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_ClimberSubsystem.isSafeForClimb()) {
-      m_ClimberSubsystem.setClimberMotor1Output(Constants.DEFAULT_CLIMBER_OUTPUT);
-    }
+    m_ClimberSubsystem.setClimberMotor1Output(Constants.DEFAULT_CLIMBER_OUTPUT);
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +36,6 @@ public class Climber1LiftsRobot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_ClimberSubsystem.getClimber1State() == "At Max Position") | (!m_ClimberSubsystem.isSafeForClimb());
+    return (m_ClimberSubsystem.getClimber1State() == "At Max Position");
   }
 }

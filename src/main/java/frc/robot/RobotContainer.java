@@ -110,22 +110,24 @@ public class RobotContainer {
 
 
   //Driver Controller
-  dc_backButton.whenPressed(new SetClimber2ToClimbPosition(climberSubsystem)); 
-  dc_startButton.whenPressed(new Climber2LiftsRobot(climberSubsystem)); 
-  dc_lButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem)); 
-  dc_rButton.whileHeld(new AlignWithTarget(visionSubsystem, drivetrain, shooterSubsystem, pneumaticSubsystem, intakeSubsystem, 0.35));
+  dc_backButton.whenPressed(new SetClimber2ToClimbPosition(climberSubsystem)); // Back = Lifts robot to high bar (ONLY PRESS THIS AFTER THE CLIMBER IS IN POSTION)
+  dc_startButton.whenPressed(new Climber2LiftsRobot(climberSubsystem)); // Start = Extends 2nd climber to climb postition
+  dc_lButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem)); // LB = Deploy climber 2
+  dc_rButton.whileHeld(new AlignWithTarget(visionSubsystem, drivetrain, shooterSubsystem, pneumaticSubsystem, intakeSubsystem, 0.36)); // RB = Robot alignment
+    // If the robot is moving side to side to fast while aligning itself, change the alignment speed to 0.35 or line up farther away from the hub.
 
   // Emergency climber controls for climber
-  dc_yButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0.70)); // Y (Driver Controller) = Runs climber 2 (70%)
-  mc_lButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0.70)); // LB (Munipulator Controller) = Runs climber 1 (70%)
+  dc_yButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0.65)); // Y (Driver Controller) = Runs climber 2 (65%)
+  mc_lButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0.65)); // LB (Munipulator Controller) = Runs climber 1 (65%)
 
   //Munipulator Controller 
-  mc_aButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, 1)); // A = Ball Intake
+  mc_aButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, -1)); // A = Ball Intake
   mc_bButton.whileHeld(new EjectBall(shooterSubsystem, vConveyorSubsystem)); // B = Ball Eject
   mc_xButton.whenPressed(new DeployIntake(pneumaticSubsystem, intakeSubsystem)); // X = Lift or Drop Intake
-  mc_yButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, -1)); // Y = Intake Reversal
+  mc_yButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, 1)); // Y = Reverse Intake
   mc_rButton.whileHeld(new ShootTwoBalls(visionSubsystem, vConveyorSubsystem, 
     hConveyorSubsystem, shooterSubsystem, intakeSubsystem, pneumaticSubsystem)); // Right Bumper (RB) = Shoots 2 balls
+      // Hold and count for 3 seconds. If the second ball doesn't come out after 3 then go for the next ball.
   mc_startButton.whenPressed(new SetClimber1ToClimbPosition(climberSubsystem)); // Start = Climber 1 Set Up
   mc_backButton.whenPressed(new RunClimber1OpenLoop(climberSubsystem, .1)); // Back = Climber 1 Lift 
   } 

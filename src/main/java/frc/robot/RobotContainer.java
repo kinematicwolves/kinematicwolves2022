@@ -91,11 +91,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Driver controls, dc = driver controller, mc = manipulator controller
-    JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
+    JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value);
     JoystickButton dc_rButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
     JoystickButton dc_lButton = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
-    JoystickButton dc_startButton = new JoystickButton(m_driverController, XboxController.Button.kStart.value);
-    JoystickButton dc_backButton = new JoystickButton(m_driverController, XboxController.Button.kBack.value);
+
 
     JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
     JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
@@ -109,13 +108,12 @@ public class RobotContainer {
 
 
   //Driver Controller
-
   dc_lButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem)); // LB = Deploy climber 2
   dc_rButton.whileHeld(new AlignWithTarget(visionSubsystem, drivetrain, shooterSubsystem, pneumaticSubsystem, intakeSubsystem, 0.36)); // RB = Robot alignment
     // If the robot is moving side to side to fast while aligning itself, change the alignment speed to 0.35 or line up farther away from the hub.
 
   // Emergency climber controls for climber
-  dc_yButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0)); // Y (Driver Controller) = Runs climber 2 (65%)
+  dc_xButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0)); // Y (Driver Controller) = Runs climber 2 (65%)
   mc_lButton.whileHeld(new RunClimber1OpenLoop(climberSubsystem, 0.65)); // LB (Munipulator Controller) = Runs climber 1 (65%)
 
   //Munipulator Controller 

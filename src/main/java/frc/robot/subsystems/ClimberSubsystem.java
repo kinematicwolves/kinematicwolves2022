@@ -127,11 +127,6 @@ public class ClimberSubsystem extends SubsystemBase {
     double currentPositionClimber1 = m_climberMotor1.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 1 position (Ash)", convertCountsToPositionInches(currentPositionClimber1));
     SmartDashboard.putString("Climber 1 state", getClimber1State());
-
-    double currentPositionClimber2 = m_climberMotor2.getSelectedSensorPosition();
-    SmartDashboard.putNumber("Climber 2 position (Ash)", convertCountsToPositionInches(currentPositionClimber2));
-    SmartDashboard.putNumber("Supply current", m_climberMotor1.getStatorCurrent());
-    SmartDashboard.putNumber("Supply current", m_climberMotor2.getStatorCurrent());
   }
 
   public double getPositionInches(){

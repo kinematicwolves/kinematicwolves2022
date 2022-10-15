@@ -34,7 +34,7 @@ public class BackupToPosition extends CommandBase {
   @Override
   public void execute() {
     timer += 20;
-    if ((timer > 1) & (timer < 2000)) {
+    if ((timer > 1) & (timer < 2500)) {
       m_drivetrain.driveForward(0.43);
     }
     
@@ -50,6 +50,6 @@ public class BackupToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer > 3000; 
+    return timer > 2500; 
   }
 }

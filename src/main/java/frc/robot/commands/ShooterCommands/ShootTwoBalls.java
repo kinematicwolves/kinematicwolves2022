@@ -50,25 +50,25 @@ public class ShootTwoBalls extends CommandBase {
 
     timer += 20;
 
-    if ((timer > 1) & (timer < 1000)) {
+    if ((timer > 1) & (timer < 1500)) {
       m_horizontal.runConveyorMotor(1);
       //ball seperation in the indexer
     }
-    if ((timer > 1000) & (timer < 1600)){
+    if ((timer > 1500) & (timer < 2100)){
       m_verticalConeyor.runConveyorMotor(0.8);
       //lifts first ball to shooter fly wheel | shoots ball one
     }
-    if ((timer > 1600) & (timer < 2300)) {
+    if ((timer > 2100) & (timer < 2800)) {
       m_verticalConeyor.runConveyorMotor(0);
       /*this stops the vertical conveyor to not put any oposing force to 
       the second ball traveling between the deadzone*/
     }
-    if ((timer > 1700) & (timer < 2300)){
+    if ((timer > 2200) & (timer < 2800)){
       m_horizontal.runConveyorMotor(-1);
       m_intake.runIntakeMotor(-1);
       //launch's second ball to the vertical conveyor 
     }
-    if ((timer > 2300) & (timer < 3000)){
+    if ((timer > 2800) & (timer < 3500)){
       m_horizontal.runConveyorMotor(-1);
       m_verticalConeyor.runConveyorMotor(0.8);
       //fires second ball
@@ -89,6 +89,6 @@ public class ShootTwoBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer > 3000;
+    return timer > 3500;
   }
 }

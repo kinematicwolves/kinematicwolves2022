@@ -18,12 +18,10 @@ import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.AutonCommands.OneBallAuto;
 import frc.robot.commands.AutonCommands.TwoBallAuton;
 import frc.robot.commands.ClimberCommands.Climber1LiftsRobot;
-import frc.robot.commands.ClimberCommands.Climber2LiftsRobot;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
 import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
 import frc.robot.commands.ClimberCommands.SetClimber1ToClimbPosition;
-import frc.robot.commands.ClimberCommands.SetClimber2ToClimbPosition;
 import frc.robot.commands.LightShowCommands.BlueAllianceLightshow;
 import frc.robot.commands.LightShowCommands.RedAllianceLightshow;
 import frc.robot.commands.LightShowCommands.SetDisabledState;
@@ -111,8 +109,7 @@ public class RobotContainer {
 
 
   //Driver Controller
-  dc_backButton.whenPressed(new SetClimber2ToClimbPosition(climberSubsystem)); // Back = Lifts robot to high bar (ONLY PRESS THIS AFTER THE CLIMBER IS IN POSTION)
-  dc_startButton.whenPressed(new Climber2LiftsRobot(climberSubsystem)); // Start = Extends 2nd climber to climb postition
+
   dc_lButton.whenPressed(new DeployClimber2(pneumaticSubsystem, climberSubsystem)); // LB = Deploy climber 2
   dc_rButton.whileHeld(new AlignWithTarget(visionSubsystem, drivetrain, shooterSubsystem, pneumaticSubsystem, intakeSubsystem, 0.36)); // RB = Robot alignment
     // If the robot is moving side to side to fast while aligning itself, change the alignment speed to 0.35 or line up farther away from the hub.

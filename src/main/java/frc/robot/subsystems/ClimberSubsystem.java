@@ -49,11 +49,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double WINDOW_THRESHOLD_C1 = 0.2; // Dont worry about this
   private final double CLIMBER1_HEIGHT_C1 = 20000; // Climb postion
 
-  //Needs to be callibrated
-  private final double MINIMUM_DISTANCE_C2 = 0;
-  private final double MAXIMUM_DISTANCE_C2 = 10722.019389; // Robot is up on high bar
-  private final double WINDOW_THRESHOLD_C2 = 0.2; // Dont worry about this
-  private final double CLIMBER2_HEIGHT = 0; // Ready to be postioned and climb high bar 
 
 
   /** Creates a new ClimberSubsystem. */
@@ -81,7 +76,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
     m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_climberMotor2.setSelectedSensorPosition(0);
-    m_climberMotor2.configForwardSoftLimitThreshold(convertPositionInchesToCounts(MAXIMUM_DISTANCE_C2)); 
     m_climberMotor2.configForwardSoftLimitEnable(true);
 
     m_climberMotor2.configReverseSoftLimitThreshold(0);
@@ -111,27 +105,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
   }
 
-  private void monitorClimber2State(){
-    // Using a string to represent the state of climber 2 is a hack implementation, but oh well.
-    if (getPositionInches_C2() < MINIMUM_DISTANCE_C2 ){
-      climber2State = "C2_Initial Position";
-    }
-    // else if ((getPositionInches_C2() > MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < WINDOW_THRESHOLD_C2 + CLIMBER2_HEIGHT)){
-    //   climber2State = "C2_Raising To Climb";
-    // }
-    else if ((getPositionInches_C2() > CLIMBER2_HEIGHT ) & (getPositionInches_C2() < CLIMBER2_HEIGHT )){
-      climber2State = "C2_Ready to climb";
-    }
-    // else if ((getPositionInches_C2() > CLIMBER2_HEIGHT + WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD_C2)){
-    //   climber2State = "C2_Climbing";
-    // }
-    else if ((getPositionInches_C2() > MAXIMUM_DISTANCE_C2 ) & (getPositionInches_C2() < MAXIMUM_DISTANCE_C2)){
-      climber2State = "C2_At Max Position";
-    }
-    // else {
-    //   climber2State = "C2_Out of bounds";
-    // }
-  }
 
   public boolean atClimb1Position(){
     return getClimber1State() == "Ready to climb";
@@ -162,7 +135,6 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     monitorClimber1State();
-    monitorClimber2State();
     // This method will be called once per scheduler run
     double currentPositionClimber1 = m_climberMotor1.getSelectedSensorPosition();
     SmartDashboard.putNumber("Climber 1 position (Ash)", convertCountsToPositionInches(currentPositionClimber1));

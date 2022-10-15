@@ -129,8 +129,8 @@ public class RobotContainer {
   mc_rButton.whileHeld(new ShootTwoBalls(visionSubsystem, vConveyorSubsystem, 
     hConveyorSubsystem, shooterSubsystem, intakeSubsystem, pneumaticSubsystem)); // Right Bumper (RB) = Shoots 2 balls
       // Hold and count for 3 seconds. If the second ball doesn't come out after 3 then go for the next ball.
-  mc_startButton.whenPressed(new Climber1LiftsRobot(climberSubsystem)); // Start = Climber 1 Set Up
-  mc_backButton.whenPressed(new SetClimber1ToClimbPosition(climberSubsystem)); // Back = Climber 1 Lift 
+  mc_startButton.whenPressed(new Climber1LiftsRobot(climberSubsystem)); // Start = Climber 1 Lift 
+  mc_backButton.whenPressed(new SetClimber1ToClimbPosition(climberSubsystem)); // Back = Climber 1 Set Up
   } 
 
   

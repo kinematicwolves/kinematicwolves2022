@@ -63,10 +63,10 @@ public class ClimberSubsystem extends SubsystemBase {
     m_climberMotor2.setInverted(TalonFXInvertType.CounterClockwise); //Change to counterclockwise if motor is spinning in the wrong direction 
 
     // current limits
-    m_climberMotor1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
-    50, 0.5));
-    m_climberMotor2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
-    50, 0.5));
+    // m_climberMotor1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
+    // 50, 0.5));
+    // m_climberMotor2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40,
+    // 50, 0.5));
 
     m_climberMotor1.configFactoryDefault();
     m_climberMotor2.configFactoryDefault();

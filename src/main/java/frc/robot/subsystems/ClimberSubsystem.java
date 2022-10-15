@@ -72,13 +72,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
     m_climberMotor1.configReverseSoftLimitThreshold(0);
     m_climberMotor1.configReverseSoftLimitEnable(true);
-
-    m_climberMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
-    m_climberMotor2.setSelectedSensorPosition(0);
-    m_climberMotor2.configForwardSoftLimitEnable(true);
-
-    m_climberMotor2.configReverseSoftLimitThreshold(0);
-    m_climberMotor2.configReverseSoftLimitEnable(true);
   }
 
   private void monitorClimber1State(){

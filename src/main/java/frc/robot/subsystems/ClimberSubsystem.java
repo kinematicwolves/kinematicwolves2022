@@ -53,7 +53,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double MINIMUM_DISTANCE_C2 = 0;
   private final double MAXIMUM_DISTANCE_C2 = 10722.019389; // Robot is up on high bar
   private final double WINDOW_THRESHOLD_C2 = 0.2; // Dont worry about this
-  private final double CLIMBER2_HEIGHT = 5361; // Ready to be postioned and climb high bar 
+  private final double CLIMBER2_HEIGHT = 0; // Ready to be postioned and climb high bar 
 
 
   /** Creates a new ClimberSubsystem. */
@@ -113,24 +113,24 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private void monitorClimber2State(){
     // Using a string to represent the state of climber 2 is a hack implementation, but oh well.
-    if (getPositionInches_C2() < MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD_C2){
+    if (getPositionInches_C2() < MINIMUM_DISTANCE_C2 ){
       climber2State = "C2_Initial Position";
     }
-    else if ((getPositionInches_C2() > MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < WINDOW_THRESHOLD_C2 + CLIMBER2_HEIGHT)){
-      climber2State = "C2_Raising To Climb";
-    }
-    else if ((getPositionInches_C2() > CLIMBER2_HEIGHT - WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < CLIMBER2_HEIGHT + WINDOW_THRESHOLD_C2)){
+    // else if ((getPositionInches_C2() > MINIMUM_DISTANCE_C2 + WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < WINDOW_THRESHOLD_C2 + CLIMBER2_HEIGHT)){
+    //   climber2State = "C2_Raising To Climb";
+    // }
+    else if ((getPositionInches_C2() > CLIMBER2_HEIGHT ) & (getPositionInches_C2() < CLIMBER2_HEIGHT )){
       climber2State = "C2_Ready to climb";
     }
-    else if ((getPositionInches_C2() > CLIMBER2_HEIGHT + WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD_C2)){
-      climber2State = "C2_Climbing";
-    }
-    else if ((getPositionInches_C2() > MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < MAXIMUM_DISTANCE_C2)){
+    // else if ((getPositionInches_C2() > CLIMBER2_HEIGHT + WINDOW_THRESHOLD_C2) & (getPositionInches_C2() < MAXIMUM_DISTANCE_C2 - WINDOW_THRESHOLD_C2)){
+    //   climber2State = "C2_Climbing";
+    // }
+    else if ((getPositionInches_C2() > MAXIMUM_DISTANCE_C2 ) & (getPositionInches_C2() < MAXIMUM_DISTANCE_C2)){
       climber2State = "C2_At Max Position";
     }
-    else {
-      climber2State = "C2_Out of bounds";
-    }
+    // else {
+    //   climber2State = "C2_Out of bounds";
+    // }
   }
 
   public boolean atClimb1Position(){

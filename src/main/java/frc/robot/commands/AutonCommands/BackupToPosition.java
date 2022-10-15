@@ -35,7 +35,7 @@ public class BackupToPosition extends CommandBase {
   public void execute() {
     timer += 20;
     if ((timer > 1) & (timer < 2500)) {
-      m_drivetrain.driveForward(0.43);
+      m_drivetrain.driveForward(-0.43);
     }
     
   }

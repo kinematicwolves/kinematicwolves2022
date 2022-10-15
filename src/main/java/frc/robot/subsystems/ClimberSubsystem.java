@@ -45,7 +45,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * - Now your done and can test the climbers. Just make sure the speeds are safe on them. You can change the speed by going to the Constants.java file and look for "DEFAULT_CLIMBER_OUTPUT". (Control + F if you can't find it.)
    */
   private final double MINIMUM_DISTANCE_C1 = 0;
-  private final double MAXIMUM_DISTANCE_C1 = 34000; // Robot is all the way up on mid bar
+  private final double MAXIMUM_DISTANCE_C1 = 36000; // Robot is all the way up on mid bar
   private final double WINDOW_THRESHOLD_C1 = 0.2; // Dont worry about this
   private final double CLIMBER1_HEIGHT_C1 = 20000; // Climb postion
 

@@ -17,6 +17,7 @@ import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.AutonCommands.OneBallAuto;
 import frc.robot.commands.AutonCommands.TwoBallAuton;
+import frc.robot.commands.ClimberCommands.Climber1LiftsRobot;
 import frc.robot.commands.ClimberCommands.Climber2LiftsRobot;
 import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
@@ -118,7 +119,7 @@ public class RobotContainer {
 
   // Emergency climber controls for climber
   dc_yButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0.65)); // Y (Driver Controller) = Runs climber 2 (65%)
-  mc_lButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0.65)); // LB (Munipulator Controller) = Runs climber 1 (65%)
+  mc_lButton.whileHeld(new RunClimber1OpenLoop(climberSubsystem, 0.65)); // LB (Munipulator Controller) = Runs climber 1 (65%)
 
   //Munipulator Controller 
   mc_aButton.whileHeld(new IntakeBalls(intakeSubsystem, hConveyorSubsystem, -1)); // A = Ball Intake
@@ -128,8 +129,8 @@ public class RobotContainer {
   mc_rButton.whileHeld(new ShootTwoBalls(visionSubsystem, vConveyorSubsystem, 
     hConveyorSubsystem, shooterSubsystem, intakeSubsystem, pneumaticSubsystem)); // Right Bumper (RB) = Shoots 2 balls
       // Hold and count for 3 seconds. If the second ball doesn't come out after 3 then go for the next ball.
-  mc_startButton.whenPressed(new SetClimber1ToClimbPosition(climberSubsystem)); // Start = Climber 1 Set Up
-  mc_backButton.whenPressed(new RunClimber1OpenLoop(climberSubsystem, .1)); // Back = Climber 1 Lift 
+  mc_startButton.whenPressed(new Climber1LiftsRobot(climberSubsystem)); // Start = Climber 1 Set Up
+  mc_backButton.whenPressed(new SetClimber1ToClimbPosition(climberSubsystem)); // Back = Climber 1 Lift 
   } 
 
   

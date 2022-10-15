@@ -133,19 +133,6 @@ public class ClimberSubsystem extends SubsystemBase {
     }
   }
 
-  public boolean atClimb1Position(){
-    return getClimber1State() == "Ready to climb";
-  }
-
-  public boolean isSafeForClimb(){
-    if ((getClimber1State() == "Initial Position" ) | (getClimber1State() == "Raising To Climb")){
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
   public boolean isClimber1Finished(){
     return getClimber1State() == "At Max Position";
   }

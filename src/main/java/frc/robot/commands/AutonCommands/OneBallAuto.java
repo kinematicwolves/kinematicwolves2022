@@ -34,7 +34,7 @@ public class OneBallAuto extends SequentialCommandGroup {
     addCommands(
       new DeployIntake(pneumatics, intake),
       new BackupToPosition(drivetrain, pneumatics),
-      new AlignWithTarget(vision, drivetrain, shooter, pneumatics, intake, 0.34),
+      new AlignWithTarget(vision, drivetrain, shooter, pneumatics, intake, 0.45),
       new ShootTwoBalls(vision, vconveyor, horizontal, shooter, intake, pneumatics));
       //new BackupToPosition(drivetrain, 60, -0.5, pneumatics)
     }

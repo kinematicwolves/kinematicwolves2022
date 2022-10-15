@@ -51,7 +51,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   //Needs to be callibrated
   private final double MINIMUM_DISTANCE_C2 = 0;
-  private final double MAXIMUM_DISTANCE_C2 = 0; // Robot is up on high bar
+  private final double MAXIMUM_DISTANCE_C2 = 10722.019389; // Robot is up on high bar
   private final double WINDOW_THRESHOLD_C2 = 0.2; // Dont worry about this
   private final double CLIMBER2_HEIGHT = 0; // Ready to be postioned and climb high bar 
 

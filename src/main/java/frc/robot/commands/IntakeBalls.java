@@ -30,7 +30,7 @@ public class IntakeBalls extends CommandBase {
   @Override
   public void initialize() {
    // intake.setIntakeDeployed(pneumatics);
-    horizontal.runConveyorMotor(commandedOutputFraction);
+    horizontal.runConveyorMotor(commandedOutputFraction -0.7);
     intake.runIntakeMotor(commandedOutputFraction);
   }
 

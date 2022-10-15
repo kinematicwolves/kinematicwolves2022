@@ -115,7 +115,7 @@ public class RobotContainer {
     // If the robot is moving side to side to fast while aligning itself, change the alignment speed to 0.35 or line up farther away from the hub.
 
   // Emergency climber controls for climber
-  dc_yButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0.65)); // Y (Driver Controller) = Runs climber 2 (65%)
+  dc_yButton.whileHeld(new RunClimber2OpenLoop(climberSubsystem, 0)); // Y (Driver Controller) = Runs climber 2 (65%)
   mc_lButton.whileHeld(new RunClimber1OpenLoop(climberSubsystem, 0.65)); // LB (Munipulator Controller) = Runs climber 1 (65%)
 
   //Munipulator Controller 

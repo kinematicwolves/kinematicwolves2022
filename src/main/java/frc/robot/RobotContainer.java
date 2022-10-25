@@ -22,7 +22,6 @@ import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.ToggleSpeedLimit;
-import frc.robot.commands.ClimberCommands.DeployClimber2;
 import frc.robot.commands.LightShowCommands.BlueLightshow;
 import frc.robot.commands.LightShowCommands.GayTeleopLighshow;
 import frc.robot.commands.LightShowCommands.LimelightOnOff;
@@ -49,7 +48,6 @@ public class RobotContainer {
   private final DifferentialDrivetrain m_drivetrainSubsystem = new DifferentialDrivetrain();
   private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  //private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
   private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
@@ -106,7 +104,6 @@ public class RobotContainer {
 
   //Driver Controller
   dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
-  //dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
   dc_rJoystickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
   dc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
   dc_xButton.whenPressed(new ControlDaCompressor(m_pneumaticSubsystem)); //let me know if this works cause tbh it shouldn't but idk

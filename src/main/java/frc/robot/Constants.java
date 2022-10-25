@@ -49,8 +49,6 @@ public final class Constants {
     public static final int DRVTRN_SOL_RVS_CHN = 1;  
     public static final int INTAKE_SOLENOID_FWD = 2;
     public static final int INTAKE_SOLENOID_RVS = 3; 
-    //public static final int CLIMBER2_SOL_FWD = 4;
-    //public static final int CLIMBER2_SOL_RVS = 5; //phub ports
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;
@@ -71,7 +69,6 @@ public final class Constants {
 
   // Default Motor Speeds
   public static final double DEFAULT_INTAKE_OUTPUT = -1;
-  public static final double DEFAULT_CLIMBER_OUTPUT = 0.55; 
   public static final double DEFAULT_HORIZONTAL_CONVEYOR_OUTPUT = 1;
   public static final double DEFAULT_VERTICAL_CONVEYOR_OUTPUT = 0.8;
 

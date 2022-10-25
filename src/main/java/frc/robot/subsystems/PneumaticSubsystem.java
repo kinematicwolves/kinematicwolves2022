@@ -17,7 +17,6 @@ public class PneumaticSubsystem extends SubsystemBase {
   private final PneumaticsControlModule pcm = new PneumaticsControlModule(Constants.PNEUMATIC_CONTROL_MODULE);
   private final DoubleSolenoid intakeSolenoid = pcm.makeDoubleSolenoid(Constants.INTAKE_SOLENOID_FWD, Constants.INTAKE_SOLENOID_RVS);
   private final DoubleSolenoid drivetrainSolenoid = pcm.makeDoubleSolenoid(Constants.DRVTRN_SOL_FWD_CHN, Constants.DRVTRN_SOL_RVS_CHN);
-  //private final DoubleSolenoid climberDoubleSolenoid = pcm.makeDoubleSolenoid(Constants.CLIMBER2_SOL_FWD, Constants.CLIMBER2_SOL_RVS); 
   private boolean compressorIsOn = false; 
 
   
@@ -49,13 +48,6 @@ public class PneumaticSubsystem extends SubsystemBase {
   public void setIntakeUndeployed(){
     intakeSolenoid.set(Value.kForward);
   }
-
-  //public void setClimber2Deployed(){
-    //climberDoubleSolenoid.set(Value.kReverse);
-  //}
- //public void setClimber2Undeployed(){
-   // climberDoubleSolenoid.set(Value.kForward);
-  //}
 
   public void setDrivetrainSolenoidFoward(){
     drivetrainSolenoid.set(Value.kReverse);

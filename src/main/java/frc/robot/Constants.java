@@ -27,8 +27,6 @@ public final class Constants {
     public static final int SHOOTER_MOTOR1 = 15;
     public static final int HORIZONTALCONVEYORMOTOR = 17;  
     public static final int INTAKE_MOTOR = 20;
-    public static final int CLIMBER_MOTOR1 = 25;
-    public static final int CLIMBER_MOTOR2 = 30;
 
   // Tables for shooting speeds vs distance
     public static final double[] SHOOTER_SPEEDS_RPM_ARRAY = {
@@ -51,8 +49,8 @@ public final class Constants {
     public static final int DRVTRN_SOL_RVS_CHN = 1;  
     public static final int INTAKE_SOLENOID_FWD = 2;
     public static final int INTAKE_SOLENOID_RVS = 3; 
-    public static final int CLIMBER2_SOL_FWD = 4;
-    public static final int CLIMBER2_SOL_RVS = 5; //phub ports
+    //public static final int CLIMBER2_SOL_FWD = 4;
+    //public static final int CLIMBER2_SOL_RVS = 5; //phub ports
 
   // Shooter motor PID constants for velocity control
     public static final double SHOOTER_Kf = 0.051;
@@ -61,20 +59,6 @@ public final class Constants {
     public static final double SHOOTER_Kd = 0.5;
     public static final int SHOOTER_PID_SLOT = 0;
     public static final int kTimeoutMs = 30; // Used for all PID loops
-
-  // Climber 1 PID constants for position control
-    public static final double CLIMBER1_Kf = 0.051;
-    public static final double CLIMBER1_Kp = 0.05;
-    public static final double CLIMBER1_Ki = 0;
-    public static final double CLIMBER1_Kd = 0.5;
-    public static final int CLIMBER1_PID_SLOT = 0;
-
-  // Climber 2 PID constants for position control
-    public static final double CLIMBER2_Kf = 0.051;
-    public static final double CLIMBER2_Kp = 0.05;
-    public static final double CLIMBER2_Ki = 0;
-    public static final double CLIMBER2_Kd = 0.5;
-    public static final int CLIMBER2_PID_SLOT = 0;
 
   // Vision Values
     public static final float LIMELIGHT_VERTICAL_ANGLE = (float) 44; //change

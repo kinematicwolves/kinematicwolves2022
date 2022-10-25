@@ -23,14 +23,14 @@ import frc.robot.commands.SetShooterToSpeed;
 import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.ToggleSpeedLimit;
-import frc.robot.commands.ClimberCommands.DeployClimber2;
-import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
-import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
+//import frc.robot.commands.ClimberCommands.DeployClimber2;
+//import frc.robot.commands.ClimberCommands.RunClimber1OpenLoop;
+//import frc.robot.commands.ClimberCommands.RunClimber2OpenLoop;
 import frc.robot.commands.LightShowCommands.LimelightOnOff;
 import frc.robot.commands.LightShowCommands.RunMexicanAnimation;
 import frc.robot.commands.LightShowCommands.RunTeleopLighting;
 import frc.robot.commands.LightShowCommands.dcrColorAnimation;
-import frc.robot.subsystems.ClimberSubsystem;
+
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.HConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -52,7 +52,7 @@ public class RobotContainer {
   private final DifferentialDrivetrain m_drivetrainSubsystem = new DifferentialDrivetrain();
   private final PneumaticSubsystem m_pneumaticSubsystem = new PneumaticSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  //private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final HConveyorSubsystem m_hConveyorSubsystem = new HConveyorSubsystem();
   private final VConveyorSubsystem m_vConveyorSubsystem = new VConveyorSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
@@ -95,7 +95,6 @@ public class RobotContainer {
     JoystickButton dc_lButton = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value); 
     JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
-    JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value); 
     JoystickButton dc_rJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kRightStick.value);
     JoystickButton dc_lJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value);
@@ -111,7 +110,7 @@ public class RobotContainer {
 
   //Driver Controller
   dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
-  dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
+  //dc_yButton.whenPressed(new DeployClimber2(m_pneumaticSubsystem, m_climberSubsystem)); 
   dc_rJoystickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
   dc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
   dc_xButton.whenPressed(new ControlDaCompressor(m_pneumaticSubsystem)); //let me know if this works cause tbh it shouldn't but idk

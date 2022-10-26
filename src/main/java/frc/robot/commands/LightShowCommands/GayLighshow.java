@@ -1,5 +1,6 @@
-//Yes there's a spelling error but i dont feel like fixing it 
-
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.LightShowCommands;
 
@@ -9,13 +10,13 @@ import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
-public class TeleopLighing2 extends CommandBase {
+public class GayLighshow extends CommandBase {
   /** Creates a new RunTeleopLighting. */
   private final LightingSubsystem m_lighting;
   private final VisionSubsystem m_vision;
   private final PneumaticSubsystem m_pneumaticSubsystem;
   private Timer m_timer = new Timer();
-  public TeleopLighing2(LightingSubsystem lighting, VisionSubsystem vision, PneumaticSubsystem pneumaticSubsystem) {
+  public GayLighshow(LightingSubsystem lighting, VisionSubsystem vision, PneumaticSubsystem pneumaticSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_lighting = lighting;
     m_vision = vision;
@@ -35,7 +36,7 @@ public class TeleopLighing2 extends CommandBase {
   @Override
   public void execute() {
     // I think this will turn orange after two minutes.
-   m_lighting.setRedTwinkleAnimation();
+   m_lighting.setRainbowAnimation();
   }
 
   // Called once the command ends or is interrupted.

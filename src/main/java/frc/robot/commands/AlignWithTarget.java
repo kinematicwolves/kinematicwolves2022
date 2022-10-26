@@ -7,14 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDrivetrain;
 import frc.robot.subsystems.LightingSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class AlignWithTarget extends CommandBase {
   /** Creates a new AlignWithTarget. */
   private final DifferentialDrivetrain m_drivetrain;
   private final VisionSubsystem m_visionSubsystem;
-  private final LightingSubsystem m_lightingSubsystem; 
   private final double m_alignSpeed;
   public AlignWithTarget(VisionSubsystem visionSubsystem, DifferentialDrivetrain drivetrain,
   LightingSubsystem lighting, double alignSpeed) {
@@ -22,7 +20,6 @@ public class AlignWithTarget extends CommandBase {
     m_drivetrain = drivetrain;
     m_visionSubsystem = visionSubsystem;
     m_alignSpeed = alignSpeed;
-    m_lightingSubsystem = lighting; 
     addRequirements(m_visionSubsystem, m_drivetrain);
   }
 
@@ -40,8 +37,6 @@ public class AlignWithTarget extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drivetrain.rotateDrivetrainToTarget(0, m_visionSubsystem);
-    //m_lightingSubsystem.setPurpleSolidAnimation();
-
   }
 
   // Returns true when the command should end.

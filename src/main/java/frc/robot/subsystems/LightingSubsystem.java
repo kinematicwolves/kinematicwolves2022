@@ -13,29 +13,25 @@ import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class LightingSubsystem extends SubsystemBase {
   private final CANdle light1 = new CANdle(Constants.CandleConstants.CANDLE_1_ID);
   private Animation m_animation = null;
-  public boolean MexicanLEDOn = false; 
 
   /** Creates a new LightingSubsystem. */
   public LightingSubsystem() {
     CANdleConfiguration cfg = new CANdleConfiguration();
-    cfg.brightnessScalar = 0.6;
+    cfg.brightnessScalar = 1;
     cfg.vBatOutputMode = VBatOutputMode.Modulated;
     light1.configAllSettings(cfg);
     light1.configLEDType(LEDStripType.GRB);
-    m_animation = new RainbowAnimation(0.7, 0.8, Constants.CandleConstants.CANDLE_1_LED_COUNT); 
-    
   }
 
   //Animations
   public void setRainbowAnimation(){
-    m_animation = new RainbowAnimation(1, 1, Constants.CandleConstants.CANDLE_1_LED_COUNT);
+    m_animation = new RainbowAnimation(0.8, 0.88, Constants.CandleConstants.CANDLE_1_LED_COUNT);
   }
   public void setPurpleTwinkleAnimation(){
     m_animation = new TwinkleAnimation(255, 0, 255, 69, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT, TwinklePercent.Percent100); 
@@ -46,16 +42,15 @@ public class LightingSubsystem extends SubsystemBase {
   public void setBlueTwinkleAnimation(){
     m_animation = new TwinkleAnimation(0, 0, 225, 30, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT,TwinklePercent.Percent100);
   }
-  public void setBlackAnimation(){
-    m_animation = new TwinkleAnimation(0, 0, 0, 0 , 0 , Constants.CandleConstants.CANDLE_1_LED_COUNT,TwinklePercent.Percent100); 
-  }
   public void setGreenTwinkleAnimation(){
     m_animation = new TwinkleAnimation(0, 225, 0, 0, 0.9, Constants.CandleConstants.CANDLE_1_LED_COUNT,TwinklePercent.Percent100); 
   }
-
+  public void setBlackAnimation(){
+    m_animation = new TwinkleAnimation(0, 0, 0, 0 , 0 , Constants.CandleConstants.CANDLE_1_LED_COUNT,TwinklePercent.Percent100); 
+  }
 
   public void setDisabledLightShow(){
-    m_animation = new RainbowAnimation(0.9, 0.5, Constants.CandleConstants.CANDLE_1_LED_COUNT);
+    m_animation = new RainbowAnimation(0.35, 0.3, Constants.CandleConstants.CANDLE_1_LED_COUNT);
   }
 
   @Override
@@ -63,11 +58,5 @@ public class LightingSubsystem extends SubsystemBase {
     if (m_animation != null){
       light1.animate(m_animation);
     }
-
-      
-    // This method will be called once per scheduler run
   }
-
-public void addOption(String string, Command command) {
-}
 }

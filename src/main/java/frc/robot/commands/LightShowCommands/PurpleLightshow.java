@@ -10,13 +10,13 @@ import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
-public class TeleopLighting1 extends CommandBase {
+public class PurpleLightshow extends CommandBase {
   /** Creates a new RunTeleopLighting. */
   private final LightingSubsystem m_lighting;
   private final VisionSubsystem m_vision;
   private final PneumaticSubsystem m_pneumaticSubsystem;
   private Timer m_timer = new Timer();
-  public TeleopLighting1(LightingSubsystem lighting, VisionSubsystem vision, PneumaticSubsystem pneumaticSubsystem) {
+  public PurpleLightshow(LightingSubsystem lighting, VisionSubsystem vision, PneumaticSubsystem pneumaticSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_lighting = lighting;
     m_vision = vision;

@@ -1,4 +1,5 @@
-//idek how i spelled it wrong twice
+//Yes there's a spelling error but i dont feel like fixing it 
+
 
 package frc.robot.commands.LightShowCommands;
 
@@ -8,13 +9,13 @@ import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
-public class TeleopLighing3 extends CommandBase {
+public class RedLightshow extends CommandBase {
   /** Creates a new RunTeleopLighting. */
   private final LightingSubsystem m_lighting;
   private final VisionSubsystem m_vision;
   private final PneumaticSubsystem m_pneumaticSubsystem;
   private Timer m_timer = new Timer();
-  public TeleopLighing3(LightingSubsystem lighting, VisionSubsystem vision, PneumaticSubsystem pneumaticSubsystem) {
+  public RedLightshow(LightingSubsystem lighting, VisionSubsystem vision, PneumaticSubsystem pneumaticSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_lighting = lighting;
     m_vision = vision;

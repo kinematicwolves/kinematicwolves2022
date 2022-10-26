@@ -10,13 +10,13 @@ import frc.robot.subsystems.LightingSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
-public class GayTeleopLighshow extends CommandBase {
+public class GreenLightshow extends CommandBase {
   /** Creates a new RunTeleopLighting. */
   private final LightingSubsystem m_lighting;
   private final VisionSubsystem m_vision;
   private final PneumaticSubsystem m_pneumaticSubsystem;
   private Timer m_timer = new Timer();
-  public GayTeleopLighshow(LightingSubsystem lighting, VisionSubsystem vision, PneumaticSubsystem pneumaticSubsystem) {
+  public GreenLightshow(LightingSubsystem lighting, VisionSubsystem vision, PneumaticSubsystem pneumaticSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_lighting = lighting;
     m_vision = vision;
@@ -36,7 +36,7 @@ public class GayTeleopLighshow extends CommandBase {
   @Override
   public void execute() {
     // I think this will turn orange after two minutes.
-   m_lighting.setRainbowAnimation();
+   m_lighting.setGreenTwinkleAnimation();
   }
 
   // Called once the command ends or is interrupted.

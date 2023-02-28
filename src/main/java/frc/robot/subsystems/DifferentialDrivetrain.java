@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,10 +31,10 @@ public class DifferentialDrivetrain extends SubsystemBase {
   public SlewRateLimiter rotationFilter = new SlewRateLimiter(Constants.SLEW_RATE_LIMIT_ROTATE);
   public SlewRateLimiter accelerationFilter = new SlewRateLimiter(Constants.SLEW_RATE_LIMIT_ACCEL);
 
-  private final WPI_TalonFX m_leftFront = new WPI_TalonFX(Constants.LEFT_FRONT_DRIVE_MOTOR);
-  private final WPI_TalonFX m_leftRear = new WPI_TalonFX(Constants.LEFT_REAR_DRIVE_MOTOR);
-  private final WPI_TalonFX m_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_DRIVE_MOTOR);
-  private final WPI_TalonFX m_rightRear = new WPI_TalonFX(Constants.RIGHT_REAR_DRIVE_MOTOR);
+  private final WPI_VictorSPX m_leftFront = new WPI_VictorSPX(Constants.LEFT_FRONT_DRIVE_MOTOR);
+  private final WPI_VictorSPX m_leftRear = new WPI_VictorSPX(Constants.LEFT_REAR_DRIVE_MOTOR);
+  private final WPI_VictorSPX m_rightFront = new WPI_VictorSPX(Constants.RIGHT_FRONT_DRIVE_MOTOR);
+  private final WPI_VictorSPX m_rightRear = new WPI_VictorSPX(Constants.RIGHT_REAR_DRIVE_MOTOR);
   private final double encoderCountsPerRev = 2048;
 
 
@@ -63,10 +64,8 @@ public class DifferentialDrivetrain extends SubsystemBase {
   /** Creates a new DifferentialDrivetrain. */
   public DifferentialDrivetrain() {
     //m_rightFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    m_rightFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_rightFront.setSelectedSensorPosition(0);
    // m_leftFront.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    m_leftFront.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 10);
     m_leftFront.setSelectedSensorPosition(0);
     imu.reset();
   }
@@ -94,7 +93,7 @@ public class DifferentialDrivetrain extends SubsystemBase {
   public double getGyroYAxis(){
     return imu.getGyroAngleY();
   }
-  public double getWheelSpeedMetersPerSecond(WPI_TalonFX motorController){
+  public double getWheelSpeedMetersPerSecond(WPI_VictorSPX motorController){
     double rawSpeed = motorController.getSelectedSensorVelocity(); // raw sensor units per 100ms
     double wheelSpeedRPM = rawSpeed / encoderCountsPerRev * 1000 * 60 * getCurrentGearRatio() * INITIAL_GEAR_RATIO; // RPM, (sensor units / 100ms)(rev / sensor units)(ms / s) (s / min)
     // (Rev/min)(2pi rad/rev) (radius)

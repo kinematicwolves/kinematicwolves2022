@@ -46,19 +46,19 @@ public class ShootTwoBalls extends CommandBase {
   public void execute() {
     double distance = m_vision.getFilteredDistance();
     m_intake.setIntakeDeployed(m_pneumatics);
-    double shooterSpeedRPM = m_shooter.getMotorSpeedForDistance(distance);
-    m_shooter.setShooterMotorSpeed(3000); // config in rpm
+    m_shooter.setShooterMotorSpeed(4200); // config in rpm
 
     timer += 20;
     if ((timer > 1500) & (timer < 2300)) {
       m_horizontal.runConveyorMotor(0.8);
-      m_verticalConeyor.runConveyorMotor(0.1);
+      m_verticalConeyor.runConveyorMotor(-0.1);
     }
     if ((timer > 2350) & (timer < 4000)){
-      m_verticalConeyor.runConveyorMotor(8.5);
+      m_verticalConeyor.runConveyorMotor(-8.5);
     }
     if ((timer > 3200) & (timer < 4000)){
       m_horizontal.runConveyorMotor(-1);
+      m_intake.runIntakeMotor(-1);
     }
   }
 
@@ -68,6 +68,7 @@ public class ShootTwoBalls extends CommandBase {
     m_horizontal.runConveyorMotor(0);
     m_verticalConeyor.runConveyorMotor(0);
     m_shooter.setShooterMotorSpeed(0);
+    m_intake.runIntakeMotor(0);
   }
 
   // Returns true when the command should end.

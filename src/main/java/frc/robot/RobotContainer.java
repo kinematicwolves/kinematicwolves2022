@@ -15,17 +15,13 @@ import frc.robot.commands.ControlDaCompressor;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.DriveRobotOpenLoop;
 import frc.robot.commands.IntakeBalls;
-import frc.robot.commands.RunVerticalConveyor;
 import frc.robot.commands.SetDisabledState;
-import frc.robot.commands.SetShooterToSpeed;
-import frc.robot.commands.ShiftGear;
 import frc.robot.commands.ShootTwoBalls;
 import frc.robot.commands.ToggleSpeedLimit;
 import frc.robot.commands.LightShowCommands.BlackLightshow;
 import frc.robot.commands.LightShowCommands.BlueLightshow;
 import frc.robot.commands.LightShowCommands.GayLighshow;
 import frc.robot.commands.LightShowCommands.GreenLightshow;
-import frc.robot.commands.LightShowCommands.LimelightOnOff;
 import frc.robot.commands.LightShowCommands.PurpleLightshow;
 import frc.robot.commands.LightShowCommands.RedLightshow;
 import frc.robot.subsystems.DifferentialDrivetrain;
@@ -57,7 +53,6 @@ public class RobotContainer {
 
   // Controllers
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER);
-  private final XboxController m_manipulatorController = new XboxController(Constants.MANIPULATOR_CONTROLLER);
 
   // SmartDashboard chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -92,29 +87,16 @@ public class RobotContainer {
     JoystickButton dc_aButton = new JoystickButton(m_driverController, XboxController.Button.kA.value);
     JoystickButton dc_bButton = new JoystickButton(m_driverController, XboxController.Button.kB.value);
     JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value); 
-    JoystickButton dc_rJoystickButton = new JoystickButton(m_driverController, XboxController.Button.kRightStick.value);
-
-    JoystickButton mc_aButton = new JoystickButton(m_manipulatorController, XboxController.Button.kA.value);
-    JoystickButton mc_rButton = new JoystickButton(m_manipulatorController, XboxController.Button.kRightBumper.value);
-    JoystickButton mc_lButton = new JoystickButton(m_manipulatorController, XboxController.Button.kLeftBumper.value);
-    JoystickButton mc_xButton = new JoystickButton(m_manipulatorController, XboxController.Button.kX.value);
-
+    JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
+    JoystickButton dc_rBumper = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
 
     //Driver Controller
-    dc_aButton.whenPressed(new ShiftGear(m_pneumaticSubsystem, m_drivetrainSubsystem)); 
-    dc_rJoystickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
-    dc_bButton.whenPressed(new LimelightOnOff(m_visionSubsystem)); 
-    dc_xButton.whenPressed(new ControlDaCompressor(m_pneumaticSubsystem)); 
-
-    //Munipulator Controller 
-    mc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
-    mc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
-    mc_rButton.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, m_hConveyorSubsystem,
-     m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem)); 
-
-    mc_lButton.whileHeld(new SetShooterToSpeed(m_shooterSubsystem, 1234));
-    mc_lButton.whileHeld(new RunVerticalConveyor(m_vConveyorSubsystem, 0.8));
-      //this is to eject balls
+    dc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
+    dc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
+    dc_yButton.whenPressed(new ControlDaCompressor(m_pneumaticSubsystem));
+    dc_rBumper.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, 
+                            m_hConveyorSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem));
+    dc_bButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
   }
 
   /**

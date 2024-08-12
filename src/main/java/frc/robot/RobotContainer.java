@@ -89,14 +89,16 @@ public class RobotContainer {
     JoystickButton dc_xButton = new JoystickButton(m_driverController, XboxController.Button.kX.value); 
     JoystickButton dc_yButton = new JoystickButton(m_driverController, XboxController.Button.kY.value);
     JoystickButton dc_rBumper = new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value);
+    JoystickButton dc_lBumper = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
+    JoystickButton dc_rStickButton = new JoystickButton(m_driverController, XboxController.Button.kRightStick.value);
 
     //Driver Controller
-    dc_aButton.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
+    dc_rBumper.whileHeld(new IntakeBalls(m_intakeSubsystem, m_hConveyorSubsystem, -1)); 
     dc_xButton.whenPressed(new DeployIntake(m_pneumaticSubsystem, m_intakeSubsystem));
     dc_yButton.whenPressed(new ControlDaCompressor(m_pneumaticSubsystem));
-    dc_rBumper.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, 
+    dc_lBumper.whileHeld(new ShootTwoBalls(m_visionSubsystem, m_vConveyorSubsystem, 
                             m_hConveyorSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_pneumaticSubsystem));
-    dc_bButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
+    dc_rStickButton.whenPressed(new ToggleSpeedLimit(m_drivetrainSubsystem));
   }
 
   /**

@@ -179,12 +179,12 @@ public class DifferentialDrivetrain extends SubsystemBase {
   }
 
   public void moveWithJoysticks(XboxController driverController) {
-    double xSpeed = logAdjustment (-0.8 * driverController.getRightX());
+    double xSpeed = logAdjustment (-0.75 * driverController.getRightX());
     
-    double zRotationRate = logAdjustment(0.7 * driverController.getLeftY()); //for POV Drive
+    double zRotationRate = logAdjustment(0.85 * driverController.getLeftY()); //for POV Drive
     if (speedLimited){
-      xSpeed *= 0.4;
-      zRotationRate *= 0.8;
+      xSpeed *= 0.6;
+      zRotationRate *= 0.65;
     }
     if (turboEnabled){
       xSpeed *= 1;

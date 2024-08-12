@@ -28,15 +28,14 @@ public class IntakeBalls extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-   // intake.setIntakeDeployed(pneumatics);
-    horizontal.runConveyorMotor(commandedOutputFraction);
-    intake.runIntakeMotor(commandedOutputFraction);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    horizontal.runConveyorMotor(commandedOutputFraction);
+    intake.runIntakeMotor(commandedOutputFraction);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
